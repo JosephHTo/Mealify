@@ -1,29 +1,65 @@
 import SwiftUI
 
+struct Recipe: Codable {
+    let ingredients: [String]
+    let instructions: String
+    let name: String
+}
+
+struct RecipeData: Codable {
+    let recipes: [Recipe]
+}
+
 struct ContentView: View {
-    @State private var searchText = ""
-    @State private var searchResults = ["Recipe 1", "Recipe 2", "Recipe 3", "Recipe 4", "Recipe 5"]
+    @State private var recipeData: RecipeData?
 
     var body: some View {
-        NavigationView {
-            VStack {
-                List(searchResults, id: \.self) { result in
-                    Text(result) // Replace Text with your actual result view
+        VStack {
+            if let recipeData = recipeData {
+                List(recipeData.recipes, id: \.name) { recipe in
+                    VStack(alignment: .leading) {
+                        Text(recipe.name)
+                            .font(.headline)
+                        Text("Ingredients: \(recipe.ingredients.joined(separator: ", "))")
+                            .font(.subheadline)
+                        Text("Instructions: \(recipe.instructions)")
+                            .font(.body)
+                    }
                 }
-            }
-            .navigationTitle("Recipe Search")
-            .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Search for recipes") {
-                Text("Search for recipes")
+            } else {
+                Text("Loading...")
+                    .font(.title)
             }
         }
-    }
-    
-    private func search() {
-        // Perform your API search here and update searchResults with the results
-        // Example:
-        // YourAPIClient.search(query: searchText) { results in
-        //     searchResults = results
-        // }
+        .onAppear {
+            // Make an HTTP GET request to your Flask server
+            guard let url = URL(string: "http://127.0.0.1:5000/api/recipes") else {
+                return
+            }
+
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    print("Error: \(error)")
+                    // Handle the error (e.g., show an error message to the user)
+                    return
+                }
+
+                if let data = data {
+                    // Print the entire response data as a string (for debugging)
+                    if let responseDataString = String(data: data, encoding: .utf8) {
+                        print("Response Data: \(responseDataString)")
+                    }
+
+                    do {
+                        let decoder = JSONDecoder()
+                        recipeData = try decoder.decode(RecipeData.self, from: data)
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                        // Handle JSON parsing error
+                    }
+                }
+            }.resume()
+        }
     }
 }
 
