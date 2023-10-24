@@ -1,28 +1,22 @@
 import SwiftUI
 
-struct Recipe: Codable {
-    let ingredients: [String]
-    let instructions: String
-    let name: String
-}
-
-struct RecipeData: Codable {
-    let recipes: [Recipe]
-}
-
 struct ContentView: View {
-    @State private var recipeData: RecipeData?
+    @State private var recipeData: EdamamResponse?
 
     var body: some View {
         VStack {
             if let recipeData = recipeData {
-                List(recipeData.recipes, id: \.name) { recipe in
+                List(recipeData.hits, id: \.recipe.label) { recipeWrapper in
+                    let recipe = recipeWrapper.recipe
                     VStack(alignment: .leading) {
-                        Text(recipe.name)
+                        Text(recipe.label)
                             .font(.headline)
-                        Text("Ingredients: \(recipe.ingredients.joined(separator: ", "))")
+                        
+                        // Extract and join the 'text' property from each Ingredient object
+                        Text("Ingredients: \(recipe.ingredients.map { $0.text }.joined(separator: ", "))")
                             .font(.subheadline)
-                        Text("Instructions: \(recipe.instructions)")
+                        
+                        Text("Instructions: \(recipe.instructions ?? "No instructions available")")
                             .font(.body)
                     }
                 }
@@ -32,33 +26,11 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            // Make an HTTP GET request to your Flask server
-            guard let url = URL(string: "http://127.0.0.1:5000/api/recipes") else {
-                return
+            fetchRecipes(query: "chicken") { response in
+                if let response = response {
+                    recipeData = response
+                }
             }
-
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let error = error {
-                    print("Error: \(error)")
-                    // Handle the error (e.g., show an error message to the user)
-                    return
-                }
-
-                if let data = data {
-                    // Print the entire response data as a string (for debugging)
-                    if let responseDataString = String(data: data, encoding: .utf8) {
-                        print("Response Data: \(responseDataString)")
-                    }
-
-                    do {
-                        let decoder = JSONDecoder()
-                        recipeData = try decoder.decode(RecipeData.self, from: data)
-                    } catch {
-                        print("Error parsing JSON: \(error)")
-                        // Handle JSON parsing error
-                    }
-                }
-            }.resume()
         }
     }
 }
