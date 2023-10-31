@@ -1,42 +1,53 @@
 import SwiftUI
 
+struct SpoonacularRecipesApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
 struct ContentView: View {
-    @State private var recipeData: EdamamResponse?
+    @State private var recipes: [Recipe]?
 
     var body: some View {
-        VStack {
-            if let recipeData = recipeData {
-                List(recipeData.hits, id: \.recipe.label) { recipeWrapper in
-                    let recipe = recipeWrapper.recipe
-                    VStack(alignment: .leading) {
-                        Text(recipe.label)
-                            .font(.headline)
-                        
-                        // Extract and join the 'text' property from each Ingredient object
-                        Text("Ingredients: \(recipe.ingredients.map { $0.text }.joined(separator: ", "))")
-                            .font(.subheadline)
-                        
-                        Text("Instructions: \(recipe.instructions ?? "No instructions available")")
-                            .font(.body)
+        NavigationView {
+            if let recipes = recipes {
+                List(recipes, id: \.title) { recipe in
+                    NavigationLink(destination: RecipeDetail(recipe: recipe)) {
+                        Text(recipe.title)
                     }
                 }
+                .navigationTitle("Spoonacular Recipes")
             } else {
-                Text("Loading...")
-                    .font(.title)
+                Text("Loading...") // You can show a loading message while fetching data
             }
         }
         .onAppear {
-            fetchRecipes(query: "chicken") { response in
-                if let response = response {
-                    recipeData = response
-                }
+            // Fetch recipes when the view appears
+            fetchSpoonacularRecipes(query: "pasta") { recipes in
+                self.recipes = recipes
             }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+struct RecipeDetail: View {
+    let recipe: Recipe
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text(recipe.title)
+                    .font(.title)
+                Text("Instructions:")
+                    .font(.headline)
+                Text(recipe.instructions ?? "No instructions available")
+                // You may also display ingredients here
+            }
+            .padding()
+        }
+        .navigationTitle("Recipe Details")
     }
 }
