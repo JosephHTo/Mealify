@@ -1,6 +1,82 @@
 import SwiftUI
 
-struct SpoonacularRecipesApp: App {
+struct ContentView: View {
+    @State private var recipes: [Recipe] = []
+    @State private var searchQuery: String = ""
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                TextField("Search for recipes", text: $searchQuery, onCommit: {
+                    fetchRecipes()
+                })
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+
+                List(recipes, id: \.id) { recipe in
+                    NavigationLink(destination: RecipeDetail(recipe: recipe)) {
+                        HStack {
+                            AsyncImage(url: URL(string: recipe.image)) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                } else if phase.error != nil {
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                } else {
+                                    ProgressView()
+                                        .frame(width: 60, height: 60)
+                                }
+                            }
+                            .aspectRatio(contentMode: .fit)
+                            Text(recipe.title)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Recipes")
+        }
+        .onAppear {
+            fetchRecipes()
+        }
+    }
+
+    func fetchRecipes() {
+        fetchSpoonacularRecipes(query: searchQuery) { fetchedRecipes in
+            if let recipes = fetchedRecipes {
+                self.recipes = recipes
+            } else {
+                self.recipes = []
+            }
+        }
+    }
+}
+
+struct RecipeDetail: View {
+    var recipe: Recipe
+
+    var body: some View {
+        VStack {
+            Text(recipe.title)
+                .font(.title)
+                .padding()
+            
+            if let instructions = recipe.instructions {
+                Text("Instructions:")
+                    .font(.headline)
+                Text(instructions)
+                    .padding()
+            }
+
+            Spacer()
+        }
+        .navigationBarTitle(recipe.title, displayMode: .inline)
+    }
+}
+
+struct RecipeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -8,46 +84,8 @@ struct SpoonacularRecipesApp: App {
     }
 }
 
-struct ContentView: View {
-    @State private var recipes: [Recipe]?
-
-    var body: some View {
-        NavigationView {
-            if let recipes = recipes {
-                List(recipes, id: \.title) { recipe in
-                    NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                        Text(recipe.title)
-                    }
-                }
-                .navigationTitle("Spoonacular Recipes")
-            } else {
-                Text("Loading...") // You can show a loading message while fetching data
-            }
-        }
-        .onAppear {
-            // Fetch recipes when the view appears
-            fetchSpoonacularRecipes(query: "pasta") { recipes in
-                self.recipes = recipes
-            }
-        }
-    }
-}
-
-struct RecipeDetail: View {
-    let recipe: Recipe
-
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                Text(recipe.title)
-                    .font(.title)
-                Text("Instructions:")
-                    .font(.headline)
-                Text(recipe.instructions ?? "No instructions available")
-                // You may also display ingredients here
-            }
-            .padding()
-        }
-        .navigationTitle("Recipe Details")
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
