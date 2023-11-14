@@ -13,8 +13,18 @@ struct Recipe: Decodable {
     let title: String
     let image: String
     let imageType: String
-    let instructions: String?
+    let summary: String?
+    let analyzedInstructions: [AnalyzedInstruction]? // Add the analyzedInstructions field
     // Add other properties as needed
+}
+
+struct AnalyzedInstruction: Decodable, Hashable {
+    let steps: [Step]
+}
+
+struct Step: Decodable, Hashable {
+    let number: Int
+    let step: String
 }
 
 let headers = [
@@ -24,7 +34,7 @@ let headers = [
 
 func fetchSpoonacularRecipes(query: String, completion: @escaping ([Recipe]?) -> Void) {
     let query = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-    let urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query=\(query)&instructionsRequired=true&fillIngredients=false&addRecipeInformation=false&ignorePantry=true&limitLicense=false"
+    let urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query=\(query)&instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&ignorePantry=true&limitLicense=false"
 
     if let url = URL(string: urlString) {
         var request = URLRequest(url: url)

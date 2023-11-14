@@ -58,21 +58,38 @@ struct RecipeDetail: View {
     var recipe: Recipe
 
     var body: some View {
-        VStack {
-            Text(recipe.title)
-                .font(.title)
-                .padding()
-            
-            if let instructions = recipe.instructions {
-                Text("Instructions:")
+        ScrollView {
+            VStack {
+                Text("Recipe ID: \(recipe.id)")
                     .font(.headline)
-                Text(instructions)
+                Text(recipe.title)
+                    .font(.title)
                     .padding()
-            }
+                Text("Summary: \(recipe.summary?.removingHTMLTags() ?? "No summary available")")
+                    .font(.subheadline)
+                    .padding()
 
-            Spacer()
+                if let analyzedInstructions = recipe.analyzedInstructions {
+                    Text("Instructions:")
+                        .font(.headline)
+                    ForEach(analyzedInstructions, id: \.self) { analyzedInstruction in
+                        ForEach(analyzedInstruction.steps, id: \.self) { step in
+                            Text("Step \(step.number): \(step.step.trimmingCharacters(in: .whitespacesAndNewlines))")
+                                .padding()
+                        }
+                    }
+                }
+
+                Spacer()
+            }
+            .navigationBarTitle(recipe.title, displayMode: .inline)
         }
-        .navigationBarTitle(recipe.title, displayMode: .inline)
+    }
+}
+
+extension String {
+    func removingHTMLTags() -> String {
+        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 }
 
