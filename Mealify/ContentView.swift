@@ -80,6 +80,25 @@ struct RecipeDetail: View {
                     }
                 }
 
+                if let ingredients = recipe.ingredients {
+                    Text("Ingredients:")
+                        .font(.headline)
+                    ForEach(ingredients, id: \.self) { ingredient in
+                        VStack(alignment: .leading) {
+                            HStack {
+
+                                let metricValue = ingredient.amount.metric.value
+                                let metricUnit = ingredient.amount.metric.unit
+                                let usValue = ingredient.amount.us.value
+                                let usUnit = ingredient.amount.us.unit
+
+                                Text("\(metricValue) \(metricUnit) / \(usValue) \(usUnit) \(ingredient.name)")
+                            }
+                            .padding(.vertical, 5)
+                        }
+                    }
+                }
+
                 Spacer()
             }
             .navigationBarTitle(recipe.title, displayMode: .inline)

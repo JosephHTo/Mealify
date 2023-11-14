@@ -14,7 +14,8 @@ struct Recipe: Decodable {
     let image: String
     let imageType: String
     let summary: String?
-    let analyzedInstructions: [AnalyzedInstruction]? // Add the analyzedInstructions field
+    let analyzedInstructions: [AnalyzedInstruction]?
+    var ingredients: [Ingredient]?
     // Add other properties as needed
 }
 
@@ -25,6 +26,27 @@ struct AnalyzedInstruction: Decodable, Hashable {
 struct Step: Decodable, Hashable {
     let number: Int
     let step: String
+}
+
+struct Ingredient: Decodable, Hashable {
+    let name: String
+    let image: String
+    let amount: Amount
+}
+
+struct Amount: Decodable, Hashable {
+    let metric: Metric
+    let us: US
+}
+
+struct Metric: Decodable, Hashable {
+    let value: Double
+    let unit: String
+}
+
+struct US: Decodable, Hashable {
+    let value: Double
+    let unit: String
 }
 
 let headers = [
@@ -55,7 +77,24 @@ func fetchSpoonacularRecipes(query: String, completion: @escaping ([Recipe]?) ->
                     let response = try decoder.decode(SpoonacularResponse.self, from: data)
 
                     if let recipes = response.results {
-                        completion(recipes)
+                        var recipesWithIngredients: [Recipe] = []
+                        let group = DispatchGroup()
+
+                        for recipe in recipes {
+                            group.enter()
+
+                            fetchIngredients(for: recipe.id) { ingredients in
+                                var recipeWithIngredients = recipe
+                                recipeWithIngredients.ingredients = ingredients
+                                recipesWithIngredients.append(recipeWithIngredients)
+
+                                group.leave()
+                            }
+                        }
+
+                        group.notify(queue: .main) {
+                            completion(recipesWithIngredients)
+                        }
                     } else {
                         print("No recipes found in the response")
                         completion(nil)
@@ -70,5 +109,57 @@ func fetchSpoonacularRecipes(query: String, completion: @escaping ([Recipe]?) ->
             }
         }
         dataTask.resume()
+    }
+}
+
+func fetchIngredients(for recipeID: Int, completion: @escaping ([Ingredient]?) -> Void) {
+    let ingredientsURLString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/\(recipeID)/ingredientWidget.json"
+
+    guard let ingredientsURL = URL(string: ingredientsURLString) else {
+        print("Invalid ingredients URL")
+        completion(nil)
+        return
+    }
+
+    var request = URLRequest(url: ingredientsURL)
+    request.httpMethod = "GET"
+    request.allHTTPHeaderFields = headers
+
+    let session = URLSession.shared
+    let ingredientsTask = session.dataTask(with: request) { (data, response, error) in
+        if let error = error {
+            print("Error fetching ingredients: \(error.localizedDescription)")
+            completion(nil)
+            return
+        }
+
+        guard let data = data else {
+            print("No data received for ingredients")
+            completion(nil)
+            return
+        }
+
+        do {
+            let ingredients = try decodeIngredients(from: data)
+            completion(ingredients)
+        } catch {
+            print("Error parsing ingredients JSON: \(error)")
+            completion(nil)
+        }
+    }
+
+    ingredientsTask.resume()
+}
+
+func decodeIngredients(from data: Data) throws -> [Ingredient] {
+    let decoder = JSONDecoder()
+
+    if let jsonArray = try? decoder.decode([Ingredient].self, from: data) {
+        return jsonArray
+    } else if let jsonDictionary = try? decoder.decode([String: [Ingredient]].self, from: data),
+              let ingredientsArray = jsonDictionary["ingredients"] {
+        return ingredientsArray
+    } else {
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Unexpected JSON format"))
     }
 }
