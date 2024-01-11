@@ -56,6 +56,7 @@ struct ContentView: View {
 
 struct RecipeDetail: View {
     var recipe: Recipe
+    @State private var selectedServingSize = 1
 
     var body: some View {
         ScrollView {
@@ -79,7 +80,24 @@ struct RecipeDetail: View {
                         }
                     }
                 }
+                HStack {
+                    Text("Serving Sizes:")
+                        .font(.headline)
+                        .padding(.top, 10)
 
+                    // Create buttons for 1x, 2x, 3x, 4x
+                    ForEach(1...4, id: \.self) { size in
+                        Button("\(size)x") {
+                            // Update the selected serving size
+                            selectedServingSize = size
+                        }
+                        .padding(8)
+                        .background(selectedServingSize == size ? Color.blue : Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                    }
+                }
+                .padding()
                 if let ingredients = recipe.ingredients {
                     Text("Ingredients:")
                         .font(.headline)
@@ -92,7 +110,7 @@ struct RecipeDetail: View {
                                 let usValue = ingredient.amount.us.value
                                 let usUnit = ingredient.amount.us.unit
 
-                                Text("\(metricValue) \(metricUnit) / \(usValue) \(usUnit) \(ingredient.name)")
+                                Text("\(String(format: "%.1f", metricValue as CVarArg)) \(metricUnit) / \(String(format: "%.1f", usValue)) \(usUnit) \(ingredient.name)")
                             }
                             .padding(.vertical, 5)
                         }

@@ -74,6 +74,7 @@ func fetchSpoonacularRecipes(query: String, completion: @escaping ([Recipe]?) ->
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
+                    decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
                     let response = try decoder.decode(SpoonacularResponse.self, from: data)
 
                     if let recipes = response.results {
