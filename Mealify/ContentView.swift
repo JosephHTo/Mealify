@@ -81,22 +81,35 @@ struct RecipeDetail: View {
                         }
                     }
                 }
-                HStack {
-                    Text("Serving Sizes:")
+                VStack {
+                    // Serving size slider
+                    HStack {
+                        Slider(
+                            value: Binding(
+                                get: { Double(selectedServingSize) },
+                                set: { selectedServingSize = Int($0) }
+                            ),
+                            in: 1...20,
+                            step: 1
+                        ) {
+                            Text("Serving Size")
+                        } minimumValueLabel: {
+                            Text("1")
+                        } maximumValueLabel: {
+                            Text("20")
+                        } onEditingChanged: { _ in
+                            // Handle the selected serving size change if needed
+                        }
+                        .padding()
+                        .accentColor(.blue)
+                        .padding(.top, 10)
+                    }
+                    
+                    // Serving size text display
+                    Text("Serving Sizes: \(selectedServingSize)")
                         .font(.headline)
                         .padding(.top, 10)
-
-                    ForEach(1...4, id: \.self) { size in
-                        Button("\(size)x") {
-                            // Update the selected serving size
-                            selectedServingSize = size
-                        }
-                        .padding(8)
-                        .background(selectedServingSize == size ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
                     }
-                }
                 .padding()
                 if let ingredients = recipe.ingredients {
                     HStack {
