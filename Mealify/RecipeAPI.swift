@@ -5,7 +5,6 @@ struct SpoonacularResponse: Decodable {
     let offset: Int?
     let number: Int?
     let totalResults: Int?
-    // Add other properties as needed
 }
 
 struct Recipe: Decodable {
@@ -16,7 +15,6 @@ struct Recipe: Decodable {
     let summary: String?
     let analyzedInstructions: [AnalyzedInstruction]?
     var ingredients: [Ingredient]?
-    // Add other properties as needed
 }
 
 struct AnalyzedInstruction: Decodable, Hashable {

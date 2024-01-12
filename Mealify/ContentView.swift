@@ -57,6 +57,7 @@ struct ContentView: View {
 struct RecipeDetail: View {
     var recipe: Recipe
     @State private var selectedServingSize = 1
+    @State private var isMetricSelected = false
 
     var body: some View {
         ScrollView {
@@ -85,7 +86,6 @@ struct RecipeDetail: View {
                         .font(.headline)
                         .padding(.top, 10)
 
-                    // Create buttons for 1x, 2x, 3x, 4x
                     ForEach(1...4, id: \.self) { size in
                         Button("\(size)x") {
                             // Update the selected serving size
@@ -99,21 +99,43 @@ struct RecipeDetail: View {
                 }
                 .padding()
                 if let ingredients = recipe.ingredients {
-                    Text("Ingredients:")
-                        .font(.headline)
-                    ForEach(ingredients, id: \.self) { ingredient in
-                        VStack(alignment: .leading) {
-                            HStack {
+                    HStack {
+                        Text("Ingredients:")
+                            .font(.headline)
+                        
+                        Spacer()
 
-                                let metricValue = ingredient.amount.metric.value
-                                let metricUnit = ingredient.amount.metric.unit
-                                let usValue = ingredient.amount.us.value
-                                let usUnit = ingredient.amount.us.unit
-
-                                Text("\(String(format: "%.1f", metricValue as CVarArg)) \(metricUnit) / \(String(format: "%.1f", usValue)) \(usUnit) \(ingredient.name)")
+                        HStack {
+                            Button("US") {
+                                // Toggle to US measurements
+                                isMetricSelected = false
                             }
-                            .padding(.vertical, 5)
+                            .padding(8)
+                            .background(!isMetricSelected ? Color.blue : Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+
+                            Button("Metric") {
+                                // Toggle to metric measurements
+                                isMetricSelected = true
+                            }
+                            .padding(8)
+                            .background(isMetricSelected ? Color.blue : Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                         }
+                    }
+                    .padding()
+                    ForEach(ingredients, id: \.self) { ingredient in
+                        HStack(alignment: .top) { // Still need to figure out alignment
+                            let value = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
+                            let unit = isMetricSelected ? ingredient.amount.metric.unit : ingredient.amount.us.unit
+
+                            Text("\(String(format: "%.1f", value)) \(unit)")
+                                .padding(.trailing, 5)
+                            Text(ingredient.name)
+                        }
+                        .padding(.vertical, 5)
                     }
                 }
 
