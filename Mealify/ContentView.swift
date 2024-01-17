@@ -69,11 +69,28 @@ struct RecipeDetail: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text("Recipe ID: \(recipe.id)")
-                    .font(.headline)
                 Text(recipe.title)
                     .font(.title)
                     .padding()
+                
+                AsyncImage(url: URL(string: recipe.image)) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200) // Adjust the height as needed
+                    } else if phase.error != nil {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                    } else {
+                        ProgressView()
+                            .frame(height: 200)
+                    }
+                }
+                .aspectRatio(contentMode: .fit)
+                
                 Text("Summary: \(recipe.summary?.removingHTMLTags() ?? "No summary available")")
                     .font(.subheadline)
                     .padding()
