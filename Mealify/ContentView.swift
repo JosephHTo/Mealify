@@ -88,42 +88,38 @@ struct RecipeDetail: View {
                         }
                     }
                 }
-                VStack {
-                    // Serving size slider
-                    HStack {
-                        Slider(
-                            value: Binding(
-                                get: { Double(selectedServingSize) },
-                                set: { selectedServingSize = Int($0) }
-                            ),
-                            in: 1...20,
-                            step: 1
-                        ) {
-                            Text("Serving Size")
-                        } minimumValueLabel: {
-                            Text("1")
-                        } maximumValueLabel: {
-                            Text("20")
-                        } onEditingChanged: { _ in
-                            // Handle the selected serving size change if needed
-                        }
-                        .padding()
-                        .accentColor(.blue)
-                        .padding(.top, 10)
-                    }
-                    
-                    // Serving size text display
-                    Text("Serving Size: \(selectedServingSize)")
-                        .font(.headline)
-                        .padding(.top, 10)
-                }
-                .padding()
                 if let ingredients = recipe.ingredients {
+                    Text("Ingredients:")
+                        .font(.headline)
                     HStack {
-                        Text("Ingredients:")
-                            .font(.headline)
                         
-                        Spacer()
+                        VStack {
+                            // Serving size text display
+                            Text("Serving Size: \(selectedServingSize)")
+                                .font(.headline)
+                                .offset(y:20)
+                            // Serving size slider
+                            HStack {
+                                Slider(
+                                    value: Binding(
+                                        get: { Double(selectedServingSize) },
+                                        set: { selectedServingSize = Int($0) }
+                                    ),
+                                    in: 1...20,
+                                    step: 1
+                                ) {
+                                    Text("Serving Size")
+                                } minimumValueLabel: {
+                                    Text("1")
+                                } maximumValueLabel: {
+                                    Text("20")
+                                } onEditingChanged: { _ in
+                                    // Handle the selected serving size change if needed
+                                }
+                                .padding()
+                                .accentColor(.blue)
+                            }
+                        }
 
                         HStack {
                             Button("US") {
@@ -146,22 +142,22 @@ struct RecipeDetail: View {
                         }
                     }
                     .padding()
-                    ForEach(ingredients, id: \.self) { ingredient in
-                        HStack(alignment: .top) { // Still need to figure out alignment
+                    VStack(alignment: .leading, spacing: 1) {
+                        ForEach(ingredients, id: \.self) { ingredient in
                             let baseValue = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
                             let unit = isMetricSelected ? ingredient.amount.metric.unit : ingredient.amount.us.unit
 
                             // Calculate the adjusted value based on selectedServingSize
                             let adjustedValue = (baseValue / Double(recipe.servings)) * Double(selectedServingSize)
-                            
-                            Text("\(String(format: "%.1f", adjustedValue)) \(unit)")
+
+                            Text("\(String(format: "%.1f", adjustedValue)) \(unit) \(ingredient.name)")
+                                .multilineTextAlignment(.leading) // Left-align the text
                                 .padding(.trailing, 5)
-                            Text(ingredient.name)
                         }
                         .padding(.vertical, 5)
                     }
+                    .padding(.vertical, 1)
                 }
-
                 Spacer()
             }
             .navigationBarTitle(recipe.title, displayMode: .inline)
