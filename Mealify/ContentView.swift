@@ -106,7 +106,7 @@ struct RecipeDetail: View {
                     }
                     
                     // Serving size text display
-                    Text("Serving Sizes: \(selectedServingSize)")
+                    Text("Serving Size: \(selectedServingSize)")
                         .font(.headline)
                         .padding(.top, 10)
                     }
