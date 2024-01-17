@@ -56,7 +56,14 @@ struct ContentView: View {
 
 struct RecipeDetail: View {
     var recipe: Recipe
-    @State private var selectedServingSize = 1
+    @State private var selectedServingSize: Int
+    
+    init(recipe: Recipe) {
+        self.recipe = recipe
+        // Initialize selectedServingSize with the value of recipe.servings
+        self._selectedServingSize = State(initialValue: recipe.servings)
+    }
+    
     @State private var isMetricSelected = false
 
     var body: some View {
@@ -109,7 +116,7 @@ struct RecipeDetail: View {
                     Text("Serving Size: \(selectedServingSize)")
                         .font(.headline)
                         .padding(.top, 10)
-                    }
+                }
                 .padding()
                 if let ingredients = recipe.ingredients {
                     HStack {
@@ -141,10 +148,13 @@ struct RecipeDetail: View {
                     .padding()
                     ForEach(ingredients, id: \.self) { ingredient in
                         HStack(alignment: .top) { // Still need to figure out alignment
-                            let value = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
+                            let baseValue = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
                             let unit = isMetricSelected ? ingredient.amount.metric.unit : ingredient.amount.us.unit
 
-                            Text("\(String(format: "%.1f", value)) \(unit)")
+                            // Calculate the adjusted value based on selectedServingSize
+                            let adjustedValue = (baseValue / Double(recipe.servings)) * Double(selectedServingSize)
+                            
+                            Text("\(String(format: "%.1f", adjustedValue)) \(unit)")
                                 .padding(.trailing, 5)
                             Text(ingredient.name)
                         }

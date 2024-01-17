@@ -15,6 +15,7 @@ struct Recipe: Decodable {
     let summary: String?
     let analyzedInstructions: [AnalyzedInstruction]?
     var ingredients: [Ingredient]?
+    let servings: Int
 }
 
 struct AnalyzedInstruction: Decodable, Hashable {
