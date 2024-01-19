@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8B57FDC2B5B3C1900B7722B /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */; };
 		C8C209612AE7825F00951ACE /* RecipeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C209602AE7825F00951ACE /* RecipeAPI.swift */; };
 		C8DE8ABF2AD4F112002092AA /* MealifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DE8ABE2AD4F112002092AA /* MealifyApp.swift */; };
 		C8DE8AC12AD4F112002092AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DE8AC02AD4F112002092AA /* ContentView.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		C8C209602AE7825F00951ACE /* RecipeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAPI.swift; sourceTree = "<group>"; };
 		C8DE8ABB2AD4F112002092AA /* Mealify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mealify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8DE8ABE2AD4F112002092AA /* MealifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealifyApp.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				C8DE8ABE2AD4F112002092AA /* MealifyApp.swift */,
 				C8DE8AC02AD4F112002092AA /* ContentView.swift */,
 				C8C209602AE7825F00951ACE /* RecipeAPI.swift */,
+				C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */,
 				C8DE8AC22AD4F113002092AA /* Assets.xcassets */,
 				C8DE8AC42AD4F113002092AA /* Mealify.entitlements */,
 				C8DE8AC52AD4F113002092AA /* Preview Content */,
@@ -196,7 +199,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					C8DE8ABA2AD4F112002092AA = {
 						CreatedOnToolsVersion = 15.0;
@@ -265,6 +268,7 @@
 				C8DE8AC12AD4F112002092AA /* ContentView.swift in Sources */,
 				C8DE8ABF2AD4F112002092AA /* MealifyApp.swift in Sources */,
 				C8C209612AE7825F00951ACE /* RecipeAPI.swift in Sources */,
+				C8B57FDC2B5B3C1900B7722B /* RecipeDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +339,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -396,6 +401,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -423,6 +429,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mealify/Mealify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Mealify/Preview Content\"";
 				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -461,6 +468,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mealify/Mealify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Mealify/Preview Content\"";
 				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -498,6 +506,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -521,6 +530,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -543,6 +553,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -565,6 +576,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
