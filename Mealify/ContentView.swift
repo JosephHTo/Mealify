@@ -4,6 +4,7 @@ struct ContentView: View {
     @State private var recipes: [Recipe] = []
     @State private var searchQuery: String = ""
     @State private var isSidebarOpened = false
+    @State private var isFilterSidebarOpened = false
     @State private var sidebarWidth: CGFloat = 0
 
     var body: some View {
@@ -54,11 +55,24 @@ struct ContentView: View {
                             }
                         }
                     )
+
+                // Filter Sidebar on the right
+                FilterSideView(isFilterSidebarVisible: $isFilterSidebarOpened)
+                    .offset(x: isFilterSidebarOpened ? 0 : sidebarWidth)
+                    .animation(.easeInOut)
+                    .opacity(isFilterSidebarOpened ? 1 : 0)
+                    .background(
+                        GeometryReader { geometry in
+                            Color.clear.onAppear {
+                                sidebarWidth = geometry.size.width
+                            }
+                        }
+                    )
             }
             .onAppear {
                 fetchRecipes()
             }
-            // Move the button to the top left
+            // Move the sidebar button to the top left
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -67,6 +81,17 @@ struct ContentView: View {
                         }
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
+                    }
+                }
+
+                // Add a button for the filter sidebar on the top right
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        withAnimation {
+                            isFilterSidebarOpened.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle.fill")
                     }
                 }
             }
@@ -192,6 +217,74 @@ struct SideView: View {
             withAnimation {
                 isSidebarVisible.toggle()
             }
+        }
+    }
+}
+
+struct FilterSideView: View {
+    @Binding var isFilterSidebarVisible: Bool
+    @State private var dragOffset: CGFloat = 0
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Spacer()
+                Rectangle()
+                    .frame(width: 40, height: 5)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(2.5)
+                    .padding(.vertical, 10)
+                Spacer()
+            }
+            .contentShape(Rectangle())
+            .offset(y: dragOffset)
+            .gesture(DragGesture()
+                .onChanged { value in
+                    dragOffset = max(0, value.translation.height)
+                }
+                .onEnded { value in
+                    if dragOffset > UIScreen.main.bounds.height * 0.2 {
+                        withAnimation {
+                            isFilterSidebarVisible = false
+                        }
+                    }
+                    dragOffset = 0
+                }
+            )
+
+            HStack {
+                Image(systemName: "ellipsis.circle.fill")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(Color.white)
+                    .padding(.trailing, 10)
+
+                Text("Filters")
+                    .foregroundColor(Color.white)
+                    .font(.body)
+
+                Spacer()
+            }
+            .padding(.vertical, 14)
+            .padding(.horizontal, 8)
+            .onTapGesture {
+                // Handle item tap
+                print("Tapped on Filters")
+                withAnimation {
+                    isFilterSidebarVisible.toggle()
+                }
+            }
+
+            // Add your filter options here
+
+            Spacer() // Add Spacer to bring content to the top
+        }
+        .frame(height: UIScreen.main.bounds.height * 0.6) // Set the height to 60% of the screen height
+        .background(Color.gray)
+        .transition(.move(edge: .bottom))
+        .offset(y: isFilterSidebarVisible ? 0 : UIScreen.main.bounds.height * 0.4) // Offset by 40% of the screen height initially
+        .onTapGesture {
+            // To prevent tapping through the view
         }
     }
 }
