@@ -43,7 +43,7 @@ struct ContentView: View {
                 }
                 .navigationTitle("")
 
-                // Sidebar
+                // Navigation Sidebar (Left side)
                 SideView(isSidebarVisible: $isSidebarOpened)
                     .offset(x: isSidebarOpened ? 0 : -sidebarWidth)
                     .animation(.easeInOut)
@@ -56,7 +56,7 @@ struct ContentView: View {
                         }
                     )
 
-                // Filter Sidebar on the right
+                // Filter Sidebar (Right side) 
                 FilterSideView(isFilterSidebarVisible: $isFilterSidebarOpened)
                     .offset(x: isFilterSidebarOpened ? 0 : sidebarWidth)
                     .animation(.easeInOut)
@@ -209,7 +209,7 @@ struct SideView: View {
 
             Spacer() // Add Spacer to bring HStacks to the top
         }
-        .frame(maxHeight: .infinity) // Ensure the VStack takes up the full height
+        .frame(maxHeight: .infinity)
         .frame(width: UIScreen.main.bounds.width * 0.6)
         .background(Color.gray)
         .transition(.move(edge: .leading))
@@ -277,14 +277,13 @@ struct FilterSideView: View {
 
             // Add your filter options here
 
-            Spacer() // Add Spacer to bring content to the top
+            Spacer()
         }
         .frame(height: UIScreen.main.bounds.height * 0.6) // Set the height to 60% of the screen height
         .background(Color.gray)
         .transition(.move(edge: .bottom))
         .offset(y: isFilterSidebarVisible ? 0 : UIScreen.main.bounds.height * 0.4) // Offset by 40% of the screen height initially
         .onTapGesture {
-            // To prevent tapping through the view
         }
     }
 }
