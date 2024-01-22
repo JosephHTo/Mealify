@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var isSidebarOpened = false
     @State private var isFilterSidebarOpened = false
     @State private var sidebarWidth: CGFloat = 0
+    @State private var sidebarHeight: CGFloat = 0
 
     var body: some View {
         NavigationView {
@@ -17,7 +18,7 @@ struct ContentView: View {
                     })
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-
+                    
                     List(recipes, id: \.id) { recipe in
                         NavigationLink(destination: RecipeDetail(recipe: recipe)) {
                             HStack {
@@ -42,32 +43,35 @@ struct ContentView: View {
                     }
                 }
                 .navigationTitle("")
-
+                
                 // Navigation Sidebar (Left side)
-                SideView(isSidebarVisible: $isSidebarOpened)
-                    .offset(x: isSidebarOpened ? 0 : -sidebarWidth)
-                    .animation(.easeInOut)
-                    .opacity(isSidebarOpened ? 1 : 0)
-                    .background(
-                        GeometryReader { geometry in
-                            Color.clear.onAppear {
-                                sidebarWidth = geometry.size.width
+                withAnimation {
+                    SideView(isSidebarVisible: $isSidebarOpened)
+                        .offset(x: isSidebarOpened ? 0 : -sidebarWidth)
+                        .opacity(isSidebarOpened ? 1 : 0)
+                        .background(
+                            GeometryReader { geometry in
+                                Color.clear.onAppear {
+                                    sidebarWidth = geometry.size.width
+                                }
                             }
-                        }
-                    )
-
-                // Filter Sidebar (Right side) 
-                FilterSideView(isFilterSidebarVisible: $isFilterSidebarOpened)
-                    .offset(x: isFilterSidebarOpened ? 0 : sidebarWidth)
-                    .animation(.easeInOut)
-                    .opacity(isFilterSidebarOpened ? 1 : 0)
-                    .background(
-                        GeometryReader { geometry in
-                            Color.clear.onAppear {
-                                sidebarWidth = geometry.size.width
+                        )
+                }
+                
+                // Filter Sidebar (Right side)
+                withAnimation {
+                    FilterSideView(isFilterSidebarVisible: $isFilterSidebarOpened)
+                        .offset(y: isFilterSidebarOpened ? 0 : sidebarHeight)
+                        .opacity(isFilterSidebarOpened ? 1 : 0)
+                        .background(
+                            GeometryReader { geometry in
+                                Color.clear.onAppear {
+                                    sidebarWidth = geometry.size.width
+                                    sidebarHeight = geometry.size.height
+                                }
                             }
-                        }
-                    )
+                        )
+                }
             }
             .onAppear {
                 fetchRecipes()
@@ -279,11 +283,13 @@ struct FilterSideView: View {
 
             Spacer()
         }
-        .frame(height: UIScreen.main.bounds.height * 0.6) // Set the height to 60% of the screen height
+        .frame(height: UIScreen.main.bounds.height * 0.8)
         .background(Color.gray)
         .transition(.move(edge: .bottom))
-        .offset(y: isFilterSidebarVisible ? 0 : UIScreen.main.bounds.height * 0.4) // Offset by 40% of the screen height initially
+        .offset(y: isFilterSidebarVisible ? UIScreen.main.bounds.height * 0.1 : 0)
+        .edgesIgnoringSafeArea(.all)
         .onTapGesture {
+            // Handle tap if needed
         }
     }
 }
