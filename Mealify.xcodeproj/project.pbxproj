@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C84306F02B5F262E000BFA9B /* FilterSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84306EF2B5F262E000BFA9B /* FilterSideView.swift */; };
+		C84306F22B5F26B0000BFA9B /* NavigationSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84306F12B5F26B0000BFA9B /* NavigationSideView.swift */; };
 		C8B57FDC2B5B3C1900B7722B /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */; };
 		C8C209612AE7825F00951ACE /* RecipeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C209602AE7825F00951ACE /* RecipeAPI.swift */; };
 		C8DE8ABF2AD4F112002092AA /* MealifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DE8ABE2AD4F112002092AA /* MealifyApp.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C84306EF2B5F262E000BFA9B /* FilterSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSideView.swift; sourceTree = "<group>"; };
+		C84306F12B5F26B0000BFA9B /* NavigationSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSideView.swift; sourceTree = "<group>"; };
 		C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		C8C209602AE7825F00951ACE /* RecipeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAPI.swift; sourceTree = "<group>"; };
 		C8DE8ABB2AD4F112002092AA /* Mealify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mealify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				C8DE8ABD2AD4F112002092AA /* Mealify */,
-				C8DE8ACF2AD4F113002092AA /* MealifyTests */,
 				C8DE8AD92AD4F113002092AA /* MealifyUITests */,
 				C8DE8ABC2AD4F112002092AA /* Products */,
 			);
@@ -101,8 +104,11 @@
 			children = (
 				C8DE8ABE2AD4F112002092AA /* MealifyApp.swift */,
 				C8DE8AC02AD4F112002092AA /* ContentView.swift */,
+				C84306F12B5F26B0000BFA9B /* NavigationSideView.swift */,
+				C84306EF2B5F262E000BFA9B /* FilterSideView.swift */,
 				C8C209602AE7825F00951ACE /* RecipeAPI.swift */,
 				C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */,
+				C8DE8ACF2AD4F113002092AA /* MealifyTests */,
 				C8DE8AC22AD4F113002092AA /* Assets.xcassets */,
 				C8DE8AC42AD4F113002092AA /* Mealify.entitlements */,
 				C8DE8AC52AD4F113002092AA /* Preview Content */,
@@ -265,6 +271,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C84306F02B5F262E000BFA9B /* FilterSideView.swift in Sources */,
+				C84306F22B5F26B0000BFA9B /* NavigationSideView.swift in Sources */,
 				C8DE8AC12AD4F112002092AA /* ContentView.swift in Sources */,
 				C8DE8ABF2AD4F112002092AA /* MealifyApp.swift in Sources */,
 				C8C209612AE7825F00951ACE /* RecipeAPI.swift in Sources */,

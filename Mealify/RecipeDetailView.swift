@@ -40,8 +40,12 @@ struct RecipeDetail: View {
                 }
                 .aspectRatio(contentMode: .fit)
                 
-                Text("Summary: \(recipe.summary?.removingHTMLTags() ?? "No summary available")")
+                Text("\(recipe.summary?.removingHTMLTags() ?? "No summary available")")
                     .font(.subheadline)
+                    .padding()
+                
+                Text("Total time: \(recipe.readyInMinutes)")
+                    .multilineTextAlignment(.leading)
                     .padding()
 
                 if let analyzedInstructions = recipe.analyzedInstructions {

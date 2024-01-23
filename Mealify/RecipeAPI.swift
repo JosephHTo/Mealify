@@ -16,6 +16,7 @@ struct Recipe: Decodable {
     let analyzedInstructions: [AnalyzedInstruction]?
     var ingredients: [Ingredient]?
     let servings: Int
+    let readyInMinutes: Int
 }
 
 struct AnalyzedInstruction: Decodable, Hashable {
@@ -53,17 +54,37 @@ let headers = [
     "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 ]
 
-func fetchSpoonacularRecipes(query: String, completion: @escaping ([Recipe]?) -> Void) {
-    let query = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-    let urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?query=\(query)&instructionsRequired=true&fillIngredients=false&addRecipeInformation=true&ignorePantry=true&limitLicense=false"
-
-    if let url = URL(string: urlString) {
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-
-        let session = URLSession.shared
-        let dataTask = session.dataTask(with: request) { (data, response, error) in
+func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, completion: @escaping ([Recipe]?) -> Void) {
+    var urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?"
+    
+    var queryItems: [URLQueryItem] = [
+        URLQueryItem(name: "query", value: query),
+        URLQueryItem(name: "instructionsRequired", value: "true"),
+        URLQueryItem(name: "fillIngredients", value: "false"),
+        URLQueryItem(name: "addRecipeInformation", value: "true"),
+        URLQueryItem(name: "ignorePantry", value: "true"),
+        URLQueryItem(name: "limitLicense", value: "false")
+    ]
+    
+    if let maxReadyTime = maxReadyTime {
+        queryItems.append(URLQueryItem(name: "maxReadyTime", value: "\(maxReadyTime)"))
+    }
+    
+    let query = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
+    urlString.append(query)
+    
+    guard let url = URL(string: urlString) else {
+        print("Invalid URL")
+        completion(nil)
+        return
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+    request.allHTTPHeaderFields = headers
+    
+    let session = URLSession.shared
+    let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
                 completion(nil)
@@ -109,7 +130,6 @@ func fetchSpoonacularRecipes(query: String, completion: @escaping ([Recipe]?) ->
             }
         }
         dataTask.resume()
-    }
 }
 
 func fetchIngredients(for recipeID: Int, completion: @escaping ([Ingredient]?) -> Void) {
