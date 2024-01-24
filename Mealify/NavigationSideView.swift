@@ -5,96 +5,79 @@ struct NavigationSideView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            HStack {
-                Image(systemName: "house.fill")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color.white)
-                    .padding(.trailing, 10)
-
-                Text("Featured")
-                    .foregroundColor(Color.white)
-                    .font(.body)
-
-                Spacer()
-            }
-            .padding(.vertical, 14)
-            .padding(.horizontal, 8)
-            .onTapGesture {
-                // Handle item tap
-                print("Tapped on Featured")
-                withAnimation {
-                    isSidebarVisible.toggle()
+            NavigationLink(destination: FeaturedView().navigationBarBackButtonHidden(true)) {
+                HStack {
+                    Image(systemName: "house.fill")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.white)
+                        .padding(.trailing, 10)
+                    
+                    Text("Featured")
+                        .foregroundColor(Color.white)
+                        .font(.body)
+                    
+                    Spacer()
                 }
+                .padding(.vertical, 14)
+                .padding(.horizontal, 8)
             }
 
-            HStack {
-                Image(systemName: "magnifyingglass.circle.fill")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color.white)
-                    .padding(.trailing, 10)
+            // NavigationLink for SearchView
+            NavigationLink(destination: SearchView().navigationBarBackButtonHidden(true)) {
+                HStack {
+                    Image(systemName: "magnifyingglass.circle.fill")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.white)
+                        .padding(.trailing, 10)
 
-                Text("Search")
-                    .foregroundColor(Color.white)
-                    .font(.body)
+                    Text("Search")
+                        .foregroundColor(Color.white)
+                        .font(.body)
 
-                Spacer()
-            }
-            .padding(.vertical, 14)
-            .padding(.horizontal, 8)
-            .onTapGesture {
-                // Handle item tap
-                print("Tapped on Search")
-                withAnimation {
-                    isSidebarVisible.toggle()
+                    Spacer()
                 }
+                .padding(.vertical, 14)
+                .padding(.horizontal, 8)
             }
 
-            HStack {
-                Image(systemName: "square.and.arrow.down.fill")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color.white)
-                    .padding(.trailing, 10)
-
-                Text("Saved Recipes")
-                    .foregroundColor(Color.white)
-                    .font(.body)
-
-                Spacer()
-            }
-            .padding(.vertical, 14)
-            .padding(.horizontal, 8)
-            .onTapGesture {
-                // Handle item tap
-                print("Saved Recipes")
-                withAnimation {
-                    isSidebarVisible.toggle()
+            // NavigationLink for SavedRecipesView
+            NavigationLink(destination: SavedRecipesView().navigationBarBackButtonHidden(true)) {
+                HStack {
+                    Image(systemName: "square.and.arrow.down.fill")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.white)
+                        .padding(.trailing, 10)
+                    
+                    Text("Saved Recipes")
+                        .foregroundColor(Color.white)
+                        .font(.body)
+                    
+                    Spacer()
                 }
+                .padding(.vertical, 14)
+                .padding(.horizontal, 8)
             }
             
-            HStack {
-                Image(systemName: "gear")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color.white)
-                    .padding(.trailing, 10)
-
-                Text("Settings")
-                    .foregroundColor(Color.white)
-                    .font(.body)
-
-                Spacer()
-            }
-            .padding(.vertical, 14)
-            .padding(.horizontal, 8)
-            .onTapGesture {
-                // Handle item tap
-                print("Settings")
-                withAnimation {
-                    isSidebarVisible.toggle()
+            // NavigationLink for SettingsView
+            NavigationLink(destination: SettingsView().navigationBarBackButtonHidden(true)) {
+                HStack {
+                    Image(systemName: "gear")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.white)
+                        .padding(.trailing, 10)
+                    
+                    Text("Settings")
+                        .foregroundColor(Color.white)
+                        .font(.body)
+                    
+                    Spacer()
                 }
+                .padding(.vertical, 14)
+                .padding(.horizontal, 8)
             }
 
             Spacer() // Add Spacer to bring HStacks to the top

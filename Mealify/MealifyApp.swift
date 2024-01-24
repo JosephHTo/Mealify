@@ -4,7 +4,7 @@ import SwiftUI
 struct MealifyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FeaturedView()
         }
     }
 }

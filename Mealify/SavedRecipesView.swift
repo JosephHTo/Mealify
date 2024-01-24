@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FeaturedView: View {
+struct SavedRecipesView: View {
     @State private var isNavBarOpened = false
     @State private var sidebarWidth: CGFloat = 0
 
@@ -9,7 +9,7 @@ struct FeaturedView: View {
             ZStack(alignment: .leading) {
                 withAnimation {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth + 40)
+                        .frame(width: sidebarWidth + 25)
                         .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
                         .opacity(isNavBarOpened ? 1 : 0)
                         .background(
@@ -23,7 +23,7 @@ struct FeaturedView: View {
                 }
 
                 VStack {
-                    Text("Featured Recipes")
+                    Text("Saved Recipes")
                         .font(.title)
                         .padding()
 
