@@ -5,7 +5,19 @@ struct FilterSideView: View {
     @Binding var searchQuery: String
     @State private var dragOffset: CGFloat = 0
     @State private var maxReadyTimeString: String = ""
+    @State private var selectedDiet: Diet = .none
     var onApplyFilters: ([Recipe]) -> Void
+
+    enum Diet: String, CaseIterable {
+        case none = ""
+        case lactoVegetarian = "lacto vegetarian"
+        case ovoVegetarian = "ovo vegetarian"
+        case paleo
+        case pescetarian
+        case primal
+        case vegan
+        case vegetarian
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -36,13 +48,31 @@ struct FilterSideView: View {
 
             // Textfield for max ready time
             Text("Time")
-                .offset(x:10)
+                .offset(x: 10)
             TextField("Max Ready Time (min)", text: $maxReadyTimeString, onCommit: {
                 // Handle text field commit if needed
             })
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .padding(.horizontal)
-            .keyboardType(.numberPad)
+
+            // Diet Text
+            Text("Diet")
+                .offset(x: 10)
+
+            // Diet Picker
+            Picker("Diet", selection: $selectedDiet) {
+                ForEach(Diet.allCases, id: \.self) { diet in
+                    if diet == .none {
+                        Text("none").tag(diet)
+                    } else {
+                        Text(diet.rawValue).tag(diet)
+                    }
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width - 20, alignment: .leading)
+            .cornerRadius(5)
+            .background(Color.white)
+            .padding(.horizontal)
 
             Spacer()
 
@@ -70,26 +100,22 @@ struct FilterSideView: View {
     }
 
     private func applyFilters() {
-        // Convert the maxReadyTimeString to an integer
-        if let maxReadyTime = Int(maxReadyTimeString) {
-            // Call the fetch function with the updated filter
-            fetchRecipesWithFilter(maxReadyTime: maxReadyTime)
+        let maxReadyTime: Int?
+        if !maxReadyTimeString.isEmpty {
+            maxReadyTime = Int(maxReadyTimeString)
         } else {
-            // Handle case where the input is not a valid integer (e.g., empty or non-numeric)
-            print("Invalid input for max ready time")
+            maxReadyTime = nil
         }
+
+        fetchRecipesWithFilter(maxReadyTime: maxReadyTime, diet: selectedDiet)
     }
 
-    private func fetchRecipesWithFilter(maxReadyTime: Int) {
-        // Call your fetchSpoonacularRecipes function with the new filter
-        fetchSpoonacularRecipes(query: searchQuery, maxReadyTime: maxReadyTime) { recipes in
-            // Handle the fetched recipes
+    private func fetchRecipesWithFilter(maxReadyTime: Int?, diet: Diet) {
+        fetchSpoonacularRecipes(query: searchQuery, maxReadyTime: maxReadyTime, diet: diet.rawValue) { recipes in
             if let recipes = recipes {
                 withAnimation {
-                    // Close the filter sidebar
                     isFilterSidebarVisible = false
                 }
-                // Call the closure to pass back the updated recipes
                 onApplyFilters(recipes)
                 print("Fetched recipes with filter:", recipes)
             } else {
