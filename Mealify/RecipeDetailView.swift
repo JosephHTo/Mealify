@@ -47,6 +47,8 @@ struct RecipeDetail: View {
                 Text("Total time: \(recipe.readyInMinutes)")
                     .multilineTextAlignment(.leading)
                     .padding()
+                
+                // TODO, display all diets/allergens given from API list
 
                 if let analyzedInstructions = recipe.analyzedInstructions {
                     Text("Instructions:")

@@ -17,6 +17,7 @@ struct Recipe: Decodable {
     var ingredients: [Ingredient]?
     let servings: Int
     let readyInMinutes: Int
+    let dairyFree: Bool
 }
 
 struct AnalyzedInstruction: Decodable, Hashable {
@@ -54,9 +55,9 @@ let headers = [
     "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 ]
 
-func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: String? = nil, completion: @escaping ([Recipe]?) -> Void) {
+func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: String? = nil, intolerances: String? = nil, completion: @escaping ([Recipe]?) -> Void) {
     var urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?"
-    
+
     var queryItems: [URLQueryItem] = [
         URLQueryItem(name: "query", value: query),
         URLQueryItem(name: "instructionsRequired", value: "true"),
@@ -65,18 +66,23 @@ func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: Stri
         URLQueryItem(name: "ignorePantry", value: "true"),
         URLQueryItem(name: "limitLicense", value: "false")
     ]
-    
+
     if let maxReadyTime = maxReadyTime {
         queryItems.append(URLQueryItem(name: "maxReadyTime", value: "\(maxReadyTime)"))
     }
-    
+
     if let diet = diet {
         queryItems.append(URLQueryItem(name: "diet", value: "\(diet)"))
     }
-    
+
+    if let intolerances = intolerances {
+        queryItems.append(URLQueryItem(name: "intolerances", value: "\(intolerances)"))
+    }
+
     let query = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
     urlString.append(query)
-    
+    print(query)
+
     guard let url = URL(string: urlString) else {
         print("Invalid URL")
         completion(nil)
