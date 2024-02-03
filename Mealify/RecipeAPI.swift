@@ -55,7 +55,7 @@ let headers = [
     "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 ]
 
-func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: String? = nil, intolerances: String? = nil, completion: @escaping ([Recipe]?) -> Void) {
+func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: String? = nil, intolerances: String? = nil, includeIngredients: String? = nil, excludeIngredients: String? = nil, completion: @escaping ([Recipe]?) -> Void) {
     var urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?"
 
     var queryItems: [URLQueryItem] = [
@@ -77,6 +77,14 @@ func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: Stri
 
     if let intolerances = intolerances {
         queryItems.append(URLQueryItem(name: "intolerances", value: "\(intolerances)"))
+    }
+    
+    if let includeIngredients = includeIngredients {
+        queryItems.append(URLQueryItem(name: "includeIngredients", value: "\(includeIngredients)"))
+    }
+    
+    if let excludeIngredients = excludeIngredients {
+        queryItems.append(URLQueryItem(name: "excludeIngredients", value: "\(excludeIngredients)"))
     }
 
     let query = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
