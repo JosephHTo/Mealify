@@ -75,8 +75,6 @@ struct FilterSideView: View {
             .background(Color.white)
             .padding(.horizontal)
             
-            Spacer()
-            
             // Intolerance Text
             Text("Intolerances")
                 .offset(x: 10)
