@@ -166,7 +166,7 @@ struct FilterSideView: View {
                 }
                 .padding(.bottom, 50)
             }
-            .frame(height: UIScreen.main.bounds.height * 0.8)
+            .frame(height: UIScreen.main.bounds.height)
             .background(Color.gray)
             .transition(.move(edge: .bottom))
             .offset(y: isFilterSidebarVisible ? UIScreen.main.bounds.height * 0.1 : 0)

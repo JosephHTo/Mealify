@@ -130,9 +130,3 @@ struct RecipeApp: App {
         }
     }
 }
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchView()
-    }
-}
