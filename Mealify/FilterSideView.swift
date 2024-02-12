@@ -121,7 +121,7 @@ struct FilterSideView: View {
                     .padding(.horizontal)
 
                     // Display entered ingredients for includeIngredients
-                    EnteredIngredientsView(ingredients: includeIngredients)
+                    EnteredIngredientsView(ingredients: includeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
 
                     // excludeIngredients Textfield
                     Text("Exclude Ingredients")
@@ -133,13 +133,13 @@ struct FilterSideView: View {
                         newExcludeIngredient = ""
                     })
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.bottom, 200)
                     .padding(.horizontal)
 
                     // Display entered ingredients for excludeIngredients
-                    EnteredIngredientsView(ingredients: excludeIngredients)
+                    EnteredIngredientsView(ingredients: excludeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
                 }
                 .background(Color.gray)
+                .padding(.bottom, 300)
                 .transition(.move(edge: .bottom))
                 .offset(y: isFilterSidebarVisible ? UIScreen.main.bounds.height * 0.1 : 0)
                 .edgesIgnoringSafeArea(.all)
@@ -238,6 +238,36 @@ struct FilterSideView: View {
             }
         }
     }
+    
+    struct EnteredIngredientsView: View {
+        var ingredients: Set<String>
+        @Binding var includeIngredients: Set<String>
+        @Binding var excludeIngredients: Set<String>
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 5) {
+                ForEach(ingredients.sorted(), id: \.self) { ingredient in
+                    HStack {
+                        Text("- \(ingredient)")
+                            .foregroundColor(.blue)
+                        Spacer()
+                        Button(action: {
+                            // Remove the ingredient from the appropriate list
+                            if includeIngredients.contains(ingredient) {
+                                includeIngredients.remove(ingredient)
+                            } else if excludeIngredients.contains(ingredient) {
+                                excludeIngredients.remove(ingredient)
+                            }
+                        }) {
+                            Image(systemName: "x.circle")
+                                .foregroundColor(.red)
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
 
     struct FilterParameters {
         let maxReadyTime: Int?
@@ -260,18 +290,4 @@ enum Intolerances: String, CaseIterable {
     case sulfite
     case treeNut = "tree nut"
     case wheat
-}
-
-struct EnteredIngredientsView: View {
-    var ingredients: Set<String>
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            ForEach(ingredients.sorted(), id: \.self) { ingredient in
-                Text("- \(ingredient)")
-                    .foregroundColor(.blue)
-            }
-        }
-        .padding(.horizontal)
-    }
 }
