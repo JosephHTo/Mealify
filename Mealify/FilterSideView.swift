@@ -133,12 +133,12 @@ struct FilterSideView: View {
                         newExcludeIngredient = ""
                     })
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.bottom, 200)
                     .padding(.horizontal)
 
                     // Display entered ingredients for excludeIngredients
                     EnteredIngredientsView(ingredients: excludeIngredients)
                 }
-                .frame(height: UIScreen.main.bounds.height * 0.8)
                 .background(Color.gray)
                 .transition(.move(edge: .bottom))
                 .offset(y: isFilterSidebarVisible ? UIScreen.main.bounds.height * 0.1 : 0)
