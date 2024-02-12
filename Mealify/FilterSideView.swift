@@ -4,13 +4,27 @@ struct FilterSideView: View {
     @Binding var isFilterSidebarVisible: Bool
     @Binding var searchQuery: String
     @State private var dragOffset: CGFloat = 0
+    
     @State private var maxReadyTimeString: String = ""
+    
     @State private var selectedDiet: Diet = .none
+    
     @State private var selectedIntolerances: Set<Intolerances> = []
+    
     @State private var includeIngredients: Set<String> = []
     @State private var excludeIngredients: Set<String> = []
     @State private var newIncludeIngredient: String = ""
     @State private var newExcludeIngredient: String = ""
+    
+    @State private var minCarbs: String = ""
+    @State private var maxCarbs: String = ""
+    
+    @State private var minProtein: String = ""
+    @State private var maxProtein: String = ""
+    
+    @State private var minCalories: String = ""
+    @State private var maxCalories: String = ""
+    
     var onApplyFilters: ([Recipe]) -> Void
     
     enum Diet: String, CaseIterable {
@@ -137,6 +151,51 @@ struct FilterSideView: View {
 
                     // Display entered ingredients for excludeIngredients
                     EnteredIngredientsView(ingredients: excludeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
+                    
+                    // Carbs
+                    Text("Carbs")
+                        .offset(x: 10)
+                    
+                    // Min and Max Carbs Textfields
+                    HStack {
+                        TextField("Min Carbs (g)", text: $minCarbs)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+
+                        TextField("Max Carbs (g)", text: $maxCarbs)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                    }
+                    
+                    // Protein
+                    Text("Protein")
+                        .offset(x: 10)
+                    
+                    // Min and Max Protein Textfields
+                    HStack {
+                        TextField("Min Protein (g)", text: $minProtein)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+
+                        TextField("Max Protein (g)", text: $maxProtein)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                    }
+                    
+                    // Calories
+                    Text("Calories")
+                        .offset(x: 10)
+                    
+                    // Min and Max Calories Textfields
+                    HStack {
+                        TextField("Min Calories (g)", text: $minCalories)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+
+                        TextField("Max Calories (g)", text: $maxCalories)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                    }
                 }
                 .background(Color.gray)
                 .padding(.bottom, 300)
@@ -189,6 +248,12 @@ struct FilterSideView: View {
         selectedIntolerances = []
         includeIngredients = []
         excludeIngredients = []
+        minCarbs = ""
+        maxCarbs = ""
+        minProtein = ""
+        maxProtein = ""
+        minCalories = ""
+        maxCalories = ""
     }
     
     private func applyFilters() {
@@ -200,6 +265,12 @@ struct FilterSideView: View {
         }
 
         let maxReadyTime: Int? = maxReadyTimeString.isEmpty ? nil : Int(maxReadyTimeString)
+        let minCarbs: Int? = minCarbs.isEmpty ? nil : Int(minCarbs)
+        let maxCarbs: Int? = maxCarbs.isEmpty ? nil : Int(maxCarbs)
+        let minProtein: Int? = minProtein.isEmpty ? nil : Int(minProtein)
+        let maxProtein: Int? = maxProtein.isEmpty ? nil : Int(maxProtein)
+        let minCalories: Int? = minCalories.isEmpty ? nil : Int(minCalories)
+        let maxCalories: Int? = maxCalories.isEmpty ? nil : Int(maxCalories)
 
         // TODO, Only include parameters that have values
         let filterParameters = FilterParameters(
@@ -207,7 +278,13 @@ struct FilterSideView: View {
             diet: selectedDiet,
             intolerances: selectedIntolerances,
             includeIngredients: includeIngredients,
-            excludeIngredients: excludeIngredients
+            excludeIngredients: excludeIngredients,
+            minCarbs: minCarbs,
+            maxCarbs: maxCarbs,
+            minProtein: minProtein,
+            maxProtein: maxProtein,
+            minCalories: minCalories,
+            maxCalories: maxCalories
         )
 
         fetchRecipesWithFilter(filterParameters)
@@ -225,7 +302,13 @@ struct FilterSideView: View {
             diet: parameters.diet.rawValue,
             intolerances: intolerancesString,
             includeIngredients: includeIngredientsString,
-            excludeIngredients: excludeIngredientsString
+            excludeIngredients: excludeIngredientsString,
+            minCarbs: parameters.minCarbs,
+            maxCarbs: parameters.maxCarbs,
+            minProtein: parameters.minProtein,
+            maxProtein: parameters.maxProtein,
+            minCalories: parameters.minCalories,
+            maxCalories: parameters.maxCalories
         ) { recipes in
             if let recipes = recipes {
                 withAnimation {
@@ -275,6 +358,12 @@ struct FilterSideView: View {
         let intolerances: Set<Intolerances>
         let includeIngredients: Set<String>
         let excludeIngredients: Set<String>
+        let minCarbs: Int?
+        let maxCarbs: Int?
+        let minProtein: Int?
+        let maxProtein: Int?
+        let minCalories: Int?
+        let maxCalories: Int?
     }
 }
 

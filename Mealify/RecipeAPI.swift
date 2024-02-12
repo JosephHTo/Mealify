@@ -55,7 +55,7 @@ let headers = [
     "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
 ]
 
-func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: String? = nil, intolerances: String? = nil, includeIngredients: String? = nil, excludeIngredients: String? = nil, completion: @escaping ([Recipe]?) -> Void) {
+func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: String? = nil, intolerances: String? = nil, includeIngredients: String? = nil, excludeIngredients: String? = nil, minCarbs: Int? = nil, maxCarbs: Int? = nil, minProtein: Int? = nil, maxProtein: Int? = nil, minCalories: Int? = nil, maxCalories: Int? = nil, completion: @escaping ([Recipe]?) -> Void) {
     var urlString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch?"
 
     var queryItems: [URLQueryItem] = [
@@ -85,6 +85,30 @@ func fetchSpoonacularRecipes(query: String, maxReadyTime: Int? = nil, diet: Stri
     
     if let excludeIngredients = excludeIngredients {
         queryItems.append(URLQueryItem(name: "excludeIngredients", value: "\(excludeIngredients)"))
+    }
+    
+    if let minCarbs = minCarbs {
+        queryItems.append(URLQueryItem(name: "minCarbs", value: "\(minCarbs)"))
+    }
+    
+    if let maxCarbs = maxCarbs {
+        queryItems.append(URLQueryItem(name: "maxCarbs", value: "\(maxCarbs)"))
+    }
+    
+    if let minProtein = minProtein {
+        queryItems.append(URLQueryItem(name: "minProtein", value: "\(minProtein)"))
+    }
+    
+    if let maxProtein = maxProtein {
+        queryItems.append(URLQueryItem(name: "maxProtein", value: "\(maxProtein)"))
+    }
+    
+    if let minCalories = minCalories {
+        queryItems.append(URLQueryItem(name: "minCalories", value: "\(minCalories)"))
+    }
+    
+    if let maxCalories = maxCalories {
+        queryItems.append(URLQueryItem(name: "maxCalories", value: "\(maxCalories)"))
     }
 
     let query = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
