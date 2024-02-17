@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C84306F02B5F262E000BFA9B /* FilterSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84306EF2B5F262E000BFA9B /* FilterSideView.swift */; };
 		C84306F22B5F26B0000BFA9B /* NavigationSideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84306F12B5F26B0000BFA9B /* NavigationSideView.swift */; };
+		C855E0212B81513900DC729C /* KrogerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C855E0202B81513900DC729C /* KrogerAPI.swift */; };
 		C86B4A762B609F55009179EF /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B4A752B609F55009179EF /* SearchView.swift */; };
 		C86B4A782B60C681009179EF /* SavedRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B4A772B60C681009179EF /* SavedRecipesView.swift */; };
 		C86B4A7A2B60C6FB009179EF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B4A792B60C6FB009179EF /* SettingsView.swift */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		C84306EF2B5F262E000BFA9B /* FilterSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSideView.swift; sourceTree = "<group>"; };
 		C84306F12B5F26B0000BFA9B /* NavigationSideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSideView.swift; sourceTree = "<group>"; };
+		C855E0202B81513900DC729C /* KrogerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrogerAPI.swift; sourceTree = "<group>"; };
 		C86B4A752B609F55009179EF /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		C86B4A772B60C681009179EF /* SavedRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRecipesView.swift; sourceTree = "<group>"; };
 		C86B4A792B60C6FB009179EF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				C84306F12B5F26B0000BFA9B /* NavigationSideView.swift */,
 				C84306EF2B5F262E000BFA9B /* FilterSideView.swift */,
 				C8C209602AE7825F00951ACE /* RecipeAPI.swift */,
+				C855E0202B81513900DC729C /* KrogerAPI.swift */,
 				C8DE8ACF2AD4F113002092AA /* MealifyTests */,
 				C8DE8AC22AD4F113002092AA /* Assets.xcassets */,
 				C8DE8AC42AD4F113002092AA /* Mealify.entitlements */,
@@ -282,6 +285,7 @@
 			files = (
 				C84306F02B5F262E000BFA9B /* FilterSideView.swift in Sources */,
 				C84306F22B5F26B0000BFA9B /* NavigationSideView.swift in Sources */,
+				C855E0212B81513900DC729C /* KrogerAPI.swift in Sources */,
 				C86B4A782B60C681009179EF /* SavedRecipesView.swift in Sources */,
 				C86B4A7A2B60C6FB009179EF /* SettingsView.swift in Sources */,
 				C8DE8AC12AD4F112002092AA /* ContentView.swift in Sources */,
