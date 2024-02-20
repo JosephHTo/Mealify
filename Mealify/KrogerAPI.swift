@@ -34,10 +34,6 @@ struct DayHours: Codable {
     let open24: Bool
 }
 
-// Struct to represent the Department object
-struct Department: Codable {
-    // Define properties as needed
-}
 
 // Struct to represent the Location object
 struct LocationResponse: Codable {
