@@ -55,6 +55,7 @@ struct Location: Codable {
     let phone: String
 }
 
+// Function to fetch locations
 func getLocations(zipCode: String, completion: @escaping (Result<[Location], Error>) -> Void) {
     // Validate zip code
     guard zipCode.count == 5, zipCode.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil else {
@@ -62,43 +63,49 @@ func getLocations(zipCode: String, completion: @escaping (Result<[Location], Err
         return
     }
     
-    // Hardcoded access token
-    let accessToken = "eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJtZWFsaWZ5LTM0ZDY4NDJiOTZiNGMyNjFiZWUwMWJmZjM2MDZkZDhlMzA3NDcyNzEzMTMzNzQyNzk5MSIsImV4cCI6MTcwODIxMjA0NywiaWF0IjoxNzA4MjEwMjQyLCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6ImI0MWQ0ZTVjLTVkMDAtNWRiMS04NWIzLTZhNGM1YzdmMTk2OSIsInNjb3BlIjoiIiwiYXV0aEF0IjoxNzA4MjEwMjQ3NTIzNjI5ODgyLCJhenAiOiJtZWFsaWZ5LTM0ZDY4NDJiOTZiNGMyNjFiZWUwMWJmZjM2MDZkZDhlMzA3NDcyNzEzMTMzNzQyNzk5MSJ9.em6VliiYVQ2N2CLy9doUdXcsO1OZp3I5ismC8kQHm9FZSvvtcN1JsWggPj_BwUURKKFTpxASYMHva5koPY3F0GPj-MHLbIF3r73BzW1wQhEuc0ITUJ8bWNJk5gPP4u0fdAE4TO_hwLxpkHtU7dAfY9ux_jSjjWdq8twOU5NkaQoQmOzvCo_JooHxTyt9af3G4_xw5X-DXAwid2hhi9KTBnK0vM9FGL1gpwWZOOjorx78-Jz8SNozc536rWKZJebvKbHUBiW7uNf4IrBt77e99IuXl6I0oQ7_YV9LhdZVcOLYr1vtW5_sEWe2mxYfsz-QPzVmO7-apNVjcVHQuL3DjA"
-    
-    // Build the location URL
-    let baseUrl = "https://api.kroger.com/v1/locations"
-    let urlString = "\(baseUrl)?filter.zipCode.near=\(zipCode)"
-    
-    guard let url = URL(string: urlString) else {
-        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
-        return
-    }
-    
-    // Create the request
-    var request = URLRequest(url: url)
-    request.httpMethod = "GET"
-    request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-    request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
-    
-    // Make the request
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-        guard let data = data, error == nil else {
-            completion(.failure(error ?? NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error"])))
-            return
-        }
-        
-        do {
-            // Decode JSON response into Location objects
-            let decoder = JSONDecoder()
-            let locationsResponse = try decoder.decode(LocationResponse.self, from: data)
-            let locations = locationsResponse.data
-            completion(.success(locations))
-        } catch {
+    // Fetch access token
+    KrogerAPI.obtainAccessToken(clientID: "mealify-34d6842b96b4c261bee01bff3606dd8e3074727131337427991", clientSecret: "hRiEuSfza9RVBOVulZT3V6C5wRO0QsKS9RZtNP3N") { result in
+        switch result {
+        case .success(let accessToken):
+            // Build the location URL using the obtained access token
+            let baseUrl = "https://api.kroger.com/v1/locations"
+            let urlString = "\(baseUrl)?filter.zipCode.near=\(zipCode)"
+            
+            guard let url = URL(string: urlString) else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
+                return
+            }
+            
+            // Create the request
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
+            
+            // Make the request
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data, error == nil else {
+                    completion(.failure(error ?? NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error"])))
+                    return
+                }
+                
+                do {
+                    // Decode JSON response into Location objects
+                    let decoder = JSONDecoder()
+                    let locationsResponse = try decoder.decode(LocationResponse.self, from: data)
+                    let locations = locationsResponse.data
+                    completion(.success(locations))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            
+            task.resume()
+            
+        case .failure(let error):
             completion(.failure(error))
         }
     }
-    
-    task.resume()
 }
 
 struct KrogerAPI {

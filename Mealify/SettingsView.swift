@@ -12,7 +12,7 @@ struct SettingsView: View {
             ZStack(alignment: .leading) {
                 withAnimation {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth)
+                        .frame(width: sidebarWidth + 115)
                         .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
                         .opacity(isNavBarOpened ? 1 : 0)
                         .background(
@@ -30,28 +30,39 @@ struct SettingsView: View {
                         .font(.title)
                         .padding()
 
-                    TextField("Enter Zip Code", text: $zipCode)
-                        .padding()
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                    Button(action: {
-                        // Call the function to fetch location data
-                        getLocations(zipCode: zipCode) { result in
-                            switch result {
-                            case .success(let fetchedLocations):
-                                locations = fetchedLocations
-                            case .failure(let error):
-                                print("Error fetching locations: \(error)")
-                            }
-                        }
-                    }) {
-                        Text("Save")
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.blue)
-                            .cornerRadius(8)
+                    HStack {
+                        Text("Set desired Kroger location")
+                            .font(.headline)
+                        Spacer()
                     }
-                    
+                    .padding(.leading)
+
+                    HStack {
+                        TextField("5-digit Zip Code", text: $zipCode)
+                            .padding()
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                        Button(action: {
+                            // Call the function to fetch location data
+                            getLocations(zipCode: zipCode) { result in
+                                switch result {
+                                case .success(let fetchedLocations):
+                                    locations = fetchedLocations
+                                case .failure(let error):
+                                    print("Error fetching locations: \(error)")
+                                }
+                            }
+                        }) {
+                            Text("Search")
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 20)
+                                .foregroundColor(.white)
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+
                     if let selectedIndex = selectedLocationIndex {
                         // Display selected location details
                         VStack(alignment: .leading) {
@@ -63,6 +74,7 @@ struct SettingsView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
+                        .offset(x: -27)
                     } else if !locations.isEmpty {
                         // Display list of locations
                         List {
@@ -80,7 +92,7 @@ struct SettingsView: View {
                             }
                         }
                     }
-                    
+
                     Spacer()
                 }
                 .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6: 0)
