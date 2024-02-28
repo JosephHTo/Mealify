@@ -6,6 +6,7 @@ struct SettingsView: View {
     @State private var zipCode: String = ""
     @State private var locations: [Location] = []
     @State private var selectedLocationIndex: Int?
+    @EnvironmentObject var userData: UserData
     
     var body: some View {
         NavigationView {
@@ -24,24 +25,24 @@ struct SettingsView: View {
                             }
                         )
                 }
-
+                
                 VStack {
                     Text("Settings")
                         .font(.title)
                         .padding()
-
+                    
                     HStack {
                         Text("Set desired Kroger location")
                             .font(.headline)
                         Spacer()
                     }
                     .padding(.leading)
-
+                    
                     HStack {
                         TextField("5-digit Zip Code", text: $zipCode)
                             .padding()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                        
                         Button(action: {
                             // Call the function to fetch location data
                             getLocations(zipCode: zipCode) { result in
@@ -62,7 +63,9 @@ struct SettingsView: View {
                         }
                         .frame(maxWidth: .infinity)
                     }
-
+                    
+                    Spacer()
+                    
                     if let selectedIndex = selectedLocationIndex {
                         // Display selected location details
                         VStack(alignment: .leading) {
@@ -74,28 +77,42 @@ struct SettingsView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
+                        .padding(.leading)
                         .offset(x: -27)
-                    } else if !locations.isEmpty {
-                        // Display list of locations
-                        List {
-                            ForEach(locations.indices, id: \.self) { index in
-                                VStack(alignment: .leading) {
-                                    Text(locations[index].name)
-                                        .font(.headline)
-                                    Text(locations[index].address.addressLine1)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                                .onTapGesture {
-                                    selectedLocationIndex = index
+                    } else {
+                        if !locations.isEmpty {
+                            Spacer() // Push the list to the center
+                            // Display list of locations
+                            List {
+                                ForEach(locations.indices, id: \.self) { index in
+                                    VStack(alignment: .leading) {
+                                        Text(locations[index].name)
+                                            .font(.headline)
+                                        Text(locations[index].address.addressLine1)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    }
+                                    .onTapGesture {
+                                        // Update selectedLocationIndex when a location is tapped
+                                        selectedLocationIndex = index
+                                        
+                                        // Save the selected location ID in UserData if it exists
+                                        if let selectedLocationId = locations[index].locationId {
+                                            userData.selectedLocationId = selectedLocationId
+                                        }
+                                    }
                                 }
                             }
+                            Spacer() // Push the list to the center
+                            .offset(x: -27)
+                        } else {
+                            Text("Selected Location: No location set")
+                                .foregroundColor(.gray)
+                                .padding()
                         }
                     }
-
-                    Spacer()
                 }
-                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6: 0)
+                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
             }
             // NavigationSideView Button
             .toolbar {

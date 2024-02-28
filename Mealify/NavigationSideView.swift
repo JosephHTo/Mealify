@@ -2,10 +2,11 @@ import SwiftUI
 
 struct NavigationSideView: View {
     @Binding var isSidebarVisible: Bool
+    @EnvironmentObject var userData: UserData
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            NavigationLink(destination: FeaturedView().navigationBarBackButtonHidden(true)) {
+            NavigationLink(destination: FeaturedView().navigationBarBackButtonHidden(true).environmentObject(userData)) {
                 HStack {
                     Image(systemName: "house.fill")
                         .resizable()
@@ -62,7 +63,7 @@ struct NavigationSideView: View {
             }
             
             // NavigationLink for SettingsView
-            NavigationLink(destination: SettingsView().navigationBarBackButtonHidden(true)) {
+            NavigationLink(destination: SettingsView().navigationBarBackButtonHidden(true).environmentObject(userData)) {
                 HStack {
                     Image(systemName: "gear")
                         .resizable()
