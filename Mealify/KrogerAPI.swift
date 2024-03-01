@@ -1,8 +1,5 @@
 import Foundation
 
-// Define structs to represent the nested JSON objects
-
-// Struct to represent the Address object
 struct Address: Codable {
     let addressLine1: String
     let city: String
@@ -11,35 +8,29 @@ struct Address: Codable {
     let county: String
 }
 
-// Struct to represent the Geolocation object
 struct Geolocation: Codable {
     let latitude: Double
     let longitude: Double
     let latLng: String
 }
 
-// Struct to represent the Hours object
 struct Hours: Codable {
     let timezone: String
     let gmtOffset: String
     let open24: Bool
     let monday: DayHours
-    // Define properties for other days as needed
 }
 
-// Struct to represent the hours for each day
 struct DayHours: Codable {
     let open: String
     let close: String
     let open24: Bool
 }
 
-// Struct to represent the Location object
 struct LocationResponse: Codable {
     let data: [Location]
 }
 
-// Struct to represent the data within each location
 struct Location: Codable {
     let locationId: String?
     let chain: String
@@ -102,7 +93,6 @@ struct Temperature: Codable {
     let heatSensitive: Bool
 }
 
-// Add structs for nested objects
 struct AisleLocation: Codable {
     // Define properties for AisleLocation
 }
@@ -129,7 +119,7 @@ extension Taxonomy: Equatable {}
 
 // Function to search products
 func searchProducts(term: String, userData: UserData, completion: @escaping (Result<[Product], Error>) -> Void) {
-    // Fetch access token
+    // Fetch access token (Need to adjust this method based on the API, access token is different for product api)
     KrogerAPI.obtainAccessToken(clientID: "mealify-34d6842b96b4c261bee01bff3606dd8e3074727131337427991", clientSecret: "hRiEuSfza9RVBOVulZT3V6C5wRO0QsKS9RZtNP3N") { result in
         switch result {
         case .success(let accessToken):
@@ -199,6 +189,7 @@ func getLocations(zipCode: String, completion: @escaping (Result<[Location], Err
             // Build the location URL using the obtained access token
             let baseUrl = "https://api.kroger.com/v1/locations"
             let urlString = "\(baseUrl)?filter.zipCode.near=\(zipCode)"
+            // Can adjust the radius (default: 10 miles) using filter.radiusInMiles
             
             guard let url = URL(string: urlString) else {
                 completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
