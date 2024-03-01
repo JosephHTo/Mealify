@@ -48,6 +48,7 @@ struct SearchView: View {
                 // Navigation Sidebar (Left side)
                 withAnimation {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
+                        .frame(width: sidebarWidth + 122)
                         .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
                         .opacity(isNavBarOpened ? 1 : 0)
                         .background(
