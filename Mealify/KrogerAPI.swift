@@ -120,7 +120,7 @@ extension Taxonomy: Equatable {}
 // Function to search products
 func searchProducts(term: String, userData: UserData, completion: @escaping (Result<[Product], Error>) -> Void) {
     // Fetch access token (Need to adjust this method based on the API, access token is different for product api)
-    KrogerAPI.obtainAccessToken(clientID: "mealify-34d6842b96b4c261bee01bff3606dd8e3074727131337427991", clientSecret: "hRiEuSfza9RVBOVulZT3V6C5wRO0QsKS9RZtNP3N") { result in
+    KrogerAPI.obtainAccessToken(clientID: "mealify-34d6842b96b4c261bee01bff3606dd8e3074727131337427991", clientSecret: "hRiEuSfza9RVBOVulZT3V6C5wRO0QsKS9RZtNP3N", scope: "product.compact") { result in
         switch result {
         case .success(let accessToken):
             // Build the product search URL using the obtained access token and optional locationId
@@ -183,7 +183,7 @@ func getLocations(zipCode: String, completion: @escaping (Result<[Location], Err
     }
     
     // Fetch access token
-    KrogerAPI.obtainAccessToken(clientID: "mealify-34d6842b96b4c261bee01bff3606dd8e3074727131337427991", clientSecret: "hRiEuSfza9RVBOVulZT3V6C5wRO0QsKS9RZtNP3N") { result in
+    KrogerAPI.obtainAccessToken(clientID: "mealify-34d6842b96b4c261bee01bff3606dd8e3074727131337427991", clientSecret: "hRiEuSfza9RVBOVulZT3V6C5wRO0QsKS9RZtNP3N", scope: "") { result in
         switch result {
         case .success(let accessToken):
             // Build the location URL using the obtained access token
@@ -229,7 +229,7 @@ func getLocations(zipCode: String, completion: @escaping (Result<[Location], Err
 }
 
 struct KrogerAPI {
-    static func obtainAccessToken(clientID: String, clientSecret: String, completion: @escaping (Result<String, Error>) -> Void) {
+    static func obtainAccessToken(clientID: String, clientSecret: String, scope: String, completion: @escaping (Result<String, Error>) -> Void) {
         let baseURL = "https://api.kroger.com/v1/connect/oauth2/token"
         let credentials = "\(clientID):\(clientSecret)"
         guard let credentialsData = credentials.data(using: .utf8) else {
@@ -248,7 +248,14 @@ struct KrogerAPI {
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.addValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
 
-        let bodyData = "grant_type=client_credentials".data(using: .utf8)
+        var requestBody = "grant_type=client_credentials"
+        
+        // Include the scope in the request body only if it exists
+        if !scope.isEmpty {
+            requestBody += "&scope=\(scope)"
+        }
+
+        let bodyData = requestBody.data(using: .utf8)
         request.httpBody = bodyData
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -261,7 +268,6 @@ struct KrogerAPI {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                 if let accessToken = json?["access_token"] as? String {
                     completion(.success(accessToken))
-                    print(accessToken)
                 } else {
                     print("Error: Access token not found in response. JSON response: \(String(data: data, encoding: .utf8) ?? "")")
                     completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Access token not found in response"])))
@@ -272,21 +278,5 @@ struct KrogerAPI {
         }
 
         task.resume()
-    }
-}
-
-func fetchKrogerAccessToken() {
-    let clientID = "mealify-34d6842b96b4c261bee01bff3606dd8e3074727131337427991"
-    let clientSecret = "hRiEuSfza9RVBOVulZT3V6C5wRO0QsKS9RZtNP3N"
-
-    KrogerAPI.obtainAccessToken(clientID: clientID, clientSecret: clientSecret) { result in
-        switch result {
-        case .success(let accessToken):
-            print("Access token: \(accessToken)")
-            // Handle successful access token retrieval
-        case .failure(let error):
-            print("Error obtaining access token: \(error)")
-            // Handle error
-        }
     }
 }
