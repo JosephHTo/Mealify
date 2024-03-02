@@ -4,8 +4,8 @@ struct SavedRecipesView: View {
     @State private var isNavBarOpened = false
     @State private var sidebarWidth: CGFloat = 0
     @EnvironmentObject var userData: UserData
-    @State private var firstProduct: Product? // State to hold the first product
-
+    @State private var products: [Product] = [] // State to hold the fetched products
+    
     var body: some View {
         NavigationView {
             ZStack(alignment: .leading) {
@@ -23,22 +23,30 @@ struct SavedRecipesView: View {
                             }
                         )
                 }
-
+                
                 VStack {
                     Text("Saved Recipes")
                         .font(.title)
                         .padding()
-
-                    // Display the first product if available
-                    if let product = firstProduct {
-                        Text("First Product: \(product.description)") // Update with your desired product property
+                    
+                    // Display product information
+                    if !products.isEmpty {
+                        List(products, id: \.productId) { product in
+                            VStack(alignment: .leading) {
+                                Text("Product: \(product.description)")
+                                    .font(.headline)
+                                Text("Price: $\(product.items.first?.price.regular ?? 0.0)")
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding()
+                        }
                     } else {
-                        Text("No product found")
+                        Text("No products found")
                     }
-
+                    
                     Spacer()
                 }
-                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6: 0)
+                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
             }
             // NavigationSideView Button
             .toolbar {
@@ -54,15 +62,16 @@ struct SavedRecipesView: View {
             }
         }
         .onAppear {
-            // Call searchProducts to fetch the first product
+            // Call searchProducts to fetch the products
             searchProducts(term: "milk", userData: userData) { result in
-                switch result {
-                case .success(let products):
-                    if let firstProduct = products.first {
-                        self.firstProduct = firstProduct
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let fetchedProducts):
+                        products = fetchedProducts
+                        print("Fetched Products: \(fetchedProducts)")
+                    case .failure(let error):
+                        print("Error fetching products: \(error)")
                     }
-                case .failure(let error):
-                    print("Error fetching products: \(error)")
                 }
             }
         }

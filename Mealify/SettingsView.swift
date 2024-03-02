@@ -6,6 +6,7 @@ struct SettingsView: View {
     @State private var zipCode: String = ""
     @State private var locations: [Location] = []
     @State private var selectedLocationIndex: Int?
+    @State private var selectedLocation: Location?
     @EnvironmentObject var userData: UserData
     
     var body: some View {
@@ -95,18 +96,14 @@ struct SettingsView: View {
                                     .onTapGesture {
                                         // Update selectedLocationIndex when a location is tapped
                                         selectedLocationIndex = index
-                                        
-                                        // Save the selected location ID in UserData if it exists
-                                        if let selectedLocationId = locations[index].locationId {
-                                            userData.selectedLocationId = selectedLocationId
-                                        }
-                                    }
-                                }
+                                        selectedLocation = locations[index] // Set the selectedLocation
+                                        userData.selectedLocation = selectedLocation
+                                    }                                }
                             }
                             Spacer() // Push the list to the center
                             .offset(x: -27)
                         } else {
-                            Text("Selected Location: No location set")
+                            Text("No locations found")
                                 .foregroundColor(.gray)
                                 .padding()
                         }
@@ -124,6 +121,12 @@ struct SettingsView: View {
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
                     }
+                }
+            }
+            .onAppear{
+                // For debugging purposes print the locationid if it exists
+                if let locationId = userData.selectedLocation?.locationId {
+                    print("Location: \(locationId)")
                 }
             }
         }
