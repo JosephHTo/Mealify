@@ -116,7 +116,7 @@ func searchProducts(term: String, userData: UserData, completion: @escaping (Res
             request.httpMethod = "GET"
             request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
             request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
-
+            print(request)
             // Make the request
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
 
@@ -125,13 +125,17 @@ func searchProducts(term: String, userData: UserData, completion: @escaping (Res
                     return
                 }
                 
+                // Before decoding
+                print("JSON Data:", String(data: data, encoding: .utf8) ?? "")
+
+                // Decode JSON response into Product objects
+                let decoder = JSONDecoder()
                 do {
-                    // Decode JSON response into Product objects
-                    let decoder = JSONDecoder()
                     let productsResponse = try decoder.decode(ProductResponse.self, from: data)
                     let products = productsResponse.data
                     completion(.success(products))
                 } catch {
+                    print("Error during decoding:", error)
                     completion(.failure(error))
                 }
             }
