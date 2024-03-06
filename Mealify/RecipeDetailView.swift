@@ -3,6 +3,7 @@ import SwiftUI
 struct RecipeDetail: View {
     var recipe: Recipe
     @State private var selectedServingSize: Int
+    @State private var isSaved: Bool = false
     
     init(recipe: Recipe) {
         self.recipe = recipe
@@ -15,9 +16,30 @@ struct RecipeDetail: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text(recipe.title)
-                    .font(.title)
-                    .padding()
+                HStack {
+                    Spacer()
+                    
+                    HStack {
+                        Text(recipe.title)
+                            .font(.title)
+                            .padding()
+                    }
+                    .layoutPriority(1) // Allow the title to take up available space
+
+                    Spacer()
+                    
+                    Button(action: {
+                        // Handle favorite button tap
+                        isSaved.toggle()
+                    }) {
+                        Image(systemName: isSaved ? "heart.fill" : "heart")
+                            .foregroundColor(isSaved ? .red : .gray)
+                            .padding()
+                            .font(.title)
+                    }
+                }
+                .padding()
+                
                 
                 AsyncImage(url: URL(string: recipe.image)) { phase in
                     if let image = phase.image {
