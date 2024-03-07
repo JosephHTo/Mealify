@@ -6,7 +6,8 @@ struct SavedRecipesView: View {
     @EnvironmentObject var userData: UserData
     @State private var searchQuery: String = ""
     @State private var products: [Product] = [] // State to hold the fetched products
-    
+    @State private var savedRecipes: [Recipe] = [] // State to hold the saved recipes
+
     var body: some View {
         NavigationView {
             ZStack(alignment: .leading) {
@@ -24,7 +25,7 @@ struct SavedRecipesView: View {
                             }
                         )
                 }
-                
+
                 VStack {
                     Text("Saved Recipes")
                         .font(.title)
@@ -35,19 +36,33 @@ struct SavedRecipesView: View {
                         searchProducts()
                     })
 
-                    // Display product information
-                    if !products.isEmpty {
-                        List(products, id: \.productId) { product in
-                            VStack(alignment: .leading) {
-                                Text("Product: \(product.description)")
-                                    .font(.headline)
-                                Text("Price: $\(product.items.first?.price.regular ?? 0.0)")
-                                    .foregroundColor(.secondary)
+                    // Display saved recipes
+                    if !savedRecipes.isEmpty {
+                        List(savedRecipes, id: \.id) { recipe in
+                            NavigationLink(destination: RecipeDetail(recipe: recipe)) {
+                                HStack {
+                                    AsyncImage(url: URL(string: recipe.image)) { phase in
+                                        if let image = phase.image {
+                                            image
+                                                .resizable()
+                                                .frame(width: 60, height: 60)
+                                        } else if phase.error != nil {
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .frame(width: 60, height: 60)
+                                        } else {
+                                            ProgressView()
+                                                .frame(width: 60, height: 60)
+                                        }
+                                    }
+                                    .aspectRatio(contentMode: .fit)
+                                    Text(recipe.title)
+                                }
                             }
                             .padding()
                         }
                     } else {
-                        Text("No products found")
+                        Text("No saved recipes found")
                     }
 
                     Spacer()
@@ -65,6 +80,20 @@ struct SavedRecipesView: View {
                         Image(systemName: "line.3.horizontal.circle.fill")
                     }
                 }
+            }
+            .onAppear {
+                // Load saved recipes from UserDefaults
+                loadSavedRecipes()
+            }
+        }
+    }
+
+    // Function to load saved recipes from UserDefaults
+    func loadSavedRecipes() {
+        if let savedRecipesData = UserDefaults.standard.data(forKey: "savedRecipes") {
+            let decoder = JSONDecoder()
+            if let decodedRecipes = try? decoder.decode([Recipe].self, from: savedRecipesData) {
+                savedRecipes = decodedRecipes
             }
         }
     }

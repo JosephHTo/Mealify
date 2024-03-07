@@ -4,13 +4,22 @@ struct RecipeDetail: View {
     var recipe: Recipe
     @State private var selectedServingSize: Int
     @State private var isSaved: Bool = false
-    
+    //@EnvironmentObject var userData: UserData
+
     init(recipe: Recipe) {
         self.recipe = recipe
         // Initialize selectedServingSize with the value of recipe.servings
         self._selectedServingSize = State(initialValue: recipe.servings)
+
+        // Check if the recipe is saved in UserDefaults
+        if let savedRecipes = UserDefaults.standard.data(forKey: "savedRecipes") {
+            let decoder = JSONDecoder()
+            if let decodedRecipes = try? decoder.decode([Recipe].self, from: savedRecipes) {
+                isSaved = decodedRecipes.contains { $0.id == recipe.id }
+            }
+        }
     }
-    
+
     @State private var isMetricSelected = false
 
     var body: some View {
@@ -18,19 +27,19 @@ struct RecipeDetail: View {
             VStack {
                 HStack {
                     Spacer()
-                    
                     HStack {
                         Text(recipe.title)
                             .font(.title)
                             .padding()
                     }
-                    .layoutPriority(1) // Allow the title to take up available space
+                    .layoutPriority(1)
 
                     Spacer()
-                    
+
                     Button(action: {
-                        // Handle favorite button tap
+                        // Handle save/delete button tap
                         isSaved.toggle()
+                        saveRecipe()
                     }) {
                         Image(systemName: isSaved ? "heart.fill" : "heart")
                             .foregroundColor(isSaved ? .red : .gray)
@@ -39,8 +48,7 @@ struct RecipeDetail: View {
                     }
                 }
                 .padding()
-                
-                
+
                 AsyncImage(url: URL(string: recipe.image)) { phase in
                     if let image = phase.image {
                         image
@@ -61,16 +69,16 @@ struct RecipeDetail: View {
                     }
                 }
                 .aspectRatio(contentMode: .fit)
-                
+
                 Text("\(recipe.summary?.removingHTMLTags() ?? "No summary available")")
                     .font(.subheadline)
                     .padding()
-                
+
                 Text("Total time: \(recipe.readyInMinutes)")
                     .multilineTextAlignment(.leading)
                     .padding()
-                
-                // TODO, display all diets/allergens given from API list
+
+                // TODO: Display all diets/allergens given from API list
 
                 if let analyzedInstructions = recipe.analyzedInstructions {
                     Text("Instructions:")
@@ -86,7 +94,7 @@ struct RecipeDetail: View {
                     Text("Ingredients:")
                         .font(.headline)
                     HStack {
-                        
+
                         VStack {
                             // Serving size text display
                             Text("Serving Size: \(selectedServingSize)")
@@ -154,6 +162,47 @@ struct RecipeDetail: View {
                 }
                 Spacer()
             }
+            .onAppear {
+                // Save the recipe to recentRecipes when it appears
+                //userData.saveRecentRecipe(recipe)
+            }
+        }
+    }
+
+    private func saveRecipe() {
+        var savedRecipes: [Recipe]
+
+        // Fetch the saved recipes from UserDefaults
+        if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+            let decoder = JSONDecoder()
+            if let decodedRecipes = try? decoder.decode([Recipe].self, from: data) {
+                savedRecipes = decodedRecipes
+            } else {
+                savedRecipes = []
+            }
+        } else {
+            savedRecipes = []
+        }
+
+        // Check if the recipe is already saved
+        if let index = savedRecipes.firstIndex(where: { $0.id == recipe.id }) {
+            // Recipe is already saved, remove it
+            savedRecipes.remove(at: index)
+        } else {
+            // Recipe is not saved, add it
+            savedRecipes.append(recipe)
+        }
+
+        // Print the current list of saved recipes for debugging
+        print("Current saved recipes:")
+        for savedRecipe in savedRecipes {
+            print(savedRecipe.title)
+        }
+
+        // Save the updated list of saved recipes to UserDefaults
+        let encoder = JSONEncoder()
+        if let encodedData = try? encoder.encode(savedRecipes) {
+            UserDefaults.standard.set(encodedData, forKey: "savedRecipes")
         }
     }
 }

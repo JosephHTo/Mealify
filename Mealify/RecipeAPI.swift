@@ -7,7 +7,7 @@ struct SpoonacularResponse: Decodable {
     let totalResults: Int?
 }
 
-struct Recipe: Decodable {
+struct Recipe: Codable {
     let id: Int
     let title: String
     let image: String
@@ -20,32 +20,32 @@ struct Recipe: Decodable {
     let dairyFree: Bool
 }
 
-struct AnalyzedInstruction: Decodable, Hashable {
+struct AnalyzedInstruction: Codable, Hashable {
     let steps: [Step]
 }
 
-struct Step: Decodable, Hashable {
+struct Step: Codable, Hashable {
     let number: Int
     let step: String
 }
 
-struct Ingredient: Decodable, Hashable {
+struct Ingredient: Codable, Hashable {
     let name: String
     let image: String
     let amount: Amount
 }
 
-struct Amount: Decodable, Hashable {
+struct Amount: Codable, Hashable {
     let metric: Metric
     let us: US
 }
 
-struct Metric: Decodable, Hashable {
+struct Metric: Codable, Hashable {
     let value: Double
     let unit: String
 }
 
-struct US: Decodable, Hashable {
+struct US: Codable, Hashable {
     let value: Double
     let unit: String
 }
