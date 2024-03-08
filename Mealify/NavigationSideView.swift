@@ -6,7 +6,7 @@ struct NavigationSideView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            NavigationLink(destination: FeaturedView().navigationBarBackButtonHidden(true)) {
+            NavigationLink(destination: RecentView().navigationBarBackButtonHidden(true)) {
                 HStack {
                     Image(systemName: "house.fill")
                         .resizable()

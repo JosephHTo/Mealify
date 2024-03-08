@@ -1,15 +1,16 @@
 import SwiftUI
 
-struct FeaturedView: View {
+struct RecentView: View {
     @State private var isNavBarOpened = false
     @State private var sidebarWidth: CGFloat = 0
+    @EnvironmentObject var userData: UserData
 
     var body: some View {
         NavigationView {
             ZStack(alignment: .leading) {
                 withAnimation {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth + 40)
+                        .frame(width: sidebarWidth + 118)
                         .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
                         .opacity(isNavBarOpened ? 1 : 0)
                         .background(
@@ -23,9 +24,38 @@ struct FeaturedView: View {
                 }
 
                 VStack {
-                    Text("Featured Recipes")
+                    Text("Recent Recipes")
                         .font(.title)
                         .padding()
+
+                    // Display recent recipes
+                    List(userData.recentRecipes, id: \.id) { recipe in
+                        NavigationLink(destination: RecipeDetail(recipe: recipe)) {
+                            HStack {
+                                AsyncImage(url: URL(string: recipe.image)) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .frame(width: 120, height: 90)
+                                            .cornerRadius(5)
+                                    } else if phase.error != nil {
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .frame(width: 120, height: 90)
+                                            .cornerRadius(5)
+                                    } else {
+                                        ProgressView()
+                                            .frame(width: 120, height: 90)
+                                            .cornerRadius(5)
+                                    }
+                                }
+                                .aspectRatio(contentMode: .fit)
+                                Text(recipe.title)
+                                    .font(.headline)
+                            }
+                            .padding()
+                        }
+                    }
 
                     Spacer()
                 }

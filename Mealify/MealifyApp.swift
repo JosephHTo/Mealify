@@ -7,7 +7,7 @@ struct MealifyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            FeaturedView()
+            RecentView()
                 .environmentObject(userData)
         }
     }
@@ -70,26 +70,27 @@ class UserData: ObservableObject {
     }
 
     // Function to save a recent recipe
-        func saveRecentRecipe(_ recipe: Recipe) {
-            // Fetch the recent recipes from UserDefaults
-            if var recentRecipes = UserDefaults.standard.data(forKey: "recentRecipes")
-                .flatMap({ try? JSONDecoder().decode([Recipe].self, from: $0) }) {
+    func saveRecentRecipe(_ recipe: Recipe) {
+        // Fetch the recent recipes from UserDefaults
+        var recentRecipes = self.recentRecipes
 
-                // Ensure the recipe is unique
-                if !recentRecipes.contains(where: { $0.id == recipe.id }) {
-                    recentRecipes.insert(recipe, at: 0)
-                    
-                    // Keep only the most recent 5 recipes
-                    recentRecipes = Array(recentRecipes.prefix(5))
+        // Ensure the recipe is unique
+        if !recentRecipes.contains(where: { $0.id == recipe.id }) {
+            recentRecipes.insert(recipe, at: 0)
 
-                    // Update the published property
-                    self.recentRecipes = recentRecipes
-                }
-            } else {
-                // If there are no recent recipes in UserDefaults, create a new array
-                self.recentRecipes = [recipe]
+            // Keep only the most recent 5 recipes
+            recentRecipes = Array(recentRecipes.prefix(5))
+
+            // Update the published property
+            self.recentRecipes = recentRecipes
+
+            // Save the updated recent recipes to UserDefaults
+            let encoder = JSONEncoder()
+            if let encodedData = try? encoder.encode(recentRecipes) {
+                UserDefaults.standard.set(encodedData, forKey: "recentRecipes")
             }
         }
+    }
 
     // Function to clear recent recipes
     func clearRecentRecipes() {

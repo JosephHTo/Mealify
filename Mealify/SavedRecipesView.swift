@@ -13,7 +13,7 @@ struct SavedRecipesView: View {
             ZStack(alignment: .leading) {
                 withAnimation {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth + 25)
+                        .frame(width: sidebarWidth + 115)
                         .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
                         .opacity(isNavBarOpened ? 1 : 0)
                         .background(
@@ -45,18 +45,22 @@ struct SavedRecipesView: View {
                                         if let image = phase.image {
                                             image
                                                 .resizable()
-                                                .frame(width: 60, height: 60)
+                                                .frame(width: 120, height: 90)
+                                                .cornerRadius(5)
                                         } else if phase.error != nil {
                                             Image(systemName: "photo")
                                                 .resizable()
-                                                .frame(width: 60, height: 60)
+                                                .frame(width: 120, height: 90)
+                                                .cornerRadius(5)
                                         } else {
                                             ProgressView()
-                                                .frame(width: 60, height: 60)
+                                                .frame(width: 120, height: 90)
+                                                .cornerRadius(5)
                                         }
                                     }
                                     .aspectRatio(contentMode: .fit)
                                     Text(recipe.title)
+                                        .font(.headline)
                                 }
                             }
                             .padding()

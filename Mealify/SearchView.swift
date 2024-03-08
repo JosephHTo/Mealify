@@ -14,12 +14,16 @@ struct SearchView: View {
             ZStack(alignment: .leading) {
                 // Main content
                 VStack {
-                    TextField("Search for recipes", text: $searchQuery, onCommit: {
-                        fetchRecipes()
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    
+                    HStack {
+                        TextField("Search for recipes", text: $searchQuery, onCommit: {
+                            fetchRecipes()
+                        })
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+
+                        ClearButton(text: $searchQuery)
+                    }
+
                     List(recipes, id: \.id) { recipe in
                         NavigationLink(destination: RecipeDetail(recipe: recipe)) {
                             HStack {
@@ -27,24 +31,28 @@ struct SearchView: View {
                                     if let image = phase.image {
                                         image
                                             .resizable()
-                                            .frame(width: 60, height: 60)
+                                            .frame(width: 120, height: 90)
+                                            .cornerRadius(5)
                                     } else if phase.error != nil {
                                         Image(systemName: "photo")
                                             .resizable()
-                                            .frame(width: 60, height: 60)
+                                            .frame(width: 120, height: 90)
+                                            .cornerRadius(5)
                                     } else {
                                         ProgressView()
-                                            .frame(width: 60, height: 60)
+                                            .frame(width: 120, height: 90)
+                                            .cornerRadius(5)
                                     }
                                 }
                                 .aspectRatio(contentMode: .fit)
                                 Text(recipe.title)
+                                    .font(.headline)
                             }
                         }
                     }
                 }
                 .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6: 0)
-                
+
                 // Navigation Sidebar (Left side)
                 withAnimation {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
@@ -59,7 +67,7 @@ struct SearchView: View {
                             }
                         )
                 }
-                
+
                 // Filter Sidebar (Right side)
                 withAnimation {
                     FilterSideView(isFilterSidebarVisible: $isFilterSidebarOpened, searchQuery: $searchQuery) { updatedRecipes in
@@ -115,6 +123,22 @@ struct SearchView: View {
                 self.recipes = []
             }
         }
+    }
+}
+
+struct ClearButton: View {
+    @Binding var text: String
+
+    var body: some View {
+        Button(action: {
+            text = ""
+        }) {
+            Image(systemName: "xmark.circle.fill")
+                .foregroundColor(.gray)
+                .padding(.trailing, 8)
+                .opacity(text.isEmpty ? 0 : 1)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

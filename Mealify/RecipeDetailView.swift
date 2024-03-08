@@ -4,7 +4,7 @@ struct RecipeDetail: View {
     var recipe: Recipe
     @State private var selectedServingSize: Int
     @State private var isSaved: Bool = false
-    //@EnvironmentObject var userData: UserData
+    @EnvironmentObject var userData: UserData
 
     init(recipe: Recipe) {
         self.recipe = recipe
@@ -164,7 +164,7 @@ struct RecipeDetail: View {
             }
             .onAppear {
                 // Save the recipe to recentRecipes when it appears
-                //userData.saveRecentRecipe(recipe)
+                userData.saveRecentRecipe(recipe)
             }
         }
     }
