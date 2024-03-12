@@ -14,7 +14,7 @@ struct NavigationSideView: View {
                         .foregroundColor(Color.white)
                         .padding(.trailing, 10)
 
-                    Text("Featured")
+                    Text("Recent")
                         .foregroundColor(Color.white)
                         .font(.body)
 
