@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct NavigationSideView: View {
     @Binding var isSidebarVisible: Bool

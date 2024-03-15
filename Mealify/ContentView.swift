@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct RecentView: View {
     @State private var isNavBarOpened = false
