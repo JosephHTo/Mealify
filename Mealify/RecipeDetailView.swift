@@ -163,6 +163,14 @@ struct RecipeDetail: View {
                 Spacer()
             }
             .onAppear {
+                // Check if the recipe is saved in UserDefaults
+                if let savedRecipes = UserDefaults.standard.data(forKey: "savedRecipes") {
+                    let decoder = JSONDecoder()
+                    if let decodedRecipes = try? decoder.decode([Recipe].self, from: savedRecipes) {
+                        isSaved = decodedRecipes.contains { $0.id == recipe.id }
+                    }
+                }
+                
                 // Save the recipe to recentRecipes when it appears
                 userData.saveRecentRecipe(recipe)
             }
