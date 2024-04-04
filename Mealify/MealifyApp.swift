@@ -8,7 +8,7 @@ struct MealifyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RecentView()
+            RecipesView()
                 .environmentObject(userData)
         }
     }

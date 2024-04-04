@@ -7,7 +7,7 @@ struct NavigationSideView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            NavigationLink(destination: RecentView().navigationBarBackButtonHidden(true)) {
+            NavigationLink(destination: RecipesView().navigationBarBackButtonHidden(true)) {
                 HStack {
                     Image(systemName: "house.fill")
                         .resizable()
@@ -15,7 +15,7 @@ struct NavigationSideView: View {
                         .foregroundColor(Color.white)
                         .padding(.trailing, 10)
 
-                    Text("Recent")
+                    Text("Recipes")
                         .foregroundColor(Color.white)
                         .font(.body)
 
@@ -54,25 +54,6 @@ struct NavigationSideView: View {
                         .padding(.trailing, 10)
 
                     Text("Product Search")
-                        .foregroundColor(Color.white)
-                        .font(.body)
-
-                    Spacer()
-                }
-                .padding(.vertical, 14)
-                .padding(.horizontal, 8)
-            }
-
-            // NavigationLink for SavedRecipesView
-            NavigationLink(destination: SavedRecipesView().navigationBarBackButtonHidden(true)) {
-                HStack {
-                    Image(systemName: "square.and.arrow.down.fill")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(Color.white)
-                        .padding(.trailing, 10)
-
-                    Text("Saved Recipes")
                         .foregroundColor(Color.white)
                         .font(.body)
 

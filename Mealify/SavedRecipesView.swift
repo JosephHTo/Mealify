@@ -1,5 +1,5 @@
 import SwiftUI
-
+/*
 struct SavedRecipesView: View {
     @State private var isNavBarOpened = false
     @State private var sidebarWidth: CGFloat = 0
@@ -97,3 +97,4 @@ struct SavedRecipesView: View {
         }
     }
 }
+*/
