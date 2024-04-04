@@ -34,7 +34,26 @@ struct NavigationSideView: View {
                         .foregroundColor(Color.white)
                         .padding(.trailing, 10)
 
-                    Text("Search")
+                    Text("Recipe Search")
+                        .foregroundColor(Color.white)
+                        .font(.body)
+
+                    Spacer()
+                }
+                .padding(.vertical, 14)
+                .padding(.horizontal, 8)
+            }
+            
+            // NavigationLink for ProductSearchView
+            NavigationLink(destination: ProductSearchView().navigationBarBackButtonHidden(true)) {
+                HStack {
+                    Image(systemName: "magnifyingglass.circle.fill")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.white)
+                        .padding(.trailing, 10)
+
+                    Text("Product Search")
                         .foregroundColor(Color.white)
                         .font(.body)
 

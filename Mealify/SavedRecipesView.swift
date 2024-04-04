@@ -4,8 +4,6 @@ struct SavedRecipesView: View {
     @State private var isNavBarOpened = false
     @State private var sidebarWidth: CGFloat = 0
     @EnvironmentObject var userData: UserData
-    @State private var searchQuery: String = ""
-    @State private var products: [Product] = [] // State to hold the fetched products
     @State private var savedRecipes: [Recipe] = [] // State to hold the saved recipes
 
     var body: some View {
@@ -28,14 +26,11 @@ struct SavedRecipesView: View {
 
                 VStack {
                     Text("Saved Recipes")
-                        .font(.title)
-                        .padding()
-
-                    // Integrate the SearchBar
-                    SearchBar(searchQuery: $searchQuery, onCommit: {
-                        searchProducts()
-                    })
-
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                        .padding(.top, 20)
+                    
                     // Display saved recipes
                     if !savedRecipes.isEmpty {
                         List(savedRecipes, id: \.id) { recipe in
@@ -100,34 +95,5 @@ struct SavedRecipesView: View {
                 savedRecipes = decodedRecipes
             }
         }
-    }
-
-    // Function to search products
-    func searchProducts() {
-        // Call your searchProducts function here with the updated searchQuery
-        // Ensure to handle the results appropriately and update the products state
-        // Example: Assuming searchProducts is an asynchronous function
-        Mealify.searchProducts(term: searchQuery, userData: userData) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let fetchedProducts):
-                    products = fetchedProducts
-                    print("Fetched Products: \(fetchedProducts)")
-                case .failure(let error):
-                    print("Error fetching products: \(error)")
-                }
-            }
-        }
-    }
-}
-
-struct SearchBar: View {
-    @Binding var searchQuery: String
-    var onCommit: () -> Void
-    
-    var body: some View {
-        TextField("Search for products", text: $searchQuery, onCommit: onCommit)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
     }
 }

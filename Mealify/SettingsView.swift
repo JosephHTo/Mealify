@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 struct SettingsView: View {
     @State private var isNavBarOpened = false
@@ -28,10 +27,13 @@ struct SettingsView: View {
                         )
                 }
                 
-                VStack {
+                VStack(spacing: 20) {
                     Text("Settings")
-                        .font(.title)
-                        .padding()
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                        .padding(.top, 20)
+                    
                     
                     HStack {
                         Text("Set desired Kroger location")
@@ -60,7 +62,7 @@ struct SettingsView: View {
                                 .padding(.vertical, 10)
                                 .padding(.horizontal, 20)
                                 .foregroundColor(.white)
-                                .background(Color.blue)
+                                .background(Color.gray)
                                 .cornerRadius(8)
                         }
                         .frame(maxWidth: .infinity)
@@ -68,47 +70,47 @@ struct SettingsView: View {
                     
                     Spacer()
                     
-                    if let selectedIndex = selectedLocationIndex {
-                        // Display selected location details
+                    // Display selected location if exists
+                    if let selectedLocation = userData.selectedLocation {
                         VStack(alignment: .leading) {
                             Text("Selected Location:")
                                 .font(.headline)
-                            Text(locations[selectedIndex].name)
+                            Text(selectedLocation.name)
                                 .font(.title)
-                            Text(locations[selectedIndex].address.addressLine1)
+                            Text(selectedLocation.address.addressLine1)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
                         .padding(.leading)
                         .offset(x: -27)
                     } else {
-                        if !locations.isEmpty {
-                            Spacer() // Push the list to the center
-                            // Display list of locations
-                            List {
-                                ForEach(locations.indices, id: \.self) { index in
-                                    VStack(alignment: .leading) {
-                                        Text(locations[index].name)
-                                            .font(.headline)
-                                        Text(locations[index].address.addressLine1)
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                    }
-                                    .onTapGesture {
-                                        // Update selectedLocationIndex when a location is tapped
-                                        selectedLocationIndex = index
-                                        selectedLocation = locations[index] // Set the selectedLocation
-                                        userData.selectedLocation = selectedLocation
-                                    }                                }
-                            }
-                            Spacer() // Push the list to the center
-                            .offset(x: -27)
-                        } else {
+                        // Display "No locations found" if no selected location
+                        if locations.isEmpty {
                             Text("No locations found")
                                 .foregroundColor(.gray)
                                 .padding()
                         }
                     }
+                    
+                    // Display list of search results
+                    List {
+                        ForEach(locations.indices, id: \.self) { index in
+                            VStack(alignment: .leading) {
+                                Text(locations[index].name)
+                                    .font(.headline)
+                                Text(locations[index].address.addressLine1)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            .onTapGesture {
+                                // Update selected location when a location is tapped
+                                selectedLocation = locations[index]
+                                userData.selectedLocation = selectedLocation
+                            }
+                        }
+                    }
+                    .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
+                    .padding(.leading)
                 }
                 .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
             }
@@ -122,12 +124,6 @@ struct SettingsView: View {
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
                     }
-                }
-            }
-            .onAppear{
-                // For debugging purposes print the locationid if it exists
-                if let locationId = userData.selectedLocation?.locationId {
-                    print("Location: \(locationId)")
                 }
             }
         }

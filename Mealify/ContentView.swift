@@ -25,9 +25,12 @@ struct RecentView: View {
                 }
 
                 VStack {
+                    
                     Text("Recent Recipes")
-                        .font(.title)
-                        .padding()
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                        .padding(.top, 20)
 
                     // Display recent recipes
                     List(userData.recentRecipes, id: \.id) { recipe in

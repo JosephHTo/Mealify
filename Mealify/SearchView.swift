@@ -14,6 +14,13 @@ struct SearchView: View {
             ZStack(alignment: .leading) {
                 // Main content
                 VStack {
+                    
+                    Text("Recipe Search")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                        .padding(.top, 20)
+                    
                     HStack {
                         TextField("Search for recipes", text: $searchQuery, onCommit: {
                             fetchRecipes()
