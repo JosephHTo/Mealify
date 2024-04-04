@@ -7,6 +7,7 @@ struct SettingsView: View {
     @State private var locations: [Location] = []
     @State private var selectedLocationIndex: Int?
     @State private var selectedLocation: Location?
+    @State private var isExplanationPresented = false
     @EnvironmentObject var userData: UserData
     
     var body: some View {
@@ -38,6 +39,26 @@ struct SettingsView: View {
                     HStack {
                         Text("Set desired Kroger location")
                             .font(.headline)
+                        Button(action: {
+                            // Toggle the explanation popup
+                            isExplanationPresented.toggle()
+                        }) {
+                            Image(systemName: "questionmark.circle")
+                                .foregroundColor(.blue)
+                        }
+                        .popover(isPresented: $isExplanationPresented) {
+                            VStack {
+                                Text("Desired Kroger Location")
+                                    .font(.headline)
+                                Text("This action allows you to set your preferred Kroger location. The product search obtains products from the corresponding selected location. In order to use this feature, a location needs to be selected. Product availibility and pricing may differ from location to location")
+                                    .padding()
+                                    .multilineTextAlignment(.center)
+                                Button("Close") {
+                                    isExplanationPresented.toggle()
+                                }
+                            }
+                            .padding()
+                        }
                         Spacer()
                     }
                     .padding(.leading)
@@ -129,3 +150,4 @@ struct SettingsView: View {
         }
     }
 }
+
