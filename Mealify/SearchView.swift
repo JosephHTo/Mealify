@@ -21,15 +21,28 @@ struct SearchView: View {
                         .foregroundColor(.blue)
                         .padding(.top, 20)
                     
-                    HStack {
-                        TextField("Search for recipes", text: $searchQuery, onCommit: {
+                    HStack(alignment: .center) {
+                        Image(systemName: "magnifyingglass")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .padding(.leading)
+
+                        TextField("Search", text: $searchQuery, onCommit: {
                             fetchRecipes()
                         })
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 15)
+                            .background(Color.gray.opacity(0))
+                            .cornerRadius(5)
+                            .padding(.trailing)
+                        
                         ClearButton(text: $searchQuery)
                     }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .padding()
 
                     List(recipes, id: \.id) { recipe in
                         NavigationLink(destination: RecipeDetail(recipe: recipe)) {
