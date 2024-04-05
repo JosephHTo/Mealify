@@ -50,7 +50,7 @@ struct SettingsView: View {
                             VStack {
                                 Text("Desired Kroger Location")
                                     .font(.headline)
-                                Text("This action allows you to set your preferred Kroger location. The product search obtains products from the corresponding selected location. In order to use this feature, a location needs to be selected. Product availibility and pricing may differ from location to location")
+                                Text("This action allows you to set your preferred Kroger location. The product search obtains products from the corresponding selected location. In order to use this feature, a location needs to be selected. Product availibility and pricing may differ based on location.")
                                     .padding()
                                     .multilineTextAlignment(.center)
                                 Button("Close") {
