@@ -19,8 +19,9 @@ struct ProductSearchView: View {
                         .foregroundColor(.blue)
                         .padding(.top, 20)
                     
-                    Divider()
-                        .frame(width: UIScreen.main.bounds.width * 0.75)
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: UIScreen.main.bounds.width * 0.75, height: 0.5)
                     
                     HStack(alignment: .center) {
                         Image(systemName: "magnifyingglass")

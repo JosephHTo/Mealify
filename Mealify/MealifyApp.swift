@@ -79,8 +79,8 @@ class UserData: ObservableObject {
         if !recentRecipes.contains(where: { $0.id == recipe.id }) {
             recentRecipes.insert(recipe, at: 0)
 
-            // Keep only the most recent 5 recipes
-            recentRecipes = Array(recentRecipes.prefix(5))
+            // Keep only the most recent 10 recipes
+            recentRecipes = Array(recentRecipes.prefix(10))
 
             // Update the published property
             self.recentRecipes = recentRecipes

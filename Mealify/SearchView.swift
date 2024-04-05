@@ -21,8 +21,9 @@ struct SearchView: View {
                         .foregroundColor(.blue)
                         .padding(.top, 20)
                     
-                    Divider()
-                        .frame(width: UIScreen.main.bounds.width * 0.75)
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: UIScreen.main.bounds.width * 0.75, height: 0.5)
                     
                     HStack(alignment: .center) {
                         Image(systemName: "magnifyingglass")
@@ -47,31 +48,37 @@ struct SearchView: View {
                     )
                     .padding()
 
-                    List(recipes, id: \.id) { recipe in
-                        NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                            HStack {
-                                AsyncImage(url: URL(string: recipe.image)) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .frame(width: 120, height: 90)
-                                            .cornerRadius(5)
-                                    } else if phase.error != nil {
-                                        Image(systemName: "photo")
-                                            .resizable()
-                                            .frame(width: 120, height: 90)
-                                            .cornerRadius(5)
-                                    } else {
-                                        ProgressView()
-                                            .frame(width: 120, height: 90)
-                                            .cornerRadius(5)
+                    ScrollView {
+                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)], spacing: 20) {
+                            ForEach(recipes, id: \.id) { recipe in
+                                NavigationLink(destination: RecipeDetail(recipe: recipe)) {
+                                    VStack {
+                                        AsyncImage(url: URL(string: recipe.image)) { phase in
+                                            if let image = phase.image {
+                                                image
+                                                    .resizable()
+                                                    .frame(width: 150, height: 120)
+                                                    .cornerRadius(5)
+                                            } else if phase.error != nil {
+                                                Image(systemName: "photo")
+                                                    .resizable()
+                                                    .frame(width: 150, height: 120)
+                                                    .cornerRadius(5)
+                                            } else {
+                                                ProgressView()
+                                                    .frame(width: 150, height: 120)
+                                                    .cornerRadius(5)
+                                            }
+                                        }
+                                        .aspectRatio(contentMode: .fit)
+                                        Text(recipe.title)
+                                            .font(.headline)
                                     }
                                 }
-                                .aspectRatio(contentMode: .fit)
-                                Text(recipe.title)
-                                    .font(.headline)
+                                .buttonStyle(PlainButtonStyle()) 
                             }
                         }
+                        .padding()
                     }
                 }
                 .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6: 0)

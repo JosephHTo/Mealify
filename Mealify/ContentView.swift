@@ -24,8 +24,9 @@ struct RecipesView: View {
                         .foregroundColor(.blue)
                         .padding(.top, 20)
                     
-                    Divider()
-                        .frame(width: UIScreen.main.bounds.width * 0.75)
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: UIScreen.main.bounds.width * 0.75, height: 0.5)
                     
                     HStack {
                         // Tab selection buttons
@@ -48,42 +49,39 @@ struct RecipesView: View {
                     }
                     
                     // Display recipes based on selected tab
-                    switch selectedTab {
-                    case .recent:
-                        RecentRecipesView()
-                    case .saved:
-                        if !savedRecipes.isEmpty {
-                            List(savedRecipes, id: \.id) { recipe in
+                    ScrollView {
+                        LazyVGrid(columns: [GridItem(.flexible(), alignment: .top), GridItem(.flexible(), alignment: .top)], spacing: 10) {
+                            ForEach(selectedRecipes(), id: \.id) { recipe in
                                 NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                                    HStack {
+                                    VStack {
                                         AsyncImage(url: URL(string: recipe.image)) { phase in
                                             if let image = phase.image {
                                                 image
                                                     .resizable()
-                                                    .frame(width: 120, height: 90)
+                                                    .frame(width: 150, height: 120)
                                                     .cornerRadius(5)
                                             } else if phase.error != nil {
                                                 Image(systemName: "photo")
                                                     .resizable()
-                                                    .frame(width: 120, height: 90)
+                                                    .frame(width: 150, height: 120)
                                                     .cornerRadius(5)
                                             } else {
                                                 ProgressView()
-                                                    .frame(width: 120, height: 90)
+                                                    .frame(width: 150, height: 120)
                                                     .cornerRadius(5)
                                             }
                                         }
                                         .aspectRatio(contentMode: .fit)
                                         Text(recipe.title)
                                             .font(.headline)
+                                            .foregroundColor(.black)
                                     }
+                                    .padding()
                                 }
-                                .padding()
+                                .buttonStyle(PlainButtonStyle()) // Add this to remove button style
                             }
-                        } else {
-                            Text("No saved recipes found")
-                                .padding(.top, 20)
                         }
+                        .padding()
                     }
                     
                     Spacer()
@@ -120,7 +118,18 @@ struct RecipesView: View {
             }
         }
     }
+    
+    // Function to return selected recipes based on the tab
+    private func selectedRecipes() -> [Recipe] {
+        switch selectedTab {
+        case .recent:
+            return userData.recentRecipes
+        case .saved:
+            return savedRecipes
+        }
+    }
 }
+
 
 struct RecentRecipesView: View {
     @EnvironmentObject var userData: UserData
