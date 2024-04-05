@@ -13,7 +13,7 @@ struct RecipesView: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
+            ZStack(alignment: .leading) {
                 // Transparent background
                 Color.clear.edgesIgnoringSafeArea(.all)
                 
@@ -89,10 +89,19 @@ struct RecipesView: View {
                 .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
                 
                 // Side view
-                NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                    .frame(width: sidebarWidth + 50)
-                    .offset(x: isNavBarOpened ? 0 : -sidebarWidth - 100)
-                    .opacity(isNavBarOpened ? 1 : 0)
+                withAnimation {
+                    NavigationSideView(isSidebarVisible: $isNavBarOpened)
+                        .frame(width: sidebarWidth + 118)
+                        .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
+                        .opacity(isNavBarOpened ? 1 : 0)
+                        .background(
+                            GeometryReader { geometry in
+                                Color.clear.onAppear {
+                                    sidebarWidth = geometry.size.width
+                                }
+                            }
+                        )
+                }
             }
             // NavigationSideView Button
             .toolbar {
