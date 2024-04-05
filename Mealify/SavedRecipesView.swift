@@ -1,5 +1,7 @@
-import SwiftUI
+// File is no longer in use, contents moved over to ContentView.swift
 /*
+ import SwiftUI
+ 
 struct SavedRecipesView: View {
     @State private var isNavBarOpened = false
     @State private var sidebarWidth: CGFloat = 0

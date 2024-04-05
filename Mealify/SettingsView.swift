@@ -35,6 +35,8 @@ struct SettingsView: View {
                         .foregroundColor(.blue)
                         .padding(.top, 20)
                     
+                    Divider()
+                        .frame(width: UIScreen.main.bounds.width * 0.75)
                     
                     HStack {
                         Text("Set desired Kroger location")
@@ -50,9 +52,14 @@ struct SettingsView: View {
                             VStack {
                                 Text("Desired Kroger Location")
                                     .font(.headline)
+                                
+                                Divider()
+                                    .frame(width: UIScreen.main.bounds.width * 0.75)
+                                
                                 Text("This action allows you to set your preferred Kroger location. The product search obtains products from the corresponding selected location. In order to use this feature, a location needs to be selected. Product availibility and pricing may differ based on location.")
                                     .padding()
-                                    .multilineTextAlignment(.center)
+                                    .multilineTextAlignment(.leading)
+                                
                                 Button("Close") {
                                     isExplanationPresented.toggle()
                                 }

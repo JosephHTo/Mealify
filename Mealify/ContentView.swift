@@ -24,6 +24,9 @@ struct RecipesView: View {
                         .foregroundColor(.blue)
                         .padding(.top, 20)
                     
+                    Divider()
+                        .frame(width: UIScreen.main.bounds.width * 0.75)
+                    
                     HStack {
                         // Tab selection buttons
                         Button(action: {
