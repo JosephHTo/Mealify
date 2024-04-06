@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var isNavBarOpened = false
-    @State private var sidebarWidth: CGFloat = 0
+    @State private var sidebarWidth: CGFloat = 250
     @State private var zipCode: String = ""
     @State private var locations: [Location] = []
     @State private var selectedLocationIndex: Int?
@@ -13,21 +13,6 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .leading) {
-                withAnimation {
-                    NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth + 115)
-                        .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
-                        .opacity(isNavBarOpened ? 1 : 0)
-                        .background(
-                            GeometryReader { geometry in
-                                Color.white // Set the background color here
-                                    .onAppear {
-                                        sidebarWidth = geometry.size.width
-                                    }
-                            }
-                        )
-                }
-                
                 VStack(spacing: 20) {
                     Text("Settings")
                         .font(.largeTitle)
@@ -92,7 +77,7 @@ struct SettingsView: View {
                                 .padding(.horizontal, 20)
                                 .foregroundColor(.white)
                                 .background(Color.gray)
-                                .cornerRadius(8)
+                                .cornerRadius(5)
                         }
                         .frame(maxWidth: .infinity)
                     }
@@ -138,10 +123,23 @@ struct SettingsView: View {
                             }
                         }
                     }
-                    .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
-                    .padding(.leading)
                 }
-                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
+                .offset(x: isNavBarOpened ? sidebarWidth : 0)
+                
+                // Navigation Side view (Left Side)
+                if isNavBarOpened {
+                    NavigationSideView(isSidebarVisible: $isNavBarOpened)
+                        .frame(width: sidebarWidth)
+                        .offset(x: 0)
+                        .transition(.move(edge: .leading))
+                        .zIndex(1)
+                        .background(Color.black.opacity(0.5))
+                        .onTapGesture {
+                            withAnimation {
+                                isNavBarOpened.toggle()
+                            }
+                        }
+                }
             }
             // NavigationSideView Button
             .toolbar {
@@ -158,4 +156,3 @@ struct SettingsView: View {
         }
     }
 }
-

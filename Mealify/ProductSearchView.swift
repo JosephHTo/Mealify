@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ProductSearchView: View {
     @State private var isNavBarOpened = false
-    @State private var sidebarWidth: CGFloat = 0
+    @State private var sidebarWidth: CGFloat = 250
     @EnvironmentObject var userData: UserData
     @State private var searchQuery: String = ""
     @State private var products: [Product] = [] // State to hold the fetched products
@@ -50,21 +50,21 @@ struct ProductSearchView: View {
                         ProductRow(product: product)
                     }
                 }
-                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
-
-                // NavigationSideView (Left side)
-                withAnimation {
+                .offset(x: isNavBarOpened ? sidebarWidth : 0)
+                
+                // Navigation Side view (Left Side)
+                if isNavBarOpened {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth + 118)
-                        .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
-                        .opacity(isNavBarOpened ? 1 : 0)
-                        .background(
-                            GeometryReader { geometry in
-                                Color.clear.onAppear {
-                                    sidebarWidth = geometry.size.width
-                                }
+                        .frame(width: sidebarWidth)
+                        .offset(x: 0)
+                        .transition(.move(edge: .leading))
+                        .zIndex(1)
+                        .background(Color.black.opacity(0.5))
+                        .onTapGesture {
+                            withAnimation {
+                                isNavBarOpened.toggle()
                             }
-                        )
+                        }
                 }
             }
             // NavigationSideView Button

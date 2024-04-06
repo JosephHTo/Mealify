@@ -6,7 +6,7 @@ struct SearchView: View {
     @State private var maxReadyTime: Int? = nil
     @State private var isNavBarOpened = false
     @State private var isFilterSidebarOpened = false
-    @State private var sidebarWidth: CGFloat = 0
+    @State private var sidebarWidth: CGFloat = 250
     @State private var sidebarHeight: CGFloat = 0
 
     var body: some View {
@@ -14,7 +14,6 @@ struct SearchView: View {
             ZStack(alignment: .leading) {
                 // Main content
                 VStack {
-                    
                     Text("Recipe Search")
                         .font(.largeTitle)
                         .fontWeight(.bold)
@@ -30,15 +29,15 @@ struct SearchView: View {
                             .resizable()
                             .frame(width: 24, height: 24)
                             .padding(.leading)
-
+                        
                         TextField("Search", text: $searchQuery, onCommit: {
                             fetchRecipes()
                         })
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 15)
-                            .background(Color.gray.opacity(0))
-                            .cornerRadius(5)
-                            .padding(.trailing)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 15)
+                        .background(Color.gray.opacity(0))
+                        .cornerRadius(5)
+                        .padding(.trailing)
                         
                         ClearButton(text: $searchQuery)
                     }
@@ -47,7 +46,7 @@ struct SearchView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding()
-
+                    
                     ScrollView {
                         LazyVGrid(columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)], spacing: 20) {
                             ForEach(recipes, id: \.id) { recipe in
@@ -75,29 +74,29 @@ struct SearchView: View {
                                             .font(.headline)
                                     }
                                 }
-                                .buttonStyle(PlainButtonStyle()) 
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                         .padding()
                     }
                 }
-                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6: 0)
-
-                // Navigation Sidebar (Left side)
-                withAnimation {
+                .offset(x: isNavBarOpened ? sidebarWidth : 0)
+                
+                // Navigation Side view (Left Side)
+                if isNavBarOpened {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth + 122)
-                        .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
-                        .opacity(isNavBarOpened ? 1 : 0)
-                        .background(
-                            GeometryReader { geometry in
-                                Color.clear.onAppear {
-                                    sidebarWidth = geometry.size.width
-                                }
+                        .frame(width: sidebarWidth)
+                        .offset(x: 0)
+                        .transition(.move(edge: .leading))
+                        .zIndex(1)
+                        .background(Color.black.opacity(0.5))
+                        .onTapGesture {
+                            withAnimation {
+                                isNavBarOpened.toggle()
                             }
-                        )
+                        }
                 }
-
+                
                 // Filter Sidebar (Right side)
                 withAnimation {
                     FilterSideView(isFilterSidebarVisible: $isFilterSidebarOpened, searchQuery: $searchQuery) { updatedRecipes in
@@ -109,7 +108,6 @@ struct SearchView: View {
                     .background(
                         GeometryReader { geometry in
                             Color.clear.onAppear {
-                                sidebarWidth = geometry.size.width
                                 sidebarHeight = geometry.size.height
                             }
                         }
@@ -126,9 +124,8 @@ struct SearchView: View {
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
                     }
-                    .disabled(isFilterSidebarOpened)
                 }
-
+                
                 // FilterSideView Button
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {

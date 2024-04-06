@@ -9,8 +9,8 @@ struct RecipesView: View {
     @EnvironmentObject var userData: UserData
     @State private var savedRecipes: [Recipe] = [] // State to hold the saved recipes
     @State private var isNavBarOpened = false
-    @State private var sidebarWidth: CGFloat = 0
-
+    @State private var sidebarWidth: CGFloat = 250 // Initial width for the side navigation view
+    
     var body: some View {
         NavigationView {
             ZStack(alignment: .leading) {
@@ -86,21 +86,21 @@ struct RecipesView: View {
                     
                     Spacer()
                 }
-                .offset(x: isNavBarOpened ? UIScreen.main.bounds.width * 0.6 : 0)
+                .offset(x: isNavBarOpened ? sidebarWidth : 0)
                 
                 // Side view
-                withAnimation {
+                if isNavBarOpened {
                     NavigationSideView(isSidebarVisible: $isNavBarOpened)
-                        .frame(width: sidebarWidth + 118)
-                        .offset(x: isNavBarOpened ? 0 : -sidebarWidth)
-                        .opacity(isNavBarOpened ? 1 : 0)
-                        .background(
-                            GeometryReader { geometry in
-                                Color.clear.onAppear {
-                                    sidebarWidth = geometry.size.width
-                                }
+                        .frame(width: sidebarWidth)
+                        .offset(x: 0)
+                        .transition(.move(edge: .leading))
+                        .zIndex(1)
+                        .background(Color.black.opacity(0.5))
+                        .onTapGesture {
+                            withAnimation {
+                                isNavBarOpened.toggle()
                             }
-                        )
+                        }
                 }
             }
             // NavigationSideView Button

@@ -155,14 +155,11 @@ struct FilterSideView: View {
                     .gesture(DragGesture()
                         .onChanged { value in
                             dragOffset = max(0, value.translation.height)
-                        }
-                        .onEnded { value in
-                            if dragOffset > UIScreen.main.bounds.height * 0.2 {
+                            if dragOffset > 11 {
                                 withAnimation {
                                     isFilterSidebarVisible = false
                                 }
                             }
-                            dragOffset = 0
                         }
                     )
                     

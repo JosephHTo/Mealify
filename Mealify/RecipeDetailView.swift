@@ -5,6 +5,7 @@ struct RecipeDetail: View {
     @State private var selectedServingSize: Int
     @State private var isSaved: Bool = false
     @EnvironmentObject var userData: UserData
+    @Environment(\.presentationMode) var presentationMode
 
     init(recipe: Recipe) {
         self.recipe = recipe
@@ -174,6 +175,18 @@ struct RecipeDetail: View {
                 // Save the recipe to recentRecipes when it appears
                 userData.saveRecentRecipe(recipe)
             }
+        }
+        .navigationBarBackButtonHidden(true) // Hide default back button
+        .navigationBarItems(leading: backButton)
+    }
+    
+    private var backButton: some View {
+        Button(action: {
+            presentationMode.wrappedValue.dismiss()
+        }) {
+            Image(systemName: "arrow.left")
+                .foregroundColor(.blue)
+                .imageScale(.large)
         }
     }
 
