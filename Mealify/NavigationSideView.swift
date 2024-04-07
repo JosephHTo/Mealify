@@ -9,7 +9,7 @@ struct NavigationSideView: View {
         VStack(alignment: .leading, spacing: 20) {
             NavigationLink(destination: RecipesView().navigationBarBackButtonHidden(true)) {
                 HStack {
-                    Image(systemName: "house.fill")
+                    Image(systemName: "text.book.closed.fill")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color.white)
@@ -28,7 +28,7 @@ struct NavigationSideView: View {
             // NavigationLink for SearchView
             NavigationLink(destination: SearchView().navigationBarBackButtonHidden(true)) {
                 HStack {
-                    Image(systemName: "magnifyingglass.circle.fill")
+                    Image(systemName: "magnifyingglass.circle")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color.white)
@@ -47,7 +47,7 @@ struct NavigationSideView: View {
             // NavigationLink for ProductSearchView
             NavigationLink(destination: ProductSearchView().navigationBarBackButtonHidden(true)) {
                 HStack {
-                    Image(systemName: "magnifyingglass.circle.fill")
+                    Image(systemName: "cart.badge.questionmark")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .foregroundColor(Color.white)

@@ -4,6 +4,7 @@ struct RecipeDetail: View {
     var recipe: Recipe
     @State private var selectedServingSize: Int
     @State private var isSaved: Bool = false
+    @State private var isServingSizePopoverPresented = false
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentationMode
 
@@ -26,17 +27,79 @@ struct RecipeDetail: View {
     var body: some View {
         ScrollView {
             VStack {
-                HStack {
-                    Spacer()
-                    HStack {
-                        Text(recipe.title)
-                            .font(.title)
-                            .padding()
+                AsyncImage(url: URL(string: recipe.image)) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .frame(width: UIScreen.main.bounds.width*9/10, height: UIScreen.main.bounds.height/3)
+                            .cornerRadius(5)
+                    } else if phase.error != nil {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .frame(width: UIScreen.main.bounds.width*9/10, height: UIScreen.main.bounds.height/3)
+                            .cornerRadius(5)
+                    } else {
+                        ProgressView()
+                            .frame(width: UIScreen.main.bounds.width*9/10, height: UIScreen.main.bounds.height/3)
+                            .cornerRadius(5)
                     }
-                    .layoutPriority(1)
-
+                }
+                .aspectRatio(contentMode: .fit)
+                
+                HStack {
+                    VStack (alignment: .leading) {
+                        Text(recipe.title)
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.blue)
+                        HStack {
+                            Text("\(recipe.readyInMinutes) minutes")
+                                .font(.subheadline)
+                                .multilineTextAlignment(.leading)
+                                .padding(.leading)
+                            
+                            Divider()
+                            
+                            Button(action: {
+                                // Toggle the serving size popover
+                                isServingSizePopoverPresented.toggle()
+                            }) {
+                                Text("\(selectedServingSize) servings")
+                                    .font(.subheadline)
+                            }
+                            .popover(isPresented: $isServingSizePopoverPresented, arrowEdge: .top) {
+                                // Popover content for serving size adjustment
+                                VStack {
+                                    // Text showing the current number
+                                    Text("Current Serving Size: \(selectedServingSize)")
+                                        .padding()
+                                    
+                                    // Serving size slider
+                                    Slider(
+                                        value: Binding(
+                                            get: { Double(selectedServingSize) },
+                                            set: { selectedServingSize = Int($0) }
+                                        ),
+                                        in: 1...20,
+                                        step: 1
+                                    ) {
+                                        Text("Serving Size")
+                                    }
+                                    .padding()
+                                    .accentColor(.blue)
+                                    
+                                    // Done button
+                                    Button("Done") {
+                                        isServingSizePopoverPresented.toggle()
+                                    }
+                                }
+                                .padding()
+                            }
+                        }
+                    }
+                    
                     Spacer()
-
+                    
                     Button(action: {
                         // Handle save/delete button tap
                         isSaved.toggle()
@@ -49,35 +112,15 @@ struct RecipeDetail: View {
                     }
                 }
                 .padding()
-
-                AsyncImage(url: URL(string: recipe.image)) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 200)
-                            .cornerRadius(5)
-                    } else if phase.error != nil {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 200)
-                            .cornerRadius(5)
-                    } else {
-                        ProgressView()
-                            .frame(height: 200)
-                            .cornerRadius(5)
-                    }
-                }
-                .aspectRatio(contentMode: .fit)
-
+                
+                
+                Divider()
+                    .frame(width: UIScreen.main.bounds.width * 0.75)
+                
                 Text("\(recipe.summary?.removingHTMLTags() ?? "No summary available")")
                     .font(.subheadline)
                     .padding()
 
-                Text("Total time: \(recipe.readyInMinutes)")
-                    .multilineTextAlignment(.leading)
-                    .padding()
 
                 // TODO: Display all diets/allergens given from API list
 
@@ -95,34 +138,6 @@ struct RecipeDetail: View {
                     Text("Ingredients:")
                         .font(.headline)
                     HStack {
-
-                        VStack {
-                            // Serving size text display
-                            Text("Serving Size: \(selectedServingSize)")
-                                .font(.headline)
-                                .offset(y:20)
-                            // Serving size slider
-                            HStack {
-                                Slider(
-                                    value: Binding(
-                                        get: { Double(selectedServingSize) },
-                                        set: { selectedServingSize = Int($0) }
-                                    ),
-                                    in: 1...20,
-                                    step: 1
-                                ) {
-                                    Text("Serving Size")
-                                } minimumValueLabel: {
-                                    Text("1")
-                                } maximumValueLabel: {
-                                    Text("20")
-                                } onEditingChanged: { _ in
-                                    // Handle the selected serving size change if needed
-                                }
-                                .padding()
-                                .accentColor(.blue)
-                            }
-                        }
 
                         HStack {
                             Button("US") {
@@ -184,12 +199,17 @@ struct RecipeDetail: View {
         Button(action: {
             presentationMode.wrappedValue.dismiss()
         }) {
-            Image(systemName: "arrow.left")
-                .foregroundColor(.blue)
-                .imageScale(.large)
+            ZStack {
+                Circle()
+                    .foregroundColor(.white)
+                    .shadow(radius: 3)
+                Image(systemName: "arrow.left")
+                    .foregroundColor(.blue)
+                    .imageScale(.large)
+            }
         }
+        .frame(width: 30, height: 30) // Adjust size as needed
     }
-
     private func saveRecipe() {
         var savedRecipes: [Recipe]
 
