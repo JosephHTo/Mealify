@@ -159,6 +159,7 @@ struct RecipeDetail: View {
                     Text("\(recipe.summary?.removingHTMLTags() ?? "No summary available")")
                         .font(.subheadline)
                         .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 case .ingredient:
                     if let ingredients = recipe.ingredients {
                         HStack {
@@ -181,6 +182,7 @@ struct RecipeDetail: View {
                             .cornerRadius(8)
                         }
                         .padding()
+                        
                         VStack(alignment: .leading, spacing: 1) {
                             ForEach(ingredients, id: \.self) { ingredient in
                                 let baseValue = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
