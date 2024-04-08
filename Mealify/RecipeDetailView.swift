@@ -1,7 +1,12 @@
 import SwiftUI
 
 struct RecipeDetail: View {
+    enum Tab {
+        case overview, ingredient, instructions, other
+    }
+    
     var recipe: Recipe
+    @State private var selectedTab: Tab = .overview
     @State private var selectedServingSize: Int
     @State private var isSaved: Bool = false
     @State private var isServingSizePopoverPresented = false
@@ -117,28 +122,45 @@ struct RecipeDetail: View {
                 Divider()
                     .frame(width: UIScreen.main.bounds.width * 0.75)
                 
-                Text("\(recipe.summary?.removingHTMLTags() ?? "No summary available")")
-                    .font(.subheadline)
-                    .padding()
-
-
-                // TODO: Display all diets/allergens given from API list
-
-                if let analyzedInstructions = recipe.analyzedInstructions {
-                    Text("Instructions:")
-                        .font(.headline)
-                    ForEach(analyzedInstructions, id: \.self) { analyzedInstruction in
-                        ForEach(analyzedInstruction.steps, id: \.self) { step in
-                            Text("Step \(step.number): \(step.step.trimmingCharacters(in: .whitespacesAndNewlines))")
-                                .padding()
-                        }
+                HStack {
+                    // Tab selection buttons
+                    Button(action: {
+                        selectedTab = .overview
+                    }) {
+                        Text("Overview")
+                            .font(selectedTab == .overview ? .headline : .subheadline)
+                    }
+                    
+                    Button(action: {
+                        selectedTab = .ingredient
+                    }) {
+                        Text("Ingredients")
+                            .font(selectedTab == .ingredient ? .headline : .subheadline)
+                    }
+                    
+                    Button(action: {
+                        selectedTab = .instructions
+                    }) {
+                        Text("Instructions")
+                            .font(selectedTab == .instructions ? .headline : .subheadline)
+                    }
+                    
+                    Button(action: {
+                        selectedTab = .other
+                    }) {
+                        Text("Other")
+                            .font(selectedTab == .other ? .headline : .subheadline)
                     }
                 }
-                if let ingredients = recipe.ingredients {
-                    Text("Ingredients:")
-                        .font(.headline)
-                    HStack {
-
+                
+                // Display content based on selected tab
+                switch selectedTab {
+                case .overview:
+                    Text("\(recipe.summary?.removingHTMLTags() ?? "No summary available")")
+                        .font(.subheadline)
+                        .padding()
+                case .ingredient:
+                    if let ingredients = recipe.ingredients {
                         HStack {
                             Button("US") {
                                 // Toggle to US measurements
@@ -158,24 +180,40 @@ struct RecipeDetail: View {
                             .foregroundColor(.white)
                             .cornerRadius(8)
                         }
-                    }
-                    .padding()
-                    VStack(alignment: .leading, spacing: 1) {
-                        ForEach(ingredients, id: \.self) { ingredient in
-                            let baseValue = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
-                            let unit = isMetricSelected ? ingredient.amount.metric.unit : ingredient.amount.us.unit
+                        .padding()
+                        VStack(alignment: .leading, spacing: 1) {
+                            ForEach(ingredients, id: \.self) { ingredient in
+                                let baseValue = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
+                                let unit = isMetricSelected ? ingredient.amount.metric.unit : ingredient.amount.us.unit
 
-                            // Calculate the adjusted value based on selectedServingSize
-                            let adjustedValue = (baseValue / Double(recipe.servings)) * Double(selectedServingSize)
+                                // Calculate the adjusted value based on selectedServingSize
+                                let adjustedValue = (baseValue / Double(recipe.servings)) * Double(selectedServingSize)
 
-                            Text("\(String(format: "%.1f", adjustedValue)) \(unit) \(ingredient.name)")
-                                .multilineTextAlignment(.leading) // Left-align the text
-                                .padding(.trailing, 5)
+                                Text("\(String(format: "%.1f", adjustedValue)) \(unit) \(ingredient.name)")
+                                    .multilineTextAlignment(.leading) // Left-align the text
+                                    .padding(.trailing, 5)
+                            }
+                            .padding(.vertical, 5)
                         }
-                        .padding(.vertical, 5)
+                        .padding(.vertical, 1)
                     }
-                    .padding(.vertical, 1)
+                case .instructions:
+                    if let analyzedInstructions = recipe.analyzedInstructions {
+                        ForEach(analyzedInstructions, id: \.self) { analyzedInstruction in
+                            ForEach(analyzedInstruction.steps, id: \.self) { step in
+                                Text("Step \(step.number): \(step.step.trimmingCharacters(in: .whitespacesAndNewlines))")
+                                    .padding()
+                            }
+                        }
+                    }
+                case .other:
+                    // Placeholder for other content
+                    Text("Other content goes here")
+                        .font(.subheadline)
+                        .padding()
+                        // Add other content here when needed
                 }
+                
                 Spacer()
             }
             .onAppear {
