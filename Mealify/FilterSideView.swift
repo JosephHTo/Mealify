@@ -146,7 +146,7 @@ struct FilterSideView: View {
                         Rectangle()
                             .frame(width: 40, height: 5)
                             .foregroundColor(Color.white)
-                            .cornerRadius(2.5)
+                            .cornerRadius(5)
                             .padding(.vertical, 10)
                         Spacer()
                     }
@@ -155,7 +155,7 @@ struct FilterSideView: View {
                     .gesture(DragGesture()
                         .onChanged { value in
                             dragOffset = max(0, value.translation.height)
-                            if dragOffset > 11 {
+                            if dragOffset > 15 {
                                 withAnimation {
                                     isFilterSidebarVisible = false
                                 }
@@ -163,43 +163,50 @@ struct FilterSideView: View {
                         }
                     )
                     
-                    // Textfield for max ready time
-                    Text("Time")
-                        .offset(x: 10)
-                    TextField("Max Ready Time (min)", text: $maxReadyTimeString, onCommit: {
-                        // Handle text field commit if needed
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
+                    // Max Ready Time
+                    VStack (alignment: .leading) {
+                        Text("Time")
+                        
+                        TextField("Max Ready Time (min)", text: $maxReadyTimeString, onCommit: {
+                            // Handle text field commit if needed
+                        })
+                        .padding()
+                        .background(maxReadyTimeString.isEmpty ? Color.white : Color.yellow)
+                        .cornerRadius(5)
+                    }
+                    .padding(.horizontal, 15)
                     
-                    // Diet Text
-                    Text("Diet")
-                        .offset(x: 10)
-                    
-                    // Diet Picker
-                    Picker("Diet", selection: $selectedDiet) {
-                        ForEach(Diet.allCases, id: \.self) { diet in
-                            if diet == .none {
-                                Text("none").tag(diet)
-                            } else {
-                                Text(diet.rawValue).tag(diet)
+                    // Diet
+                    VStack (alignment: .leading) {
+                        Text("Diet")
+                        
+                        // Diet Picker
+                        Picker("Diet", selection: $selectedDiet) {
+                            ForEach(Diet.allCases, id: \.self) { diet in
+                                if diet == .none {
+                                    Text("none")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .tag(diet)
+                                } else {
+                                    Text(diet.rawValue)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .tag(diet)
+                                }
                             }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(selectedDiet != .none ? Color.yellow : Color.white)
+                        .cornerRadius(5)
+                        .clipped() // Ensure background color doesn't overflow
                     }
-                    .frame(width: UIScreen.main.bounds.width - 20, alignment: .leading)
-                    .cornerRadius(5)
-                    .background(Color.white)
-                    .padding(.horizontal)
+                    .padding(.horizontal, 15)
                     
-                    // Intolerance Text
-                    Text("Intolerances")
-                        .offset(x: 10)
-
-                    // Intolerance ScrollView
-                    ScrollView {
+                    
+                    // Intolerance DisclosureGroup
+                    DisclosureGroup {
                         VStack(alignment: .leading, spacing: 10) {
                             ForEach(Intolerances.allCases, id: \.self) { intolerance in
-                                Toggle(intolerance.rawValue, isOn: Binding(
+                                Toggle(intolerance.rawValue.capitalized, isOn: Binding(
                                     get: { selectedIntolerances.contains(intolerance) },
                                     set: { selected in
                                         if selected {
@@ -209,594 +216,828 @@ struct FilterSideView: View {
                                         }
                                     }
                                 ))
+                                .toggleStyle(ColoredToggleStyle(intolerance: intolerance, selectedIntolerances: selectedIntolerances))
                             }
                         }
                         .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .padding(.horizontal)
+                    } label: {
+                        HStack {
+                            Text("Intolerances")
+                                .foregroundColor(.black)
+                        }
                     }
-                    .frame(width: UIScreen.main.bounds.width - 20, height: 150, alignment: .leading)
-                    .background(Color.white)
-                    .cornerRadius(5)
-                    .padding(.horizontal)
+                    .padding(.horizontal, 15)
                     
-                    // includeIngredients Textfield
-                    Text("Include Ingredients")
-                        .offset(x: 10)
-
-                    TextField("Enter ingredients to include", text: $newIncludeIngredient, onCommit: {
-                        // Pressing Enter adds the ingredient to the list and clears the text field
-                        includeIngredients.insert(newIncludeIngredient.trimmingCharacters(in: .whitespaces))
-                        newIncludeIngredient = ""
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-
-                    // Display entered ingredients for includeIngredients
-                    EnteredIngredientsView(ingredients: includeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
-
-                    // excludeIngredients Textfield
-                    Text("Exclude Ingredients")
-                        .offset(x: 10)
-
-                    TextField("Enter ingredients to exclude", text: $newExcludeIngredient, onCommit: {
-                        // Pressing Enter adds the ingredient to the list and clears the text field
-                        excludeIngredients.insert(newExcludeIngredient.trimmingCharacters(in: .whitespaces))
-                        newExcludeIngredient = ""
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-
-                    // Display entered ingredients for excludeIngredients
-                    EnteredIngredientsView(ingredients: excludeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
+                    // Include Ingredients
+                    VStack (alignment: .leading) {
+                        Text("Include Ingredients")
+                        
+                        TextField("Enter ingredients to include", text: $newIncludeIngredient, onCommit: {
+                            includeIngredients.insert(newIncludeIngredient.trimmingCharacters(in: .whitespaces))
+                            newIncludeIngredient = ""
+                        })
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        
+                        // Display entered ingredients for includeIngredients
+                        EnteredIngredientsView(ingredients: includeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
+                    }
+                    .padding(.horizontal, 15)
+                    
+                    // Exclude Ingredients
+                    VStack (alignment: .leading) {
+                        Text("Exclude Ingredients")
+                        
+                        TextField("Enter ingredients to exclude", text: $newExcludeIngredient, onCommit: {
+                            excludeIngredients.insert(newExcludeIngredient.trimmingCharacters(in: .whitespaces))
+                            newExcludeIngredient = ""
+                        })
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        
+                        // Display entered ingredients for excludeIngredients
+                        EnteredIngredientsView(ingredients: excludeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
+                    }
+                    .padding(.horizontal, 15)
                     
                     // Start of Nutrient filters
-                    // Carbs
-                    Text("Carbs")
-                        .offset(x: 10)
-                    
-                    // Min and Max Carbs Textfields
-                    HStack {
-                        TextField("Min Carbs (g)", text: $minCarbs)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                    DisclosureGroup {
+                        // Carbs
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Carbs")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Carbs (g)", text: $minCarbs)
+                                    .padding()
+                                    .background(minCarbs.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Carbs (g)", text: $maxCarbs)
+                                    .padding()
+                                    .background(maxCarbs.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Protein
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Protein")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Protein (g)", text: $minProtein)
+                                    .padding()
+                                    .background(minProtein.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Protein (g)", text: $maxProtein)
+                                    .padding()
+                                    .background(maxProtein.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Calories
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Calories")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Calories", text: $minCalories)
+                                    .padding()
+                                    .background(minCalories.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Calories", text: $maxCalories)
+                                    .padding()
+                                    .background(maxCalories.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Fat
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Fat")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Fat (g)", text: $minFat)
+                                    .padding()
+                                    .background(minFat.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Fat (g)", text: $maxFat)
+                                    .padding()
+                                    .background(maxFat.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Alcohol
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Alcohol")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Alcohol (g)", text: $minAlcohol)
+                                    .padding()
+                                    .background(minAlcohol.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Alcohol (g)", text: $maxAlcohol)
+                                    .padding()
+                                    .background(maxAlcohol.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Caffeine
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Caffeine")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Caffeine (mg)", text: $minCaffeine)
+                                    .padding()
+                                    .background(minCaffeine.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Caffeine (mg)", text: $maxCaffeine)
+                                    .padding()
+                                    .background(maxCaffeine.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Copper
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Copper")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Copper (mg)", text: $minCopper)
+                                    .padding()
+                                    .background(minCopper.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Copper (mg)", text: $maxCopper)
+                                    .padding()
+                                    .background(maxCopper.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Calcium
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Calcium")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Calcium (mg)", text: $minCalcium)
+                                    .padding()
+                                    .background(minCalcium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Calcium (mg)", text: $maxCalcium)
+                                    .padding()
+                                    .background(maxCalcium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Choline
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Choline")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Choline (mg)", text: $minCholine)
+                                    .padding()
+                                    .background(minCholine.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Choline (mg)", text: $maxCholine)
+                                    .padding()
+                                    .background(maxCholine.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Cholesterol
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Cholesterol")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Cholesterol (mg)", text: $minCholesterol)
+                                    .padding()
+                                    .background(minCholesterol.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Cholesterol (mg)", text: $maxCholesterol)
+                                    .padding()
+                                    .background(maxCholesterol.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                        
+                        // Fluoride
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Fluoride")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Fluoride (mg)", text: $minFluoride)
+                                    .padding()
+                                    .background(minFluoride.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Fluoride (mg)", text: $maxFluoride)
+                                    .padding()
+                                    .background(maxFluoride.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Carbs (g)", text: $maxCarbs)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Protein
-                    Text("Protein")
-                        .offset(x: 10)
-                    
-                    // Min and Max Protein Textfields
-                    HStack {
-                        TextField("Min Protein (g)", text: $minProtein)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Saturated Fat
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Saturated Fat")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Saturated Fat (mg)", text: $minSaturatedFat)
+                                    .padding()
+                                    .background(minSaturatedFat.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Saturated Fat (mg)", text: $maxSaturatedFat)
+                                    .padding()
+                                    .background(maxSaturatedFat.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Protein (g)", text: $maxProtein)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Calories
-                    Text("Calories")
-                        .offset(x: 10)
-                    
-                    // Min and Max Calories Textfields
-                    HStack {
-                        TextField("Min Calories", text: $minCalories)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin A
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin A")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin A (IU)", text: $minVitaminA)
+                                    .padding()
+                                    .background(minVitaminA.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin A (IU)", text: $maxVitaminA)
+                                    .padding()
+                                    .background(maxVitaminA.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Calories", text: $maxCalories)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Fat
-                    Text("Fat")
-                        .offset(x: 10)
-                    
-                    // Min and Max Fat Textfields
-                    HStack {
-                        TextField("Min Fat (g)", text: $minFat)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin C
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin C")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin C (mg)", text: $minVitaminC)
+                                    .padding()
+                                    .background(minVitaminC.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin C (mg)", text: $maxVitaminC)
+                                    .padding()
+                                    .background(maxVitaminC.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Fat (g)", text: $maxFat)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Alcohol
-                    Text("Alcohol")
-                        .offset(x: 10)
-                    
-                    // Min and Max Alcohol Textfields
-                    HStack {
-                        TextField("Min Alcohol (g)", text: $minAlcohol)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin D
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin D")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin D (mcg)", text: $minVitaminD)
+                                    .padding()
+                                    .background(minVitaminD.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin D (mcg)", text: $maxVitaminD)
+                                    .padding()
+                                    .background(maxVitaminD.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Alcohol (g)", text: $maxAlcohol)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Caffeine
-                    Text("Caffeine")
-                        .offset(x: 10)
-                    
-                    // Min and Max Caffeine  Textfields
-                    HStack {
-                        TextField("Min Caffeine (mg)", text: $minCaffeine)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin E
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin E")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin E (mg)", text: $minVitaminE)
+                                    .padding()
+                                    .background(minVitaminE.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin E (mg)", text: $maxVitaminE)
+                                    .padding()
+                                    .background(maxVitaminE.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Caffeine (mg)", text: $maxCaffeine)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Copper
-                    Text("Copper")
-                        .offset(x: 10)
-                    
-                    // Min and Max Copper Textfields
-                    HStack {
-                        TextField("Min Copper (mg)", text: $minCopper)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin K
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin K")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin K (mcg)", text: $minVitaminK)
+                                    .padding()
+                                    .background(minVitaminK.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin K (mcg)", text: $maxVitaminK)
+                                    .padding()
+                                    .background(maxVitaminK.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Copper (mg)", text: $maxCopper)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Calcium
-                    Text("Calcium")
-                        .offset(x: 10)
-                    
-                    // Min and Max Calcium Textfields
-                    HStack {
-                        TextField("Min Calcium (mg)", text: $minCalcium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin B1
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin B1")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin B1 (mg)", text: $minVitaminB1)
+                                    .padding()
+                                    .background(minVitaminB1.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin B1 (mg)", text: $maxVitaminB1)
+                                    .padding()
+                                    .background(maxVitaminB1.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Calcium (mg)", text: $maxCalcium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Choline
-                    Text("Choline")
-                        .offset(x: 10)
-                    
-                    // Min and Max Choline Textfields
-                    HStack {
-                        TextField("Min Choline (mg)", text: $minCholine)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin B2
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin B2")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin B2 (mg)", text: $minVitaminB2)
+                                    .padding()
+                                    .background(minVitaminB2.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin B2 (mg)", text: $maxVitaminB2)
+                                    .padding()
+                                    .background(maxVitaminB2.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Choline (mg)", text: $maxCholine)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Cholesterol
-                    Text("Cholesterol")
-                        .offset(x: 10)
-                    
-                    // Min and Max Cholesterol Textfields
-                    HStack {
-                        TextField("Min Cholesterol (mg)", text: $minCholesterol)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin B5
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin B5")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin B5 (mg)", text: $minVitaminB5)
+                                    .padding()
+                                    .background(minVitaminB5.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin B5 (mg)", text: $maxVitaminB5)
+                                    .padding()
+                                    .background(maxVitaminB5.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Cholesterol (mg)", text: $maxCholesterol)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Fluoride
-                    Text("Fluoride")
-                        .offset(x: 10)
-                    
-                    // Min and Max Fluoride Textfields
-                    HStack {
-                        TextField("Min Fluoride (mg)", text: $minFluoride)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin B3
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin B3")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin B3 (mg)", text: $minVitaminB3)
+                                    .padding()
+                                    .background(minVitaminB3.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin B3 (mg)", text: $maxVitaminB3)
+                                    .padding()
+                                    .background(maxVitaminB3.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Fluoride (mg)", text: $maxFluoride)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Saturated Fat
-                    Text("Saturated Fat")
-                        .offset(x: 10)
-                    
-                    // Min and Max Saturated Fat Textfields
-                    HStack {
-                        TextField("Min Saturated Fat (mg)", text: $minSaturatedFat)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin B6
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin B6")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin B6 (mg)", text: $minVitaminB6)
+                                    .padding()
+                                    .background(minVitaminB6.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin B6 (mg)", text: $maxVitaminB6)
+                                    .padding()
+                                    .background(maxVitaminB6.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Saturated Fat (mg)", text: $maxSaturatedFat)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin A
-                    Text("Vitamin A")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin A Textfields
-                    HStack {
-                        TextField("Min Vitamin A (IU)", text: $minVitaminA)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Vitamin B12
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Vitamin B12")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Vitamin B12 (mg)", text: $minVitaminB12)
+                                    .padding()
+                                    .background(minVitaminB12.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Vitamin B12 (mg)", text: $maxVitaminB12)
+                                    .padding()
+                                    .background(maxVitaminB12.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin A (IU)", text: $maxVitaminA)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin C
-                    Text("Vitamin C")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin C Textfields
-                    HStack {
-                        TextField("Min Vitamin C (mg)", text: $minVitaminC)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Fiber
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Fiber")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Fiber (g)", text: $minFiber)
+                                    .padding()
+                                    .background(minFiber.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Fiber (g)", text: $maxFiber)
+                                    .padding()
+                                    .background(maxFiber.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin C (mg)", text: $maxVitaminC)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin D
-                    Text("Vitamin D")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin D Textfields
-                    HStack {
-                        TextField("Min Vitamin D (mcg)", text: $minVitaminD)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Folate
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Folate")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Folate (mcg)", text: $minFolate)
+                                    .padding()
+                                    .background(minFolate.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Folate (mcg)", text: $maxFolate)
+                                    .padding()
+                                    .background(maxFolate.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin D (mcg)", text: $maxVitaminD)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin E
-                    Text("Vitamin E")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin E Textfields
-                    HStack {
-                        TextField("Min Vitamin E (mg)", text: $minVitaminE)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Folic Acid
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Folic Acid")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Folic Acid (mg)", text: $minFolicAcid)
+                                    .padding()
+                                    .background(minFolicAcid.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Folic Acid (mg)", text: $maxFolicAcid)
+                                    .padding()
+                                    .background(maxFolicAcid.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin E (mg)", text: $maxVitaminE)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin K
-                    Text("Vitamin K")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin K Textfields
-                    HStack {
-                        TextField("Min Vitamin K (mcg)", text: $minVitaminK)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Iodine
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Iodine")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Iodine (mcg)", text: $minIodine)
+                                    .padding()
+                                    .background(minIodine.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Iodine (mcg)", text: $maxIodine)
+                                    .padding()
+                                    .background(maxIodine.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin K (mcg)", text: $maxVitaminK)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin B1
-                    Text("Vitamin B1")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin B1 Textfields
-                    HStack {
-                        TextField("Min Vitamin B1 (mg)", text: $minVitaminB1)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Iron
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Iron")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Iron (mg)", text: $minIron)
+                                    .padding()
+                                    .background(minIron.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Iron (mg)", text: $maxIron)
+                                    .padding()
+                                    .background(maxIron.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin B1 (mg)", text: $maxVitaminB1)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin B2
-                    Text("Vitamin B2")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin B2 Textfields
-                    HStack {
-                        TextField("Min Vitamin B2 (mg)", text: $minVitaminB2)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Magnesium
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Magnesium")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Magnesium (mg)", text: $minMagnesium)
+                                    .padding()
+                                    .background(minMagnesium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Magnesium (mg)", text: $maxMagnesium)
+                                    .padding()
+                                    .background(maxMagnesium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin B2 (mg)", text: $maxVitaminB2)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin B5
-                    Text("Vitamin B5")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin B5 Textfields
-                    HStack {
-                        TextField("Min Vitamin B5 (mg)", text: $minVitaminB5)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Manganese
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Manganese")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Manganese (mg)", text: $minManganese)
+                                    .padding()
+                                    .background(minManganese.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Manganese (mg)", text: $maxManganese)
+                                    .padding()
+                                    .background(maxManganese.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin B5 (mg)", text: $maxVitaminB5)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin B3
-                    Text("Vitamin B3")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin B3 Textfields
-                    HStack {
-                        TextField("Min Vitamin B3 (mg)", text: $minVitaminB3)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Phosphorus
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Phosphorus")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Phosphorus (mg)", text: $minPhosphorus)
+                                    .padding()
+                                    .background(minPhosphorus.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Phosphorus (mg)", text: $maxPhosphorus)
+                                    .padding()
+                                    .background(maxPhosphorus.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin B3 (mg)", text: $maxVitaminB3)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin B6
-                    Text("Vitamin B6")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin B6 Textfields
-                    HStack {
-                        TextField("Min Vitamin B6 (mg)", text: $minVitaminB6)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Potassium
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Potassium")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Potassium (mg)", text: $minPotassium)
+                                    .padding()
+                                    .background(minPotassium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Potassium (mg)", text: $maxPotassium)
+                                    .padding()
+                                    .background(maxPotassium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin B6 (mg)", text: $maxVitaminB6)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Vitamin B12
-                    Text("Vitamin B12")
-                        .offset(x: 10)
-                    
-                    // Min and Max Vitamin B12 Textfields
-                    HStack {
-                        TextField("Min Vitamin B12 (mg)", text: $minVitaminB12)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Selenium
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Selenium")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Selenium (mcg)", text: $minSelenium)
+                                    .padding()
+                                    .background(minSelenium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Selenium (mcg)", text: $maxSelenium)
+                                    .padding()
+                                    .background(maxSelenium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Vitamin B12 (mg)", text: $maxVitaminB12)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Fiber
-                    Text("Fiber")
-                        .offset(x: 10)
-                    
-                    // Min and Max Fiber Textfields
-                    HStack {
-                        TextField("Min Fiber (g)", text: $minFiber)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Sodium
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Sodium")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Sodium (mg)", text: $minSodium)
+                                    .padding()
+                                    .background(minSodium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Sodium (mg)", text: $maxSodium)
+                                    .padding()
+                                    .background(maxSodium.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Fiber (g)", text: $maxFiber)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Folate
-                    Text("Folate")
-                        .offset(x: 10)
-                    
-                    // Min and Max Folate Textfields
-                    HStack {
-                        TextField("Min Folate (mcg)", text: $minFolate)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Sugar
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Sugar")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Sugar (g)", text: $minSugar)
+                                    .padding()
+                                    .background(minSugar.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Sugar (g)", text: $maxSugar)
+                                    .padding()
+                                    .background(maxSugar.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
 
-                        TextField("Max Folate (mcg)", text: $maxFolate)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        // Zinc
+                        VStack (alignment: .leading, spacing: 8) {
+                            Text("Zinc")
+                                .offset(x: 10)
+                            
+                            HStack {
+                                TextField("Min Zinc (mg)", text: $minZinc)
+                                    .padding()
+                                    .background(minZinc.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                                
+                                Text("to")
+                                
+                                TextField("Max Zinc (mg)", text: $maxZinc)
+                                    .padding()
+                                    .background(maxZinc.isEmpty ? Color.white : Color.yellow)
+                                    .cornerRadius(5)
+                            }
+                            .padding(.horizontal, 15)
+                        }
+                    } label: {
+                        HStack {
+                            Text("Nutrients")
+                                .foregroundColor(.black)
+                        }
                     }
+                    .padding(.horizontal, 15)
                     
-                    // Folic Acid
-                    Text("Folic Acid")
-                        .offset(x: 10)
-                    
-                    // Min and Max Folic Acid Textfields
-                    HStack {
-                        TextField("Min Folic Acid (mg)", text: $minFolicAcid)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Folic Acid (mg)", text: $maxFolicAcid)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Iodine
-                    Text("Iodine")
-                        .offset(x: 10)
-                    
-                    // Min and Max Iodine Textfields
-                    HStack {
-                        TextField("Min Iodine (mcg)", text: $minIodine)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Iodine (mcg)", text: $maxIodine)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Iron
-                    Text("Iron")
-                        .offset(x: 10)
-                    
-                    // Min and Max Iron Textfields
-                    HStack {
-                        TextField("Min Iron (mg)", text: $minIron)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Iron (mg)", text: $maxIron)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Magnesium
-                    Text("Magnesium")
-                        .offset(x: 10)
-                    
-                    // Min and Max Magnesium Textfields
-                    HStack {
-                        TextField("Min Magnesium (mg)", text: $minMagnesium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Magnesium (mg)", text: $maxMagnesium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Manganese
-                    Text("Manganese")
-                        .offset(x: 10)
-                    
-                    // Min and Max Manganese Textfields
-                    HStack {
-                        TextField("Min Manganese (mg)", text: $minManganese)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Manganese (mg)", text: $maxManganese)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Phosphorus
-                    Text("Phosphorus")
-                        .offset(x: 10)
-                    
-                    // Min and Max Phosphorus Textfields
-                    HStack {
-                        TextField("Min Phosphorus (mg)", text: $minPhosphorus)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Phosphorus (mg)", text: $maxPhosphorus)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Potassium
-                    Text("Potassium")
-                        .offset(x: 10)
-                    
-                    // Min and Max Potassium Textfields
-                    HStack {
-                        TextField("Min Potassium (mg)", text: $minPotassium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Potassium (mg)", text: $maxPotassium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Selenium
-                    Text("Selenium")
-                        .offset(x: 10)
-                    
-                    // Min and Max Selenium Textfields
-                    HStack {
-                        TextField("Min Selenium (mcg)", text: $minSelenium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Selenium (mcg)", text: $maxSelenium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Sodium
-                    Text("Sodium")
-                        .offset(x: 10)
-                    
-                    // Min and Max Sodium Textfields
-                    HStack {
-                        TextField("Min Sodium (mg)", text: $minSodium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Sodium (mg)", text: $maxSodium)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Sugar
-                    Text("Sugar")
-                        .offset(x: 10)
-                    
-                    // Min and Max Sugar Textfields
-                    HStack {
-                        TextField("Min Sugar (g)", text: $minSugar)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Sugar (g)", text: $maxSugar)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    
-                    // Zinc
-                    Text("Zinc")
-                        .offset(x: 10)
-                    
-                    // Min and Max Zinc Textfields
-                    HStack {
-                        TextField("Min Zinc (mg)", text: $minZinc)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-
-                        TextField("Max Zinc (mg)", text: $maxZinc)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
+                    Spacer()
                 }
                 .background(Color.gray)
                 .padding(.bottom, 300)
                 .transition(.move(edge: .bottom))
                 .offset(y: isFilterSidebarVisible ? UIScreen.main.bounds.height * 0.1 : 0)
                 .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    // Handle tap if needed
-                }
             }
 
             // Clear and Apply Buttons Anchored to Bottom
@@ -811,7 +1052,7 @@ struct FilterSideView: View {
                             .padding()
                             .foregroundColor(Color.blue)
                             .frame(width: 150)
-                            .cornerRadius(10)
+                            .cornerRadius(5)
                     }
                     .offset(x: -20)
 
@@ -823,10 +1064,10 @@ struct FilterSideView: View {
                             .padding()
                             .foregroundColor(Color.white)
                             .frame(width: 200)
-                            .cornerRadius(10)
+                            .cornerRadius(5)
                     }
                     .background(Color.blue)
-                    .cornerRadius(10)
+                    .cornerRadius(5)
                     .offset()
                 }
                 .frame(maxWidth: .infinity, maxHeight: 100)
@@ -1133,9 +1374,11 @@ struct FilterSideView: View {
             VStack(alignment: .leading, spacing: 5) {
                 ForEach(ingredients.sorted(), id: \.self) { ingredient in
                     HStack {
-                        Text("- \(ingredient)")
-                            .foregroundColor(.blue)
+                        Text("\(ingredient)")
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 5)
                         Spacer()
+                        
                         Button(action: {
                             // Remove the ingredient from the appropriate list
                             if includeIngredients.contains(ingredient) {
@@ -1144,16 +1387,40 @@ struct FilterSideView: View {
                                 excludeIngredients.remove(ingredient)
                             }
                         }) {
-                            Image(systemName: "x.circle")
-                                .foregroundColor(.red)
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                                .padding(.trailing, 8)
                         }
                     }
+                    .background(Color.yellow)
+                    .cornerRadius(5)
+                    .shadow(radius: 2)
                 }
             }
-            .padding(.horizontal)
         }
     }
 
+    // ColoredToggleStyle
+    struct ColoredToggleStyle: ToggleStyle {
+        let intolerance: Intolerances
+        let selectedIntolerances: Set<Intolerances>
+        
+        func makeBody(configuration: Configuration) -> some View {
+            Button(action: {
+                configuration.isOn.toggle()
+            }) {
+                HStack {
+                    Text(intolerance.rawValue.capitalized)
+                        .foregroundColor(selectedIntolerances.contains(intolerance) ? .yellow : .black) // Change color to yellow when selected
+                    Spacer()
+                    Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
+                        .foregroundColor(configuration.isOn ? .yellow : .black) // Change color to yellow when selected
+                }
+            }
+            .padding()
+        }
+    }
+    
     struct FilterParameters {
         let maxReadyTime: Int?
         let diet: FilterSideView.Diet

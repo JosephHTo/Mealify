@@ -188,7 +188,7 @@ struct RecipeDetail: View {
                                 .frame(maxWidth: .infinity)
                                 .background(!isMetricSelected ? Color.blue : Color.gray)
                                 .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .cornerRadius(5)
                                 
                                 Button("Metric") {
                                     // Toggle to metric measurements
