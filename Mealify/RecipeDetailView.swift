@@ -58,6 +58,7 @@ struct RecipeDetail: View {
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.blue)
+                            .fixedSize(horizontal: false, vertical: true)
                         
                         HStack {
                             Text("\(recipe.readyInMinutes) minutes")
