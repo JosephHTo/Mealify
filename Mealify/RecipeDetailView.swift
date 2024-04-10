@@ -10,6 +10,7 @@ struct RecipeDetail: View {
     @State private var selectedServingSize: Int
     @State private var isSaved: Bool = false
     @State private var isServingSizePopoverPresented = false
+    @State private var nutrients: [Nutrient]? = nil
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentationMode
 
@@ -57,6 +58,7 @@ struct RecipeDetail: View {
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.blue)
+                        
                         HStack {
                             Text("\(recipe.readyInMinutes) minutes")
                                 .font(.subheadline)
@@ -187,7 +189,7 @@ struct RecipeDetail: View {
                                 .background(!isMetricSelected ? Color.blue : Color.gray)
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
-
+                                
                                 Button("Metric") {
                                     // Toggle to metric measurements
                                     isMetricSelected = true
@@ -198,14 +200,14 @@ struct RecipeDetail: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(5)
                             }
-
+                            
                             ForEach(ingredients, id: \.self) { ingredient in
                                 let baseValue = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
                                 let unit = isMetricSelected ? ingredient.amount.metric.unit : ingredient.amount.us.unit
-
+                                
                                 // Calculate the adjusted value based on selectedServingSize
                                 let adjustedValue = (baseValue / Double(recipe.servings)) * Double(selectedServingSize)
-
+                                
                                 HStack {
                                     Text("\(String(format: "%.1f", adjustedValue)) \(unit)")
                                         .fontWeight(.bold)
@@ -221,7 +223,7 @@ struct RecipeDetail: View {
                         }
                         .padding()
                     }
-
+                    
                 case .instructions:
                     if let analyzedInstructions = recipe.analyzedInstructions {
                         VStack(alignment: .leading, spacing: 20) {
@@ -249,11 +251,80 @@ struct RecipeDetail: View {
                     }
                     
                 case .other:
-                    // Placeholder for other content
-                    Text("Other content goes here")
-                        .font(.subheadline)
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("Diets")
+                            .font(.title2)
+                            .underline()
+                            .padding(.top, 10)
+                            .padding(.bottom, 5)
+                            .padding(.horizontal, 15)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.blue)
+                        
+                        if let diets = recipe.diets, !diets.isEmpty {
+                            ForEach(diets.indices, id: \.self) { index in
+                                let diet = diets[index]
+                                
+                                VStack(alignment: .leading) { // Set alignment to leading
+                                    Text(diet.capitalized)
+                                        .foregroundColor(.primary)
+                                        .padding(.horizontal, 15)
+                                    
+                                    if index < diets.count - 1 {
+                                        Divider() // Add a divider between diets except for the last one
+                                    }
+                                }
+                                .padding(.bottom, index == diets.count - 1 ? 15 : 0) // Add bottom padding only to the last diet
+                            }
+                        } else {
+                            Text("Not Applicable")
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal, 15)
+                        }
+                    }
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .shadow(radius: 2)
+                    .padding()
+                    
+                    if let nutrients = nutrients {
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text("Nutritional Info Per Serving")
+                                .font(.title2)
+                                .underline()
+                                .padding(.top, 10)
+                                .padding(.bottom, 5)
+                                .padding(.horizontal, 15)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(.blue)
+                            
+                            ForEach(nutrients.indices, id: \.self) { index in
+                                let nutrient = nutrients[index]
+                                let roundedAmount = String(format: "%.2f", nutrient.amount)
+                                
+                                HStack {
+                                    Text(nutrient.name)
+                                        .foregroundColor(.primary)
+                                        .fontWeight(.bold)
+                                    Spacer()
+                                    Text("\(roundedAmount) \(nutrient.unit)")
+                                        .foregroundColor(.secondary)
+                                }
+                                .padding(.horizontal, 15)
+                                
+                                if index < nutrients.count - 1 {
+                                    Divider() // Divider between nutrients
+                                        .padding(.horizontal, 15)
+                                }
+                            }
+                            
+                            Spacer()
+                        }
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .shadow(radius: 2)
                         .padding()
-                        // Add other content here when needed
+                    }
                 }
                 
                 Spacer()
@@ -269,6 +340,12 @@ struct RecipeDetail: View {
                 
                 // Save the recipe to recentRecipes when it appears
                 userData.saveRecentRecipe(recipe)
+                
+                fetchNutrients(for: recipe.id) { result in
+                        DispatchQueue.main.async {
+                            self.nutrients = result
+                        }
+                    }
             }
         }
         .navigationBarBackButtonHidden(true) // Hide default back button

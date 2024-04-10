@@ -17,7 +17,8 @@ struct Recipe: Codable {
     var ingredients: [Ingredient]?
     let servings: Int
     let readyInMinutes: Int
-    let dairyFree: Bool
+    let pricePerServing: Double
+    let diets: [String]?
 }
 
 struct AnalyzedInstruction: Codable, Hashable {
@@ -47,6 +48,16 @@ struct Metric: Codable, Hashable {
 
 struct US: Codable, Hashable {
     let value: Double
+    let unit: String
+}
+
+struct NutrientsContainer: Codable {
+    let nutrients: [Nutrient]?
+}
+
+struct Nutrient: Codable, Hashable {
+    let name: String
+    let amount: Double
     let unit: String
 }
 
@@ -566,4 +577,51 @@ func decodeIngredients(from data: Data) throws -> [Ingredient] {
     } else {
         throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Unexpected JSON format"))
     }
+}
+
+func fetchNutrients(for recipeID: Int, completion: @escaping ([Nutrient]?) -> Void) {
+    let nutrientsURLString = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/\(recipeID)/nutritionWidget.json"
+    
+    guard let nutrientsURL = URL(string: nutrientsURLString) else {
+        print("Invalid nutrients URL")
+        completion(nil)
+        return
+    }
+
+    var request = URLRequest(url: nutrientsURL)
+    request.httpMethod = "GET"
+    request.allHTTPHeaderFields = headers
+
+    let session = URLSession.shared
+    let nutrientsTask = session.dataTask(with: request) { (data, response, error) in
+        if let error = error {
+            print("Error fetching nutrients: \(error.localizedDescription)")
+            completion(nil)
+            return
+        }
+
+        guard let data = data else {
+            print("No data received for nutrients")
+            completion(nil)
+            return
+        }
+
+        do {
+            let nutrients = try decodeNutrients(from: data)
+            completion(nutrients)
+        } catch {
+            print("Error parsing nutrients JSON: \(error)")
+            completion(nil)
+        }
+    }
+
+    nutrientsTask.resume()
+}
+
+func decodeNutrients(from data: Data) throws -> [Nutrient]? {
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+    let nutrientsContainer = try decoder.decode(NutrientsContainer.self, from: data)
+    return nutrientsContainer.nutrients
 }
