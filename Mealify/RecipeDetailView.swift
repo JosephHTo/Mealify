@@ -203,8 +203,17 @@ struct RecipeDetail: View {
                     if let analyzedInstructions = recipe.analyzedInstructions {
                         ForEach(analyzedInstructions, id: \.self) { analyzedInstruction in
                             ForEach(analyzedInstruction.steps, id: \.self) { step in
-                                Text("Step \(step.number): \(step.step.trimmingCharacters(in: .whitespacesAndNewlines))")
-                                    .padding()
+                                HStack(alignment: .top) {
+                                    Text("\(step.number)")
+                                        .foregroundColor(Color.gray)
+                                        .font(.title)
+                                        .padding(.leading, 10)
+                                        .frame(width: 40, alignment: .leading) // Adjust width for consistent alignment
+                                    Text(step.step.trimmingCharacters(in: .whitespacesAndNewlines))
+                                        .padding(.trailing, 5)
+                                    Spacer()
+                                }
+                                .padding(.vertical, 5)
                             }
                         }
                     }
