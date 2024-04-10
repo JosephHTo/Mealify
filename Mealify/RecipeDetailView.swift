@@ -156,34 +156,49 @@ struct RecipeDetail: View {
                 // Display content based on selected tab
                 switch selectedTab {
                 case .overview:
-                    Text("\(recipe.summary?.removingHTMLTags() ?? "No summary available")")
-                        .font(.subheadline)
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    if let summary = recipe.summary?.removingHTMLTags(), !summary.isEmpty {
+                        Text(summary)
+                            .font(.body)
+                            .foregroundColor(.primary)
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color.secondary.opacity(0.1))
+                            .cornerRadius(5)
+                            .padding([.horizontal, .bottom], 15)
+                    } else {
+                        Text("No summary available")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.horizontal, .bottom], 15) // Add padding to create space around the fallback message
+                    }
+                    
                 case .ingredient:
                     if let ingredients = recipe.ingredients {
-                        HStack {
-                            Button("US") {
-                                // Toggle to US measurements
-                                isMetricSelected = false
-                            }
-                            .padding(8)
-                            .background(!isMetricSelected ? Color.blue : Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        VStack(alignment: .leading, spacing: 20) {
+                            HStack(spacing: 20) {
+                                Button("US") {
+                                    // Toggle to US measurements
+                                    isMetricSelected = false
+                                }
+                                .padding(10)
+                                .frame(maxWidth: .infinity)
+                                .background(!isMetricSelected ? Color.blue : Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
 
-                            Button("Metric") {
-                                // Toggle to metric measurements
-                                isMetricSelected = true
+                                Button("Metric") {
+                                    // Toggle to metric measurements
+                                    isMetricSelected = true
+                                }
+                                .padding(10)
+                                .frame(maxWidth: .infinity)
+                                .background(isMetricSelected ? Color.blue : Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(5)
                             }
-                            .padding(8)
-                            .background(isMetricSelected ? Color.blue : Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                        }
-                        .padding()
-                        
-                        VStack(alignment: .leading, spacing: 1) {
+
                             ForEach(ingredients, id: \.self) { ingredient in
                                 let baseValue = isMetricSelected ? ingredient.amount.metric.value : ingredient.amount.us.value
                                 let unit = isMetricSelected ? ingredient.amount.metric.unit : ingredient.amount.us.unit
@@ -191,32 +206,48 @@ struct RecipeDetail: View {
                                 // Calculate the adjusted value based on selectedServingSize
                                 let adjustedValue = (baseValue / Double(recipe.servings)) * Double(selectedServingSize)
 
-                                Text("\(String(format: "%.1f", adjustedValue)) \(unit) \(ingredient.name)")
-                                    .multilineTextAlignment(.leading) // Left-align the text
-                                    .padding(.trailing, 5)
+                                HStack {
+                                    Text("\(String(format: "%.1f", adjustedValue)) \(unit)")
+                                        .fontWeight(.bold)
+                                    Spacer()
+                                    Text(ingredient.name)
+                                        .foregroundColor(.secondary)
+                                }
+                                .padding(10)
+                                .background(Color.white)
+                                .cornerRadius(5)
+                                .shadow(radius: 2) // Add shadow for depth effect
                             }
-                            .padding(.vertical, 5)
                         }
-                        .padding(.vertical, 1)
+                        .padding()
                     }
+
                 case .instructions:
                     if let analyzedInstructions = recipe.analyzedInstructions {
-                        ForEach(analyzedInstructions, id: \.self) { analyzedInstruction in
-                            ForEach(analyzedInstruction.steps, id: \.self) { step in
-                                HStack(alignment: .top) {
-                                    Text("\(step.number)")
-                                        .foregroundColor(Color.gray)
-                                        .font(.title)
-                                        .padding(.leading, 10)
-                                        .frame(width: 40, alignment: .leading) // Adjust width for consistent alignment
-                                    Text(step.step.trimmingCharacters(in: .whitespacesAndNewlines))
-                                        .padding(.trailing, 5)
-                                    Spacer()
+                        VStack(alignment: .leading, spacing: 20) {
+                            ForEach(analyzedInstructions, id: \.self) { analyzedInstruction in
+                                ForEach(analyzedInstruction.steps, id: \.self) { step in
+                                    HStack(alignment: .top) {
+                                        Text("\(step.number)")
+                                            .foregroundColor(Color.gray)
+                                            .font(.title)
+                                            .padding(.leading, 10)
+                                            .frame(width: 40, alignment: .leading) // Adjust width for consistent alignment
+                                        Text(step.step.trimmingCharacters(in: .whitespacesAndNewlines))
+                                            .padding(.trailing, 5)
+                                        Spacer()
+                                    }
+                                    .padding(.vertical, 5)
+                                    .padding(.horizontal, 10)
+                                    .background(Color.white)
+                                    .cornerRadius(5)
+                                    .shadow(radius: 2) // Add shadow for depth effect
                                 }
-                                .padding(.vertical, 5)
                             }
                         }
+                        .padding()
                     }
+                    
                 case .other:
                     // Placeholder for other content
                     Text("Other content goes here")
@@ -249,9 +280,6 @@ struct RecipeDetail: View {
             presentationMode.wrappedValue.dismiss()
         }) {
             ZStack {
-                Circle()
-                    .foregroundColor(.white)
-                    .shadow(radius: 3)
                 Image(systemName: "arrow.left")
                     .foregroundColor(.blue)
                     .imageScale(.large)
