@@ -275,6 +275,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Carbs (g)", text: $minCarbs)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minCarbs.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -282,6 +283,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Carbs (g)", text: $maxCarbs)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxCarbs.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -296,6 +298,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Protein (g)", text: $minProtein)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minProtein.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -303,6 +306,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Protein (g)", text: $maxProtein)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxProtein.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -317,6 +321,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Calories", text: $minCalories)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minCalories.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -324,6 +329,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Calories", text: $maxCalories)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxCalories.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -338,6 +344,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Fat (g)", text: $minFat)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -345,6 +352,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Fat (g)", text: $maxFat)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -359,6 +367,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Alcohol (g)", text: $minAlcohol)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minAlcohol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -366,6 +375,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Alcohol (g)", text: $maxAlcohol)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxAlcohol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -380,6 +390,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Caffeine (mg)", text: $minCaffeine)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minCaffeine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -387,6 +398,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Caffeine (mg)", text: $maxCaffeine)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxCaffeine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -401,6 +413,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Copper (mg)", text: $minCopper)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minCopper.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -408,6 +421,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Copper (mg)", text: $maxCopper)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxCopper.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -422,6 +436,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Calcium (mg)", text: $minCalcium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minCalcium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -429,6 +444,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Calcium (mg)", text: $maxCalcium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxCalcium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -443,6 +459,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Choline (mg)", text: $minCholine)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minCholine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -450,6 +467,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Choline (mg)", text: $maxCholine)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxCholine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -464,6 +482,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Cholesterol (mg)", text: $minCholesterol)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minCholesterol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -471,6 +490,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Cholesterol (mg)", text: $maxCholesterol)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxCholesterol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -485,6 +505,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Fluoride (mg)", text: $minFluoride)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minFluoride.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -492,6 +513,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Fluoride (mg)", text: $maxFluoride)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxFluoride.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -506,6 +528,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Saturated Fat (mg)", text: $minSaturatedFat)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minSaturatedFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -513,6 +536,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Saturated Fat (mg)", text: $maxSaturatedFat)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxSaturatedFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -527,6 +551,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin A (IU)", text: $minVitaminA)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminA.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -534,6 +559,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin A (IU)", text: $maxVitaminA)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminA.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -548,6 +574,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin C (mg)", text: $minVitaminC)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminC.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -555,6 +582,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin C (mg)", text: $maxVitaminC)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminC.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -569,6 +597,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin D (mcg)", text: $minVitaminD)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminD.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -576,6 +605,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin D (mcg)", text: $maxVitaminD)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminD.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -590,6 +620,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin E (mg)", text: $minVitaminE)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminE.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -597,6 +628,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin E (mg)", text: $maxVitaminE)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminE.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -611,6 +643,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin K (mcg)", text: $minVitaminK)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminK.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -618,6 +651,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin K (mcg)", text: $maxVitaminK)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminK.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -632,6 +666,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B1 (mg)", text: $minVitaminB1)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminB1.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -639,6 +674,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B1 (mg)", text: $maxVitaminB1)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminB1.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -653,6 +689,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B2 (mg)", text: $minVitaminB2)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminB2.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -660,6 +697,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B2 (mg)", text: $maxVitaminB2)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminB2.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -674,6 +712,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B5 (mg)", text: $minVitaminB5)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminB5.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -681,6 +720,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B5 (mg)", text: $maxVitaminB5)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminB5.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -695,6 +735,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B3 (mg)", text: $minVitaminB3)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminB3.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -702,6 +743,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B3 (mg)", text: $maxVitaminB3)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminB3.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -716,6 +758,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B6 (mg)", text: $minVitaminB6)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminB6.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -723,6 +766,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B6 (mg)", text: $maxVitaminB6)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminB6.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -737,6 +781,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B12 (mg)", text: $minVitaminB12)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minVitaminB12.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -744,6 +789,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B12 (mg)", text: $maxVitaminB12)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxVitaminB12.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -758,6 +804,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Fiber (g)", text: $minFiber)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minFiber.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -765,6 +812,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Fiber (g)", text: $maxFiber)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxFiber.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -779,6 +827,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Folate (mcg)", text: $minFolate)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minFolate.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -786,6 +835,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Folate (mcg)", text: $maxFolate)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxFolate.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -800,6 +850,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Folic Acid (mg)", text: $minFolicAcid)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minFolicAcid.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -807,6 +858,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Folic Acid (mg)", text: $maxFolicAcid)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxFolicAcid.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -821,6 +873,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Iodine (mcg)", text: $minIodine)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minIodine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -828,6 +881,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Iodine (mcg)", text: $maxIodine)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxIodine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -842,6 +896,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Iron (mg)", text: $minIron)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minIron.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -849,6 +904,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Iron (mg)", text: $maxIron)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxIron.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -863,6 +919,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Magnesium (mg)", text: $minMagnesium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minMagnesium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -870,6 +927,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Magnesium (mg)", text: $maxMagnesium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxMagnesium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -884,6 +942,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Manganese (mg)", text: $minManganese)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minManganese.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -891,6 +950,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Manganese (mg)", text: $maxManganese)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxManganese.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -905,6 +965,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Phosphorus (mg)", text: $minPhosphorus)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minPhosphorus.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -912,6 +973,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Phosphorus (mg)", text: $maxPhosphorus)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxPhosphorus.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -926,6 +988,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Potassium (mg)", text: $minPotassium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minPotassium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -933,6 +996,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Potassium (mg)", text: $maxPotassium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxPotassium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -947,6 +1011,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Selenium (mcg)", text: $minSelenium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minSelenium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -954,6 +1019,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Selenium (mcg)", text: $maxSelenium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxSelenium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -968,6 +1034,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Sodium (mg)", text: $minSodium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minSodium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -975,6 +1042,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Sodium (mg)", text: $maxSodium)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxSodium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -989,6 +1057,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Sugar (g)", text: $minSugar)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minSugar.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -996,6 +1065,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Sugar (g)", text: $maxSugar)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxSugar.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1010,6 +1080,7 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Zinc (mg)", text: $minZinc)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(minZinc.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1017,6 +1088,7 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Zinc (mg)", text: $maxZinc)
+                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
                                     .padding()
                                     .background(maxZinc.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
