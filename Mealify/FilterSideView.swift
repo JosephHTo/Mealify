@@ -18,112 +18,184 @@ struct FilterSideView: View {
     
     @State private var minCarbs: String = ""
     @State private var maxCarbs: String = ""
+    @State private var minCarbsIsEmpty = true
+    @State private var maxCarbsIsEmpty = true
     
     @State private var minProtein: String = ""
     @State private var maxProtein: String = ""
+    @State private var minProteinIsEmpty = true
+    @State private var maxProteinIsEmpty = true
     
     @State private var minCalories: String = ""
     @State private var maxCalories: String = ""
+    @State private var minCaloriesIsEmpty = true
+    @State private var maxCaloriesIsEmpty = true
     
     @State private var minFat: String = ""
     @State private var maxFat: String = ""
+    @State private var minFatIsEmpty = true
+    @State private var maxFatIsEmpty = true
     
     @State private var minAlcohol: String = ""
     @State private var maxAlcohol: String = ""
+    @State private var minAlcoholIsEmpty = true
+    @State private var maxAlcoholIsEmpty = true
     
     @State private var minCaffeine: String = ""
     @State private var maxCaffeine: String = ""
+    @State private var minCaffeineIsEmpty = true
+    @State private var maxCaffeineIsEmpty = true
     
     @State private var minCopper: String = ""
     @State private var maxCopper: String = ""
-    
+    @State private var minCopperIsEmpty = true
+    @State private var maxCopperIsEmpty = true
+
     @State private var minCalcium: String = ""
     @State private var maxCalcium: String = ""
-    
+    @State private var minCalciumIsEmpty = true
+    @State private var maxCalciumIsEmpty = true
+
     @State private var minCholine: String = ""
     @State private var maxCholine: String = ""
-    
+    @State private var minCholineIsEmpty = true
+    @State private var maxCholineIsEmpty = true
+
     @State private var minCholesterol: String = ""
     @State private var maxCholesterol: String = ""
-    
+    @State private var minCholesterolIsEmpty = true
+    @State private var maxCholesterolIsEmpty = true
+
     @State private var minFluoride: String = ""
     @State private var maxFluoride: String = ""
-    
+    @State private var minFluorideIsEmpty = true
+    @State private var maxFluorideIsEmpty = true
+
     @State private var minSaturatedFat: String = ""
     @State private var maxSaturatedFat: String = ""
-    
+    @State private var minSaturatedFatIsEmpty = true
+    @State private var maxSaturatedFatIsEmpty = true
+
     @State private var minVitaminA: String = ""
     @State private var maxVitaminA: String = ""
-    
+    @State private var minVitaminAIsEmpty = true
+    @State private var maxVitaminAIsEmpty = true
+
     @State private var minVitaminC: String = ""
     @State private var maxVitaminC: String = ""
-    
+    @State private var minVitaminCIsEmpty = true
+    @State private var maxVitaminCIsEmpty = true
+
     @State private var minVitaminD: String = ""
     @State private var maxVitaminD: String = ""
-    
+    @State private var minVitaminDIsEmpty = true
+    @State private var maxVitaminDIsEmpty = true
+
     @State private var minVitaminE: String = ""
     @State private var maxVitaminE: String = ""
-    
+    @State private var minVitaminEIsEmpty = true
+    @State private var maxVitaminEIsEmpty = true
+
     @State private var minVitaminK: String = ""
     @State private var maxVitaminK: String = ""
-    
+    @State private var minVitaminKIsEmpty = true
+    @State private var maxVitaminKIsEmpty = true
+
     @State private var minVitaminB1: String = ""
     @State private var maxVitaminB1: String = ""
-    
+    @State private var minVitaminB1IsEmpty = true
+    @State private var maxVitaminB1IsEmpty = true
+
     @State private var minVitaminB2: String = ""
     @State private var maxVitaminB2: String = ""
-    
+    @State private var minVitaminB2IsEmpty = true
+    @State private var maxVitaminB2IsEmpty = true
+
     @State private var minVitaminB5: String = ""
     @State private var maxVitaminB5: String = ""
-    
+    @State private var minVitaminB5IsEmpty = true
+    @State private var maxVitaminB5IsEmpty = true
+
     @State private var minVitaminB3: String = ""
     @State private var maxVitaminB3: String = ""
-    
+    @State private var minVitaminB3IsEmpty = true
+    @State private var maxVitaminB3IsEmpty = true
+
     @State private var minVitaminB6: String = ""
     @State private var maxVitaminB6: String = ""
-    
+    @State private var minVitaminB6IsEmpty = true
+    @State private var maxVitaminB6IsEmpty = true
+
     @State private var minVitaminB12: String = ""
     @State private var maxVitaminB12: String = ""
-    
+    @State private var minVitaminB12IsEmpty = true
+    @State private var maxVitaminB12IsEmpty = true
+
     @State private var minFiber: String = ""
     @State private var maxFiber: String = ""
-    
+    @State private var minFiberIsEmpty = true
+    @State private var maxFiberIsEmpty = true
+
     @State private var minFolate: String = ""
     @State private var maxFolate: String = ""
-    
+    @State private var minFolateIsEmpty = true
+    @State private var maxFolateIsEmpty = true
+
     @State private var minFolicAcid: String = ""
     @State private var maxFolicAcid: String = ""
-    
+    @State private var minFolicAcidIsEmpty = true
+    @State private var maxFolicAcidIsEmpty = true
+
     @State private var minIodine: String = ""
     @State private var maxIodine: String = ""
-    
+    @State private var minIodineIsEmpty = true
+    @State private var maxIodineIsEmpty = true
+
     @State private var minIron: String = ""
     @State private var maxIron: String = ""
-    
+    @State private var minIronIsEmpty = true
+    @State private var maxIronIsEmpty = true
+
     @State private var minMagnesium: String = ""
     @State private var maxMagnesium: String = ""
-    
+    @State private var minMagnesiumIsEmpty = true
+    @State private var maxMagnesiumIsEmpty = true
+
     @State private var minManganese: String = ""
     @State private var maxManganese: String = ""
-    
+    @State private var minManganeseIsEmpty = true
+    @State private var maxManganeseIsEmpty = true
+
     @State private var minPhosphorus: String = ""
     @State private var maxPhosphorus: String = ""
-    
+    @State private var minPhosphorusIsEmpty = true
+    @State private var maxPhosphorusIsEmpty = true
+
     @State private var minPotassium: String = ""
     @State private var maxPotassium: String = ""
-    
+    @State private var minPotassiumIsEmpty = true
+    @State private var maxPotassiumIsEmpty = true
+
     @State private var minSelenium: String = ""
     @State private var maxSelenium: String = ""
-    
+    @State private var minSeleniumIsEmpty = true
+    @State private var maxSeleniumIsEmpty = true
+
     @State private var minSodium: String = ""
     @State private var maxSodium: String = ""
-    
+    @State private var minSodiumIsEmpty = true
+    @State private var maxSodiumIsEmpty = true
+
     @State private var minSugar: String = ""
     @State private var maxSugar: String = ""
-    
+    @State private var minSugarIsEmpty = true
+    @State private var maxSugarIsEmpty = true
+
     @State private var minZinc: String = ""
     @State private var maxZinc: String = ""
-    
+    @State private var minZincIsEmpty = true
+    @State private var maxZincIsEmpty = true
+
     var onApplyFilters: ([Recipe]) -> Void
     
     enum Diet: String, CaseIterable {
@@ -275,7 +347,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Carbs (g)", text: $minCarbs)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minCarbsIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minCarbs) {
+                                        minCarbsIsEmpty = $minCarbs.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minCarbs.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -283,7 +358,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Carbs (g)", text: $maxCarbs)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxCarbsIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxCarbs) {
+                                        maxCarbsIsEmpty = $maxCarbs.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxCarbs.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -298,7 +376,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Protein (g)", text: $minProtein)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minProteinIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minProtein) {
+                                        minProteinIsEmpty = $minProtein.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minProtein.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -306,7 +387,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Protein (g)", text: $maxProtein)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxProteinIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxProtein) {
+                                        maxProteinIsEmpty = $maxProtein.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxProtein.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -321,7 +405,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Calories", text: $minCalories)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minCaloriesIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minCalories) {
+                                        minCaloriesIsEmpty = $minCalories.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minCalories.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -329,7 +416,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Calories", text: $maxCalories)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxCaloriesIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxCalories) {
+                                        maxCaloriesIsEmpty = $maxCalories.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxCalories.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -344,7 +434,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Fat (g)", text: $minFat)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minFatIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minFat) {
+                                        minFatIsEmpty = $minFat.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -352,7 +445,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Fat (g)", text: $maxFat)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxFatIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxFat) {
+                                        maxFatIsEmpty = $maxFat.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -367,7 +463,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Alcohol (g)", text: $minAlcohol)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minAlcoholIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minAlcohol) {
+                                        minAlcoholIsEmpty = $minAlcohol.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minAlcohol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -375,7 +474,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Alcohol (g)", text: $maxAlcohol)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxAlcoholIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxAlcohol) {
+                                        maxAlcoholIsEmpty = $maxAlcohol.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxAlcohol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -390,7 +492,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Caffeine (mg)", text: $minCaffeine)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minCaffeineIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minCaffeine) {
+                                        minCaffeineIsEmpty = $minCaffeine.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minCaffeine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -398,7 +503,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Caffeine (mg)", text: $maxCaffeine)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxCaffeineIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxCaffeine) {
+                                        maxCaffeineIsEmpty = $maxCaffeine.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxCaffeine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -413,7 +521,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Copper (mg)", text: $minCopper)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minCopperIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minCopper) {
+                                        minCopperIsEmpty = $minCopper.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minCopper.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -421,7 +532,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Copper (mg)", text: $maxCopper)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxCopperIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxCopper) {
+                                        maxCopperIsEmpty = $maxCopper.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxCopper.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -436,7 +550,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Calcium (mg)", text: $minCalcium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minCalciumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minCalcium) {
+                                        minCalciumIsEmpty = $minCalcium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minCalcium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -444,7 +561,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Calcium (mg)", text: $maxCalcium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxCalciumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxCalcium) {
+                                        maxCalciumIsEmpty = $maxCalcium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxCalcium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -459,7 +579,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Choline (mg)", text: $minCholine)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minCholineIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minCholine) {
+                                        minCholineIsEmpty = $minCholine.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minCholine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -467,7 +590,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Choline (mg)", text: $maxCholine)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxCholineIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxCholine) {
+                                        maxCholineIsEmpty = $maxCholine.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxCholine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -482,7 +608,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Cholesterol (mg)", text: $minCholesterol)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minCholesterolIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minCholesterol) {
+                                        minCholesterolIsEmpty = $minCholesterol.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minCholesterol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -490,7 +619,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Cholesterol (mg)", text: $maxCholesterol)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxCholesterolIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxCholesterol) {
+                                        maxCholesterolIsEmpty = $maxCholesterol.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxCholesterol.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -505,7 +637,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Fluoride (mg)", text: $minFluoride)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minFluorideIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minFluoride) {
+                                        minFluorideIsEmpty = $minFluoride.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minFluoride.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -513,7 +648,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Fluoride (mg)", text: $maxFluoride)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxFluorideIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxFluoride) {
+                                        maxFluorideIsEmpty = $maxFluoride.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxFluoride.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -528,7 +666,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Saturated Fat (mg)", text: $minSaturatedFat)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minSaturatedFatIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minSaturatedFat) {
+                                        minSaturatedFatIsEmpty = $minSaturatedFat.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minSaturatedFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -536,7 +677,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Saturated Fat (mg)", text: $maxSaturatedFat)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxSaturatedFatIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxSaturatedFat) {
+                                        maxSaturatedFatIsEmpty = $maxSaturatedFat.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxSaturatedFat.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -551,7 +695,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin A (IU)", text: $minVitaminA)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminAIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminA) {
+                                        minVitaminAIsEmpty = $minVitaminA.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminA.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -559,7 +706,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin A (IU)", text: $maxVitaminA)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminAIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminA) {
+                                        maxVitaminAIsEmpty = $maxVitaminA.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminA.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -574,7 +724,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin C (mg)", text: $minVitaminC)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminCIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminC) {
+                                        minVitaminCIsEmpty = $minVitaminC.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminC.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -582,7 +735,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin C (mg)", text: $maxVitaminC)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminCIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminC) {
+                                        maxVitaminCIsEmpty = $maxVitaminC.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminC.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -597,7 +753,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin D (mcg)", text: $minVitaminD)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminDIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminD) {
+                                        minVitaminDIsEmpty = $minVitaminD.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminD.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -605,7 +764,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin D (mcg)", text: $maxVitaminD)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminDIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminD) {
+                                        maxVitaminDIsEmpty = $maxVitaminD.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminD.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -620,7 +782,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin E (mg)", text: $minVitaminE)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminEIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminE) {
+                                        minVitaminEIsEmpty = $minVitaminE.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminE.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -628,7 +793,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin E (mg)", text: $maxVitaminE)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminEIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminE) {
+                                        maxVitaminEIsEmpty = $maxVitaminE.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminE.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -643,7 +811,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin K (mcg)", text: $minVitaminK)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminKIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminK) {
+                                        minVitaminKIsEmpty = $minVitaminK.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminK.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -651,7 +822,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin K (mcg)", text: $maxVitaminK)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminKIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminK) {
+                                        maxVitaminKIsEmpty = $maxVitaminK.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminK.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -666,7 +840,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B1 (mg)", text: $minVitaminB1)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminB1IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminB1) {
+                                        minVitaminB1IsEmpty = $minVitaminB1.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminB1.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -674,7 +851,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B1 (mg)", text: $maxVitaminB1)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminB1IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminB1) {
+                                        maxVitaminB1IsEmpty = $maxVitaminB1.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminB1.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -689,7 +869,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B2 (mg)", text: $minVitaminB2)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminB2IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminB2) {
+                                        minVitaminB2IsEmpty = $minVitaminB2.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminB2.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -697,7 +880,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B2 (mg)", text: $maxVitaminB2)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminB2IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminB2) {
+                                        maxVitaminB2IsEmpty = $maxVitaminB2.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminB2.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -712,7 +898,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B5 (mg)", text: $minVitaminB5)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminB5IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminB5) {
+                                        minVitaminB5IsEmpty = $minVitaminB5.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminB5.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -720,7 +909,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B5 (mg)", text: $maxVitaminB5)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminB5IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminB5) {
+                                        maxVitaminB5IsEmpty = $maxVitaminB5.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminB5.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -735,7 +927,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B3 (mg)", text: $minVitaminB3)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminB3IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminB3) {
+                                        minVitaminB3IsEmpty = $minVitaminB3.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminB3.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -743,7 +938,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B3 (mg)", text: $maxVitaminB3)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminB3IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminB3) {
+                                        maxVitaminB3IsEmpty = $maxVitaminB3.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminB3.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -758,7 +956,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B6 (mg)", text: $minVitaminB6)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminB6IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminB6) {
+                                        minVitaminB6IsEmpty = $minVitaminB6.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminB6.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -766,7 +967,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B6 (mg)", text: $maxVitaminB6)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminB6IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminB6) {
+                                        maxVitaminB6IsEmpty = $maxVitaminB6.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminB6.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -781,7 +985,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Vitamin B12 (mg)", text: $minVitaminB12)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minVitaminB12IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minVitaminB12) {
+                                        minVitaminB12IsEmpty = $minVitaminB12.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minVitaminB12.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -789,7 +996,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Vitamin B12 (mg)", text: $maxVitaminB12)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxVitaminB12IsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxVitaminB12) {
+                                        maxVitaminB12IsEmpty = $maxVitaminB12.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxVitaminB12.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -804,7 +1014,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Fiber (g)", text: $minFiber)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minFiberIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minFiber) {
+                                        minFiberIsEmpty = $minFiber.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minFiber.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -812,7 +1025,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Fiber (g)", text: $maxFiber)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxFiberIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxFiber) {
+                                        maxFiberIsEmpty = $maxFiber.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxFiber.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -827,7 +1043,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Folate (mcg)", text: $minFolate)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minFolateIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minFolate) {
+                                        minFolateIsEmpty = $minFolate.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minFolate.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -835,7 +1054,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Folate (mcg)", text: $maxFolate)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxFolateIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxFolate) {
+                                        maxFolateIsEmpty = $maxFolate.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxFolate.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -850,7 +1072,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Folic Acid (mg)", text: $minFolicAcid)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minFolicAcidIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minFolicAcid) {
+                                        minFolicAcidIsEmpty = $minFolicAcid.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minFolicAcid.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -858,7 +1083,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Folic Acid (mg)", text: $maxFolicAcid)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxFolicAcidIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxFolicAcid) {
+                                        maxFolicAcidIsEmpty = $maxFolicAcid.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxFolicAcid.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -873,7 +1101,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Iodine (mcg)", text: $minIodine)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minIodineIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minIodine) {
+                                        minIodineIsEmpty = $minIodine.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minIodine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -881,7 +1112,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Iodine (mcg)", text: $maxIodine)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxIodineIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxIodine) {
+                                        maxIodineIsEmpty = $maxIodine.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxIodine.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -896,7 +1130,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Iron (mg)", text: $minIron)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minIronIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minIron) {
+                                        minIronIsEmpty = $minIron.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minIron.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -904,7 +1141,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Iron (mg)", text: $maxIron)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxIronIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxIron) {
+                                        maxIronIsEmpty = $maxIron.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxIron.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -919,7 +1159,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Magnesium (mg)", text: $minMagnesium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minMagnesiumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minMagnesium) {
+                                        minMagnesiumIsEmpty = $minMagnesium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minMagnesium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -927,7 +1170,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Magnesium (mg)", text: $maxMagnesium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxMagnesiumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxMagnesium) {
+                                        maxMagnesiumIsEmpty = $maxMagnesium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxMagnesium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -942,7 +1188,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Manganese (mg)", text: $minManganese)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minManganeseIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minManganese) {
+                                        minManganeseIsEmpty = $minManganese.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minManganese.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -950,7 +1199,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Manganese (mg)", text: $maxManganese)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxManganeseIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxManganese) {
+                                        maxManganeseIsEmpty = $maxManganese.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxManganese.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -965,7 +1217,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Phosphorus (mg)", text: $minPhosphorus)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minPhosphorusIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minPhosphorus) {
+                                        minPhosphorusIsEmpty = $minPhosphorus.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minPhosphorus.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -973,7 +1228,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Phosphorus (mg)", text: $maxPhosphorus)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxPhosphorusIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxPhosphorus) {
+                                        maxPhosphorusIsEmpty = $maxPhosphorus.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxPhosphorus.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -988,7 +1246,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Potassium (mg)", text: $minPotassium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minPotassiumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minPotassium) {
+                                        minPotassiumIsEmpty = $minPotassium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minPotassium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -996,7 +1257,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Potassium (mg)", text: $maxPotassium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxPotassiumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxPotassium) {
+                                        maxPotassiumIsEmpty = $maxPotassium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxPotassium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1011,7 +1275,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Selenium (mcg)", text: $minSelenium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minSeleniumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minSelenium) {
+                                        minSeleniumIsEmpty = $minSelenium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minSelenium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1019,7 +1286,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Selenium (mcg)", text: $maxSelenium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxSeleniumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxSelenium) {
+                                        maxSeleniumIsEmpty = $maxSelenium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxSelenium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1034,7 +1304,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Sodium (mg)", text: $minSodium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minSodiumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minSodium) {
+                                        minSodiumIsEmpty = $minSodium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minSodium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1042,7 +1315,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Sodium (mg)", text: $maxSodium)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxSodiumIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxSodium) {
+                                        maxSodiumIsEmpty = $maxSodium.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxSodium.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1057,7 +1333,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Sugar (g)", text: $minSugar)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minSugarIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minSugar) {
+                                        minSugarIsEmpty = $minSugar.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minSugar.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1065,7 +1344,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Sugar (g)", text: $maxSugar)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxSugarIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxSugar) {
+                                        maxSugarIsEmpty = $maxSugar.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxSugar.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1080,7 +1362,10 @@ struct FilterSideView: View {
                             
                             HStack {
                                 TextField("Min Zinc (mg)", text: $minZinc)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(minZincIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: minZinc) {
+                                        minZincIsEmpty = $minZinc.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(minZinc.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
@@ -1088,7 +1373,10 @@ struct FilterSideView: View {
                                 Text("to")
                                 
                                 TextField("Max Zinc (mg)", text: $maxZinc)
-                                    .font(.system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8))
+                                    .font(maxZincIsEmpty ? .system(size: UIFont.preferredFont(forTextStyle: .footnote).pointSize * 0.8) : .body)
+                                    .onChange(of: maxZinc) {
+                                        maxZincIsEmpty = $maxZinc.wrappedValue.isEmpty
+                                    }
                                     .padding()
                                     .background(maxZinc.isEmpty ? Color.white : Color.yellow)
                                     .cornerRadius(5)
