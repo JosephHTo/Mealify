@@ -27,7 +27,7 @@ struct SettingsView: View {
                     VStack(spacing: 20) {
                         HStack {
                             Text("Set desired Kroger location")
-                                .font(.headline)
+                                .font(.title2)
                                 .padding(.vertical, 15)
                             Button(action: {
                                 // Toggle the explanation popup

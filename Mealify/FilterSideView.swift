@@ -291,11 +291,9 @@ struct FilterSideView: View {
                                 .toggleStyle(ColoredToggleStyle(intolerance: intolerance, selectedIntolerances: selectedIntolerances))
                             }
                         }
-                        .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(Color.white)
                         .cornerRadius(5)
-                        .padding(.horizontal)
                     } label: {
                         HStack {
                             Text("Intolerances")
