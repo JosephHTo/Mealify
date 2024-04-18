@@ -466,7 +466,6 @@ func fetchSpoonacularRecipes(query: String,
 
     let query = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
     urlString.append(query)
-    print(query)
 
     guard let url = URL(string: urlString) else {
         print("Invalid URL")

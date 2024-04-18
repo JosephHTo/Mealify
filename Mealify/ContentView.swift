@@ -53,7 +53,7 @@ struct RecipesView: View {
                         LazyVGrid(columns: [GridItem(.flexible(), alignment: .top), GridItem(.flexible(), alignment: .top)], spacing: 10) {
                             ForEach(selectedRecipes(), id: \.id) { recipe in
                                 NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                                    VStack {
+                                    VStack(alignment: .leading) {
                                         AsyncImage(url: URL(string: recipe.image)) { phase in
                                             if let image = phase.image {
                                                 image
@@ -72,13 +72,15 @@ struct RecipesView: View {
                                             }
                                         }
                                         .aspectRatio(contentMode: .fit)
+                                        
                                         Text(recipe.title)
                                             .font(.headline)
                                             .foregroundColor(.black)
+                                            
                                     }
                                     .padding()
                                 }
-                                .buttonStyle(PlainButtonStyle()) // Add this to remove button style
+                                .buttonStyle(PlainButtonStyle()) 
                             }
                         }
                         .padding()
@@ -145,29 +147,41 @@ struct RecentRecipesView: View {
     
     var body: some View {
         // Display recent recipes
-        List(userData.recentRecipes, id: \.id) { recipe in
-            NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                HStack {
-                    AsyncImage(url: URL(string: recipe.image)) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .frame(width: 120, height: 90)
-                                .cornerRadius(5)
-                        } else if phase.error != nil {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .frame(width: 120, height: 90)
-                                .cornerRadius(5)
-                        } else {
-                            ProgressView()
-                                .frame(width: 120, height: 90)
-                                .cornerRadius(5)
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.flexible(), alignment: .top), GridItem(.flexible(), alignment: .top)], spacing: 10) {
+                ForEach(userData.recentRecipes, id: \.id) { recipe in
+                    NavigationLink(destination: RecipeDetail(recipe: recipe)) {
+                        VStack(alignment: .leading) {
+                            AsyncImage(url: URL(string: recipe.image)) { phase in
+                                switch phase {
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .frame(width: 150, height: 120)
+                                        .cornerRadius(5)
+                                case .failure(_):
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .frame(width: 150, height: 120)
+                                        .cornerRadius(5)
+                                case .empty:
+                                    ProgressView()
+                                        .frame(width: 150, height: 120)
+                                        .cornerRadius(5)
+                                @unknown default:
+                                    ProgressView()
+                                        .frame(width: 150, height: 120)
+                                        .cornerRadius(5)
+                                }
+                            }
+                            .aspectRatio(contentMode: .fit)
+                            .padding()
+                            Text(recipe.title)
+                                .font(.headline)
                         }
+                        .padding()
                     }
-                    .aspectRatio(contentMode: .fit)
-                    Text(recipe.title)
-                        .font(.headline)
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             .padding()

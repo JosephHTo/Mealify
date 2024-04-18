@@ -238,6 +238,7 @@ struct FilterSideView: View {
                     // Max Ready Time
                     VStack (alignment: .leading) {
                         Text("Time")
+                            .font(.headline)
                         
                         TextField("Max Ready Time (min)", text: $maxReadyTimeString, onCommit: {
                             // Handle text field commit if needed
@@ -251,6 +252,7 @@ struct FilterSideView: View {
                     // Diet
                     VStack (alignment: .leading) {
                         Text("Diet")
+                            .font(.headline)
                         
                         // Diet Picker
                         Picker("Diet", selection: $selectedDiet) {
@@ -298,6 +300,7 @@ struct FilterSideView: View {
                         HStack {
                             Text("Intolerances")
                                 .foregroundColor(.black)
+                                .font(.headline)
                         }
                     }
                     .padding(.horizontal, 15)
@@ -305,6 +308,7 @@ struct FilterSideView: View {
                     // Include Ingredients
                     VStack (alignment: .leading) {
                         Text("Include Ingredients")
+                            .font(.headline)
                         
                         TextField("Enter ingredients to include", text: $newIncludeIngredient, onCommit: {
                             includeIngredients.insert(newIncludeIngredient.trimmingCharacters(in: .whitespaces))
@@ -322,6 +326,7 @@ struct FilterSideView: View {
                     // Exclude Ingredients
                     VStack (alignment: .leading) {
                         Text("Exclude Ingredients")
+                            .font(.headline)
                         
                         TextField("Enter ingredients to exclude", text: $newExcludeIngredient, onCommit: {
                             excludeIngredients.insert(newExcludeIngredient.trimmingCharacters(in: .whitespaces))
@@ -1384,6 +1389,7 @@ struct FilterSideView: View {
                     } label: {
                         HStack {
                             Text("Nutrients")
+                                .font(.headline)
                                 .foregroundColor(.black)
                         }
                     }

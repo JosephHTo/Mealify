@@ -235,7 +235,7 @@ struct RecipeDetail: View {
                                             .foregroundColor(Color.gray)
                                             .font(.title)
                                             .padding(.leading, 10)
-                                            .frame(width: 40, alignment: .leading) // Adjust width for consistent alignment
+                                            .frame(width: 45, alignment: .leading)
                                         Text(step.step.trimmingCharacters(in: .whitespacesAndNewlines))
                                             .padding(.trailing, 5)
                                         Spacer()
@@ -244,7 +244,7 @@ struct RecipeDetail: View {
                                     .padding(.horizontal, 10)
                                     .background(Color.white)
                                     .cornerRadius(5)
-                                    .shadow(radius: 2) // Add shadow for depth effect
+                                    .shadow(radius: 2)
                                 }
                             }
                         }
@@ -389,16 +389,16 @@ struct RecipeDetail: View {
             savedRecipes.append(recipe)
         }
 
-        // Print the current list of saved recipes for debugging
-        print("Current saved recipes:")
-        for savedRecipe in savedRecipes {
-            print(savedRecipe.title)
-        }
-
         // Save the updated list of saved recipes to UserDefaults
         let encoder = JSONEncoder()
         if let encodedData = try? encoder.encode(savedRecipes) {
             UserDefaults.standard.set(encodedData, forKey: "savedRecipes")
         }
+    }
+}
+
+extension String {
+    func removingHTMLTags() -> String {
+        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 }

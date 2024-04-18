@@ -8,6 +8,8 @@ struct SearchView: View {
     @State private var isFilterSidebarOpened = false
     @State private var sidebarWidth: CGFloat = 250
     @State private var sidebarHeight: CGFloat = 0
+    @State private var isLoading = false
+    @State private var showRecipeList = false
 
     var body: some View {
         NavigationView {
@@ -48,36 +50,51 @@ struct SearchView: View {
                     .padding()
                     
                     ScrollView {
-                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)], spacing: 20) {
-                            ForEach(recipes, id: \.id) { recipe in
-                                NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                                    VStack {
-                                        AsyncImage(url: URL(string: recipe.image)) { phase in
-                                            if let image = phase.image {
-                                                image
-                                                    .resizable()
-                                                    .frame(width: 150, height: 120)
-                                                    .cornerRadius(5)
-                                            } else if phase.error != nil {
-                                                Image(systemName: "photo")
-                                                    .resizable()
-                                                    .frame(width: 150, height: 120)
-                                                    .cornerRadius(5)
-                                            } else {
-                                                ProgressView()
-                                                    .frame(width: 150, height: 120)
-                                                    .cornerRadius(5)
+                        if isLoading {
+                            ProgressIndicator()
+                                .padding()
+                        } else if showRecipeList {
+                            LazyVGrid(columns: [GridItem(.flexible(), alignment: .top), GridItem(.flexible(), alignment: .top)], spacing: 10) {
+                                ForEach(recipes, id: \.id) { recipe in
+                                    NavigationLink(destination: RecipeDetail(recipe: recipe)) {
+                                        VStack(alignment: .leading) {
+                                            AsyncImage(url: URL(string: recipe.image)) { phase in
+                                                if let image = phase.image {
+                                                    image
+                                                        .resizable()
+                                                        .frame(width: 150, height: 120)
+                                                        .cornerRadius(5)
+                                                } else if phase.error != nil {
+                                                    Image(systemName: "photo")
+                                                        .resizable()
+                                                        .frame(width: 150, height: 120)
+                                                        .cornerRadius(5)
+                                                } else {
+                                                    ProgressView()
+                                                        .frame(width: 150, height: 120)
+                                                        .cornerRadius(5)
+                                                }
                                             }
+                                            .aspectRatio(contentMode: .fit)
+                                            
+                                            Text(recipe.title)
+                                                .font(.headline)
+                                                .foregroundColor(.black)
                                         }
-                                        .aspectRatio(contentMode: .fit)
-                                        Text(recipe.title)
-                                            .font(.headline)
+                                        .padding()
                                     }
+                                    .buttonStyle(PlainButtonStyle())
                                 }
-                                .buttonStyle(PlainButtonStyle())
+                            }
+                            .padding()
+                            
+                            if recipes.isEmpty && !searchQuery.isEmpty {
+                                Text("No Recipes Found")
+                                    .font(.headline)
+                                    .foregroundColor(.gray)
+                                    .padding()
                             }
                         }
-                        .padding()
                     }
                 }
                 .offset(x: isNavBarOpened ? sidebarWidth : 0)
@@ -139,16 +156,43 @@ struct SearchView: View {
                 }
             }
         }
+        .onAppear {
+            showRecipeList = true
+        }
     }
 
-    // Fetch recipes function remains unchanged
     func fetchRecipes() {
+        isLoading = true
         fetchSpoonacularRecipes(query: searchQuery) { fetchedRecipes in
             if let recipes = fetchedRecipes {
                 self.recipes = recipes
             } else {
                 self.recipes = []
             }
+            self.isLoading = false
+        }
+    }
+}
+
+struct ProgressIndicator: View {
+    @State private var isAnimating = false
+    
+    var body: some View {
+        VStack {
+            Circle()
+                .trim(from: 0, to: 0.7)
+                .stroke(Color.blue, lineWidth: 5)
+                .frame(width: 50, height: 50)
+                .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
+                .onAppear {
+                    withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)) {
+                        isAnimating = true
+                    }
+                }
+            
+            Text("Loading...")
+                .font(.headline)
+                .padding(.top, 8)
         }
     }
 }
@@ -166,19 +210,5 @@ struct ClearButton: View {
                 .opacity(text.isEmpty ? 0 : 1)
         }
         .buttonStyle(PlainButtonStyle())
-    }
-}
-
-extension String {
-    func removingHTMLTags() -> String {
-        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-    }
-}
-
-struct RecipeApp: App {
-    var body: some Scene {
-        WindowGroup {
-            SearchView()
-        }
     }
 }
