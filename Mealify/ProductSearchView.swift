@@ -45,7 +45,13 @@ struct ProductSearchView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding()
-
+                    
+                    if userData.selectedLocation?.locationId == nil {
+                        Text("Set your desired locations in settings to use Product Search.")
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    
                     List(products, id: \.productId) { product in
                         ProductRow(product: product)
                     }
