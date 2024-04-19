@@ -24,7 +24,7 @@ struct SearchView: View {
                     
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
-                        .frame(width: UIScreen.main.bounds.width * 0.75, height: 0.5)
+                        .frame(width: UIScreen.main.bounds.width, height: 0.5)
                     
                     HStack(alignment: .center) {
                         Image(systemName: "magnifyingglass")
@@ -141,6 +141,7 @@ struct SearchView: View {
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
                     }
+                    .disabled(isFilterSidebarOpened)
                 }
                 
                 // FilterSideView Button

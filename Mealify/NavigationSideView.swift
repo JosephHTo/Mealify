@@ -86,7 +86,7 @@ struct NavigationSideView: View {
         }
         .frame(maxHeight: .infinity)
         .frame(width: UIScreen.main.bounds.width * 0.6)
-        .background(Color.gray)
+        .background(Color(UIColor.lightGray))
         .transition(.move(edge: .leading))
         .onTapGesture {
             withAnimation {

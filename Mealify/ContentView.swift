@@ -26,17 +26,18 @@ struct RecipesView: View {
                     
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
-                        .frame(width: UIScreen.main.bounds.width * 0.75, height: 0.5)
+                        .frame(width: UIScreen.main.bounds.width, height: 0.5)
                     
                     HStack {
-                        // Tab selection buttons
                         Button(action: {
                             selectedTab = .recent
                         }) {
                             Text("Recent")
                                 .font(selectedTab == .recent ? .headline : .subheadline)
+                                .foregroundColor(.black)
                         }
-                        .padding()
+                        
+                        Spacer()
                         
                         Button(action: {
                             selectedTab = .saved
@@ -44,9 +45,20 @@ struct RecipesView: View {
                         }) {
                             Text("Saved")
                                 .font(selectedTab == .saved ? .headline : .subheadline)
+                                .foregroundColor(.black)
                         }
-                        .padding()
                     }
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, UIScreen.main.bounds.width/5)
+                    
+                    // Underline slider animation
+                    GeometryReader { geometry in
+                        Rectangle()
+                            .fill(Color.blue)
+                            .frame(width: geometry.size.width / 2, height: 2)
+                            .offset(x: selectedTab == .recent ? 0 : geometry.size.width / 2)
+                    }
+                    .frame(height: 2)
                     
                     // Display recipes based on selected tab
                     ScrollView {
@@ -76,11 +88,10 @@ struct RecipesView: View {
                                         Text(recipe.title)
                                             .font(.headline)
                                             .foregroundColor(.black)
-                                            
                                     }
                                     .padding()
                                 }
-                                .buttonStyle(PlainButtonStyle()) 
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                         .padding()
@@ -114,6 +125,7 @@ struct RecipesView: View {
                         }
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
+                            .foregroundColor(isNavBarOpened ? .black : .blue)
                     }
                 }
             }

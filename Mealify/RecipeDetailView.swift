@@ -79,7 +79,8 @@ struct RecipeDetail: View {
                                 // Popover content for serving size adjustment
                                 VStack {
                                     // Text showing the current number
-                                    Text("Current Serving Size: \(selectedServingSize)")
+                                    Text("Serving Size: \(selectedServingSize)")
+                                        .font(.headline)
                                         .padding()
                                     
                                     // Serving size slider
@@ -96,10 +97,18 @@ struct RecipeDetail: View {
                                     .padding()
                                     .accentColor(.blue)
                                     
-                                    // Done button
-                                    Button("Done") {
+                                    // Set button
+                                    Button(action: {
                                         isServingSizePopoverPresented.toggle()
+                                    }) {
+                                        Text("Set")
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .background(Color.blue)
+                                            .cornerRadius(5)
+                                            .padding(.horizontal, 40)
                                     }
+                                    .padding(.bottom)
                                 }
                                 .padding()
                             }

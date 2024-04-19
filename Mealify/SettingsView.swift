@@ -22,7 +22,7 @@ struct SettingsView: View {
                     
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
-                        .frame(width: UIScreen.main.bounds.width * 0.75, height: 0.5)
+                        .frame(width: UIScreen.main.bounds.width, height: 0.5)
                     
                     VStack(spacing: 20) {
                         HStack {
@@ -48,9 +48,18 @@ struct SettingsView: View {
                                         .padding()
                                         .multilineTextAlignment(.leading)
                                     
-                                    Button("Close") {
+                                    // Set button
+                                    Button(action: {
                                         isExplanationPresented.toggle()
+                                    }) {
+                                        Text("Close")
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .background(Color.blue)
+                                            .cornerRadius(5)
+                                            .padding(.horizontal, 40)
                                     }
+                                    .padding(.bottom)
                                 }
                                 .padding()
                             }

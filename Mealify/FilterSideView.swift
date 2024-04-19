@@ -235,12 +235,22 @@ struct FilterSideView: View {
                         }
                     )
                     
+                    Text("FILTERS")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.leading, 15)
+                        .offset(y: -10)
+                    
+                    Divider()
+                        .overlay(Color.white)
+                        .padding(.horizontal, 15)
+                    
                     // Max Ready Time
                     VStack (alignment: .leading) {
-                        Text("Time")
+                        Text("MAX TIME")
                             .font(.headline)
                         
-                        TextField("Max Ready Time (min)", text: $maxReadyTimeString, onCommit: {
+                        TextField("Minutes", text: $maxReadyTimeString, onCommit: {
                             // Handle text field commit if needed
                         })
                         .padding()
@@ -249,9 +259,13 @@ struct FilterSideView: View {
                     }
                     .padding(.horizontal, 15)
                     
+                    Divider()
+                        .overlay(Color.white)
+                        .padding(.horizontal, 15)
+                    
                     // Diet
                     VStack (alignment: .leading) {
-                        Text("Diet")
+                        Text("DIET")
                             .font(.headline)
                         
                         // Diet Picker
@@ -275,6 +289,9 @@ struct FilterSideView: View {
                     }
                     .padding(.horizontal, 15)
                     
+                    Divider()
+                        .overlay(Color.white)
+                        .padding(.horizontal, 15)
                     
                     // Intolerance DisclosureGroup
                     DisclosureGroup {
@@ -296,18 +313,23 @@ struct FilterSideView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(Color.white)
                         .cornerRadius(5)
+                        .padding(.horizontal, 15)
                     } label: {
                         HStack {
-                            Text("Intolerances")
+                            Text("INTOLERANCES")
                                 .foregroundColor(.black)
                                 .font(.headline)
                         }
                     }
                     .padding(.horizontal, 15)
                     
+                    Divider()
+                        .overlay(Color.white)
+                        .padding(.horizontal, 15)
+                    
                     // Include Ingredients
                     VStack (alignment: .leading) {
-                        Text("Include Ingredients")
+                        Text("INCLUDE INGREDIENTS")
                             .font(.headline)
                         
                         TextField("Enter ingredients to include", text: $newIncludeIngredient, onCommit: {
@@ -323,9 +345,13 @@ struct FilterSideView: View {
                     }
                     .padding(.horizontal, 15)
                     
+                    Divider()
+                        .overlay(Color.white)
+                        .padding(.horizontal, 15)
+                    
                     // Exclude Ingredients
                     VStack (alignment: .leading) {
-                        Text("Exclude Ingredients")
+                        Text("EXCLUDE INGREDIENTS")
                             .font(.headline)
                         
                         TextField("Enter ingredients to exclude", text: $newExcludeIngredient, onCommit: {
@@ -340,6 +366,10 @@ struct FilterSideView: View {
                         EnteredIngredientsView(ingredients: excludeIngredients, includeIngredients: $includeIngredients, excludeIngredients: $excludeIngredients)
                     }
                     .padding(.horizontal, 15)
+                    
+                    Divider()
+                        .overlay(Color.white)
+                        .padding(.horizontal, 15)
                     
                     // Start of Nutrient filters
                     DisclosureGroup {
@@ -1388,7 +1418,7 @@ struct FilterSideView: View {
                         }
                     } label: {
                         HStack {
-                            Text("Nutrients")
+                            Text("NUTRIENTS")
                                 .font(.headline)
                                 .foregroundColor(.black)
                         }
@@ -1397,7 +1427,7 @@ struct FilterSideView: View {
                     
                     Spacer()
                 }
-                .background(Color.gray)
+                .background(Color(UIColor.lightGray))
                 .padding(.bottom, 300)
                 .transition(.move(edge: .bottom))
                 .offset(y: isFilterSidebarVisible ? UIScreen.main.bounds.height * 0.1 : 0)
@@ -1439,6 +1469,7 @@ struct FilterSideView: View {
             }
         }
     }
+    
     private func clearFilters() {
         maxReadyTimeString = ""
         selectedDiet = .none
