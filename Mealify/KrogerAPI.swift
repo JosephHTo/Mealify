@@ -57,80 +57,80 @@ struct ProductResponse: Codable {
 
 struct Product: Codable {
     let productId: String
-    let aisleLocations: [AisleLocation]
-    let brand: String
-    let categories: [String]
-    let countryOrigin: String
-    let description: String
-    let items: [Item]
-    let itemInformation: ItemInformation
-    let temperature: Temperature
-    let images: [ProductImage]
-    let upc: String
+    let aisleLocations: [AisleLocation]?
+    let brand: String?
+    let categories: [String]?
+    let countryOrigin: String?
+    let description: String?
+    let items: [Item]?
+    let itemInformation: ItemInformation?
+    let temperature: Temperature?
+    let images: [ProductImage]?
+    let upc: String?
 }
 
 struct AisleLocation: Codable {
-    let bayNumber: String
-    let description: String
-    let number: String
-    let numberOfFacings: String
-    let sequenceNumber: String
-    let side: String
-    let shelfNumber: String
-    let shelfPositionInBay: String
+    let bayNumber: String?
+    let description: String?
+    let number: String?
+    let numberOfFacings: String?
+    let sequenceNumber: String?
+    let side: String?
+    let shelfNumber: String?
+    let shelfPositionInBay: String?
 }
 
 struct Item: Codable {
-    let itemId: String
-    let inventory: Inventory
-    let favorite: Bool
-    let fulfillment: Fulfillment
-    let price: Price
-    let nationalPrice: Price
-    let size: String
-    let soldBy: String
+    let itemId: String?
+    let inventory: Inventory?
+    let favorite: Bool?
+    let fulfillment: Fulfillment?
+    let price: Price?
+    let nationalPrice: Price?
+    let size: String?
+    let soldBy: String?
 }
 
 struct Inventory: Codable {
-    let stockLevel: String
+    let stockLevel: String?
 }
 
 struct Fulfillment: Codable {
-    let curbside: Bool
-    let delivery: Bool
-    let instore: Bool
-    let shiptohome: Bool
+    let curbside: Bool?
+    let delivery: Bool?
+    let instore: Bool?
+    let shiptohome: Bool?
 }
 
 struct Price: Codable {
-    let regular: Double
-    let promo: Double
-    let regularPerUnitEstimate: Double
-    let promoPerUnitEstimate: Double
+    let regular: Double?
+    let promo: Double?
+    let regularPerUnitEstimate: Double?
+    let promoPerUnitEstimate: Double?
 }
 
 struct ItemInformation: Codable {
-    let depth: String
-    let height: String
-    let width: String
+    let depth: String?
+    let height: String?
+    let width: String?
 }
 
 struct Temperature: Codable {
-    let indicator: String
-    let heatSensitive: Bool
+    let indicator: String?
+    let heatSensitive: Bool?
 }
 
 struct ProductImage: Codable {
-    let id: String
-    let perspective: String
-    let `default`: Bool
-    let sizes: [ImageSize]
+    let id: String?
+    let perspective: String?
+    let `default`: Bool?
+    let sizes: [ImageSize]?
 }
 
 struct ImageSize: Codable {
-    let id: String
-    let size: String
-    let url: String
+    let id: String?
+    let size: String?
+    let url: String?
 }
 
 func searchProducts(term: String, userData: UserData, completion: @escaping (Result<[Product], Error>) -> Void) {
@@ -164,7 +164,7 @@ func searchProducts(term: String, userData: UserData, completion: @escaping (Res
                 }
                 
                 // Before decoding
-                print("JSON Data:", String(data: data, encoding: .utf8) ?? "")
+                //print("JSON Data:", String(data: data, encoding: .utf8) ?? "")
 
                 // Decode JSON response into Product objects
                 let decoder = JSONDecoder()
