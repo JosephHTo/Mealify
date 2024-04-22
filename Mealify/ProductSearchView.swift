@@ -82,6 +82,7 @@ struct ProductSearchView: View {
                         }
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
+                            .foregroundColor(isNavBarOpened ? .black : .blue)
                     }
                 }
             }

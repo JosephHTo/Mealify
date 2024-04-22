@@ -106,8 +106,7 @@ struct SettingsView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.leading)
-                            .offset(x: -27)
+                            .padding(.horizontal, 15)
                         } else {
                             // Display "No locations found" if no selected location
                             if locations.isEmpty {
@@ -166,6 +165,7 @@ struct SettingsView: View {
                         }
                     } label: {
                         Image(systemName: "line.3.horizontal.circle.fill")
+                            .foregroundColor(isNavBarOpened ? .black : .blue)
                     }
                 }
             }
