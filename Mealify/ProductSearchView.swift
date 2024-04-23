@@ -7,6 +7,7 @@ struct ProductSearchView: View {
     @State private var searchQuery: String = ""
     @State private var products: [Product] = []
     @State private var isLoading = false
+    var fromRecipeDetail: Bool = false
 
     var body: some View {
         NavigationView {
@@ -83,14 +84,16 @@ struct ProductSearchView: View {
             }
             // NavigationSideView Button
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        withAnimation {
-                            isNavBarOpened.toggle()
+                if !fromRecipeDetail { // Show the ToolbarItem only if not opened from Recipe Detail
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            withAnimation {
+                                isNavBarOpened.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "line.3.horizontal.circle.fill")
+                                .foregroundColor(isNavBarOpened ? .black : .blue)
                         }
-                    } label: {
-                        Image(systemName: "line.3.horizontal.circle.fill")
-                            .foregroundColor(isNavBarOpened ? .black : .blue)
                     }
                 }
             }
@@ -128,6 +131,16 @@ struct ProductRow: View {
     private let placeholderImage = Image(systemName: "photo")
 
     var body: some View {
+        // Check if the price is available, if not, return an empty view
+        if let price = product.items?.first?.price {
+            return AnyView(ProductContent(product: product, price: price))
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
+    @ViewBuilder
+    private func ProductContent(product: Product, price: Price) -> some View {
         HStack {
             // Display the image if available
             if let productImage = productImage {
@@ -149,14 +162,12 @@ struct ProductRow: View {
             Spacer()
             
             // Display the promo/regular price if it exists
-            if let price = product.items?.first?.price {
-                if let promoPrice = price.promo, promoPrice != 0 {
-                    Text(String(format: "%.2f", promoPrice))
-                } else if let regularPrice = price.regular {
-                    Text(String(format: "%.2f", regularPrice))
-                } else {
-                    Text("Unavailable")
-                }
+            if let promoPrice = price.promo, promoPrice != 0 {
+                Text(String(format: "%.2f", promoPrice))
+            } else if let regularPrice = price.regular {
+                Text(String(format: "%.2f", regularPrice))
+            } else {
+                Text("Unavailable")
             }
             
             Spacer()

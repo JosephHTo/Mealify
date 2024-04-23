@@ -13,6 +13,7 @@ struct RecipeDetail: View {
     @State private var nutrients: [Nutrient]? = nil
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentationMode
+    @State private var showProductSearch = false
 
     init(recipe: Recipe) {
         self.recipe = recipe
@@ -230,8 +231,21 @@ struct RecipeDetail: View {
                                 .cornerRadius(5)
                                 .shadow(radius: 2) // Add shadow for depth effect
                             }
+                            
+                            Button(action: {
+                                // Toggle the state to show/hide the product search view
+                                showProductSearch.toggle()
+                            }) {
+                                Text("Find Ingredients")
+                            }
                         }
                         .padding()
+                        
+                        // Show the product search view conditionally
+                        if showProductSearch {
+                            ProductSearchView(fromRecipeDetail: true)
+                                .environmentObject(userData) // Pass the environment object if needed
+                        }
                     }
                     
                 case .instructions:
@@ -290,6 +304,7 @@ struct RecipeDetail: View {
                             Text("Not Applicable")
                                 .foregroundColor(.secondary)
                                 .padding(.horizontal, 15)
+                                .padding(.bottom, 15)
                         }
                     }
                     .background(Color.white)
