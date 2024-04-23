@@ -1444,6 +1444,7 @@ struct FilterSideView: View {
                     }) {
                         Text("Clear")
                             .padding()
+                            .font(.headline)
                             .foregroundColor(Color.blue)
                             .frame(width: 150)
                             .cornerRadius(5)
@@ -1456,6 +1457,7 @@ struct FilterSideView: View {
                     }) {
                         Text("Apply")
                             .padding()
+                            .font(.headline)
                             .foregroundColor(Color.white)
                             .frame(width: 200)
                             .cornerRadius(5)

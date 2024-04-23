@@ -196,6 +196,7 @@ struct RecipeDetail: View {
                                     isMetricSelected = false
                                 }
                                 .padding(10)
+                                .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .background(!isMetricSelected ? Color.blue : Color.gray)
                                 .foregroundColor(.white)
@@ -206,6 +207,7 @@ struct RecipeDetail: View {
                                     isMetricSelected = true
                                 }
                                 .padding(10)
+                                .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .background(isMetricSelected ? Color.blue : Color.gray)
                                 .foregroundColor(.white)
@@ -233,17 +235,29 @@ struct RecipeDetail: View {
                             }
                             
                             Button(action: {
-                                // Toggle the state to show/hide the product search view
                                 showProductSearch.toggle()
                             }) {
-                                Text("Find Ingredients")
+                                Text("Search Ingredients")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .fill(Color.blue)
+                                    )
+                                    .padding(.horizontal)
                             }
                         }
                         .padding()
                         
                         // Show the product search view conditionally
                         if showProductSearch {
+                            // Adjust the size of ProductSearchView based on the screen size
                             ProductSearchView(fromRecipeDetail: true)
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                                .background(Color.white)
+                                .edgesIgnoringSafeArea(.all)
                                 .environmentObject(userData) // Pass the environment object if needed
                         }
                     }

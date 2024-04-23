@@ -56,10 +56,14 @@ struct ProductSearchView: View {
                     
                     // Show progress indicator if loading
                     if isLoading {
-                        ProgressIndicator()
-                            .padding()
-                    } else {
-                        // Show product list if not loading
+                        Color.clear
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(ProgressIndicator())
+                            .offset(y: -200)
+                    }
+
+                    // Show product list if not loading
+                    if !isLoading {
                         List(products, id: \.productId) { product in
                             ProductRow(product: product)
                         }
@@ -126,51 +130,60 @@ struct ProductSearchView: View {
 
 struct ProductRow: View {
     let product: Product
-    @State private var productImage: UIImage? // State to hold the product image
+    @State private var productImage: UIImage?
 
     private let placeholderImage = Image(systemName: "photo")
 
     var body: some View {
-        // Check if the price is available, if not, return an empty view
         if let price = product.items?.first?.price {
-            return AnyView(ProductContent(product: product, price: price))
+            ProductContent(product: product, price: price)
         } else {
-            return AnyView(EmptyView())
+            EmptyView()
         }
     }
 
     @ViewBuilder
     private func ProductContent(product: Product, price: Price) -> some View {
         HStack {
-            // Display the image if available
             if let productImage = productImage {
                 Image(uiImage: productImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50) // Adjust size as needed
+                    .frame(width: 50, height: 50)
             } else {
                 placeholderImage
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50) // Adjust size as needed
+                    .frame(width: 50, height: 50)
             }
-            Spacer()
-            
-            // Product description which include the brand name
-            Text(product.description ?? "N/A")
-            
-            Spacer()
-            
-            // Display the promo/regular price if it exists
-            if let promoPrice = price.promo, promoPrice != 0 {
-                Text(String(format: "%.2f", promoPrice))
-            } else if let regularPrice = price.regular {
-                Text(String(format: "%.2f", regularPrice))
-            } else {
-                Text("Unavailable")
+
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(product.description ?? "N/A")
+                        .padding(.leading, 8)
+                        .padding(.trailing, 8)
+                    
+                    // Display the size if available
+                    if let size = product.items?.first?.size {
+                        Text("\(size)")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .padding(.leading, 8)
+                            .padding(.trailing, 8)
+                    }
+                }
+                
+                if let promoPrice = price.promo, promoPrice != 0 {
+                    Text(String(format: "$%.2f", promoPrice))
+                        .padding(.trailing, 8)
+                } else if let regularPrice = price.regular {
+                    Text(String(format: "$%.2f", regularPrice))
+                        .padding(.trailing, 8)
+                } else {
+                    Text("N/A")
+                        .padding(.trailing, 8)
+                }
             }
-            
-            Spacer()
         }
         .padding()
         .onAppear {

@@ -54,6 +54,7 @@ struct SettingsView: View {
                                     }) {
                                         Text("Close")
                                             .foregroundColor(.white)
+                                            .font(.headline)
                                             .padding()
                                             .background(Color.blue)
                                             .cornerRadius(5)
@@ -84,6 +85,7 @@ struct SettingsView: View {
                                 }
                             }) {
                                 Text("Search")
+                                    .font(.headline)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal, 20)
                                     .foregroundColor(.white)

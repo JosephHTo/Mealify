@@ -196,6 +196,7 @@ struct ProgressIndicator: View {
                 .font(.headline)
                 .padding(.top, 8)
         }
+        .padding(.top, 20)
     }
 }
 
