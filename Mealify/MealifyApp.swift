@@ -69,7 +69,7 @@ class UserData: ObservableObject {
             self.recentRecipes = []  // Default value if there's no saved data
         }
     }
-
+    
     // Function to save a recent recipe
     func saveRecentRecipe(_ recipe: Recipe) {
         // Fetch the recent recipes from UserDefaults
@@ -89,6 +89,22 @@ class UserData: ObservableObject {
             let encoder = JSONEncoder()
             if let encodedData = try? encoder.encode(recentRecipes) {
                 UserDefaults.standard.set(encodedData, forKey: "recentRecipes")
+            }
+        } else {
+            // If the recipe already exists, remove it from its current position
+            if let existingIndex = recentRecipes.firstIndex(where: { $0.id == recipe.id }) {
+                recentRecipes.remove(at: existingIndex)
+                // Put the existing recipe at the front of the list
+                recentRecipes.insert(recipe, at: 0)
+
+                // Update the published property
+                self.recentRecipes = recentRecipes
+
+                // Save the updated recent recipes to UserDefaults
+                let encoder = JSONEncoder()
+                if let encodedData = try? encoder.encode(recentRecipes) {
+                    UserDefaults.standard.set(encodedData, forKey: "recentRecipes")
+                }
             }
         }
     }
