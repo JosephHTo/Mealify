@@ -99,6 +99,8 @@ struct RecipesView: View {
                     
                     Spacer()
                 }
+                .blur(radius: isNavBarOpened ? 5 : 0)
+                .allowsHitTesting(isNavBarOpened ? false : true)
                 .offset(x: isNavBarOpened ? sidebarWidth : 0)
                 
                 // Side view

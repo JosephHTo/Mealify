@@ -141,6 +141,8 @@ struct SettingsView: View {
                     .shadow(radius: 2)
                     .padding()
                 }
+                .blur(radius: isNavBarOpened ? 5 : 0)
+                .allowsHitTesting(isNavBarOpened ? false : true)
                 .offset(x: isNavBarOpened ? sidebarWidth : 0)
                 
                 // Navigation Side view (Left Side)
