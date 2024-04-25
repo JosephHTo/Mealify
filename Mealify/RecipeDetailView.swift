@@ -103,6 +103,7 @@ struct RecipeDetail: View {
                                         isServingSizePopoverPresented.toggle()
                                     }) {
                                         Text("Set")
+                                            .font(.headline)
                                             .foregroundColor(.white)
                                             .padding()
                                             .background(Color.blue)
