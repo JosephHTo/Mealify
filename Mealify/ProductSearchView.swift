@@ -175,6 +175,8 @@ struct ProductRow: View {
                     }
                 }
                 
+                Spacer()
+                
                 if let promoPrice = price.promo, promoPrice != 0 {
                     Text(String(format: "$%.2f", promoPrice))
                         .padding(.trailing, 8)
