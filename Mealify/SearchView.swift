@@ -10,6 +10,7 @@ struct SearchView: View {
     @State private var sidebarHeight: CGFloat = 0
     @State private var isLoading = false
     @State private var showRecipeList = false
+    @State private var emptyResults = false
 
     var body: some View {
         NavigationView {
@@ -88,7 +89,7 @@ struct SearchView: View {
                             }
                             .padding()
                             
-                            if recipes.isEmpty && !searchQuery.isEmpty {
+                            if recipes.isEmpty && !searchQuery.isEmpty && emptyResults {
                                 Text("No Recipes Found")
                                     .font(.headline)
                                     .foregroundColor(.gray)
@@ -170,8 +171,10 @@ struct SearchView: View {
         fetchSpoonacularRecipes(query: searchQuery) { fetchedRecipes in
             if let recipes = fetchedRecipes {
                 self.recipes = recipes
+                emptyResults = recipes.isEmpty
             } else {
                 self.recipes = []
+                emptyResults = true
             }
             self.isLoading = false
         }
