@@ -7,3 +7,5 @@ Recipes come from Recipe - Food - Nutrition API: https://rapidapi.com/spoonacula
 
 Currently Implented Grocery APIs:
 https://developer.kroger.com/
+
+Thesis PDF: 
