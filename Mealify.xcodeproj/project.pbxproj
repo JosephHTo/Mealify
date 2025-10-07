@@ -15,6 +15,7 @@
 		C86B4A7A2B60C6FB009179EF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B4A792B60C6FB009179EF /* SettingsView.swift */; };
 		C8B57FDC2B5B3C1900B7722B /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */; };
 		C8C209612AE7825F00951ACE /* RecipeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C209602AE7825F00951ACE /* RecipeAPI.swift */; };
+		C8CAF2D72E94E2DB00EB2DCE /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CAF2D62E94E2DB00EB2DCE /* UserData.swift */; };
 		C8DE8ABF2AD4F112002092AA /* MealifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DE8ABE2AD4F112002092AA /* MealifyApp.swift */; };
 		C8DE8AC12AD4F112002092AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DE8AC02AD4F112002092AA /* ContentView.swift */; };
 		C8DE8AC32AD4F113002092AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8DE8AC22AD4F113002092AA /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 		C86B4A792B60C6FB009179EF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C8B57FDB2B5B3C1900B7722B /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 		C8C209602AE7825F00951ACE /* RecipeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAPI.swift; sourceTree = "<group>"; };
+		C8CAF2D62E94E2DB00EB2DCE /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C8DE8ABB2AD4F112002092AA /* Mealify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mealify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8DE8ABE2AD4F112002092AA /* MealifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealifyApp.swift; sourceTree = "<group>"; };
 		C8DE8AC02AD4F112002092AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				C84306EF2B5F262E000BFA9B /* FilterSideView.swift */,
 				C8C209602AE7825F00951ACE /* RecipeAPI.swift */,
 				C855E0202B81513900DC729C /* KrogerAPI.swift */,
+				C8CAF2D62E94E2DB00EB2DCE /* UserData.swift */,
 				C8DE8ACF2AD4F113002092AA /* MealifyTests */,
 				C8DE8AC22AD4F113002092AA /* Assets.xcassets */,
 				C8DE8AC42AD4F113002092AA /* Mealify.entitlements */,
@@ -220,7 +223,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					C8DE8ABA2AD4F112002092AA = {
 						CreatedOnToolsVersion = 15.0;
@@ -292,6 +295,7 @@
 				C86B4A782B60C681009179EF /* SavedRecipesView.swift in Sources */,
 				C86B4A7A2B60C6FB009179EF /* SettingsView.swift in Sources */,
 				C8FC53752BBE4E6800D9AEAE /* ProductSearchView.swift in Sources */,
+				C8CAF2D72E94E2DB00EB2DCE /* UserData.swift in Sources */,
 				C8DE8AC12AD4F112002092AA /* ContentView.swift in Sources */,
 				C86B4A762B609F55009179EF /* SearchView.swift in Sources */,
 				C8DE8ABF2AD4F112002092AA /* MealifyApp.swift in Sources */,
@@ -369,6 +373,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -390,6 +395,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -431,6 +437,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -445,6 +452,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -459,9 +467,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Mealify/Preview Content\"";
-				DEVELOPMENT_TEAM = 22Q64TQPQC;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -498,9 +507,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Mealify/Preview Content\"";
-				DEVELOPMENT_TEAM = 22Q64TQPQC;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -530,12 +540,10 @@
 		C8DE8AE42AD4F113002092AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -554,12 +562,10 @@
 		C8DE8AE52AD4F113002092AA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -578,11 +584,9 @@
 		C8DE8AE72AD4F113002092AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -601,11 +605,9 @@
 		C8DE8AE82AD4F113002092AA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 22Q64TQPQC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
